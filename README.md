@@ -14,32 +14,33 @@ Freelancers and workers in Gaza seek to find suitable workspace for them in a sp
 
 Create an application that helps workers and freelancers to find a workspace that suits their needs according to the name, location, number of people, and the date. and allows them to book the most suitable one.
 
+## **User Journey** 🚀
+
+- As a user, I can search for a workspace by entering the name, with the ability to specify the location, and the datetime to get the desired search results that I need. Also, I can see the top-rated workspaces. I can open the profile of any workspace to see all information about it. I can add my rate to the workspace to help other freelancers.And I can book any workspace, specify number of attendants and the date and time.
+
+- As an admin , I can add workspaces information to the website, can edit a workspace information, and delete the workspace.
+
 ## **User Stories** 📝
 
 ### **As a user(Booker)**
 
 - I can sign up and login with my google account to the site.
-- I can search for a workspace depending on the workspace name, loaction, datetime, and number of people.
+- I can search for a workspace depending on the workspace name, location, datetime, and number of people.
 - I can see the top rated workspaces.
 - I can see the newest workspaces.
-- I can see inside each workspace's card (Image, name, price, location, rate, booking button).
-- I can see a workspace's details when I click on the card, such as (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, Desks, Kitchen, Free drinking water or coffie").
-- I can see a booking button in workspace's details page.
-- I can book the workspace for a day or many days at specfic time and no. of people.
+- I can see inside each workspace card (Image, name, price, location, rate, booking button).
+- I can see the workspace details when I click on the card, such as (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amenities " Wifi, Desks, Kitchen, Free drinking water or coffee").
+- I can see a booking button in workspace details page.
+- I can book the workspace for a day or many days at specific time and no. of people.
 - I can rate for any workspace.
 - I can see my profile and edit my information.
 
 ### **As an admin**
 
-- I can see all workspaces
-- I can add a new workspace for the site with details like (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, Desks, Kitchen, Free drinking water or coffie")
+- I can see all workspaces.
+- I can add a new workspace for the site with details like (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amenities "WIFI, Desks, Kitchen, Free drinking water or coffee").
 - I can edit a workspace details or delete it.
 
-## **User Journey** 🚀
-
-- As a user, I can search for a workspace by entering the name, with the ability to specify the location, and the datetime to get the desired search results that I need. Also, I can see the top-rated workspaces. I can open the profile of any workspace to see all information about it. I can add my rate to the workspace to help other freelancers.And I can book any workspace, specify number of attendents and the date and time.
-
-- As an admin , I can add workspaces information to the website, can edit a workspace information, and delete the wordspace.
 
 ## **Prototype** 🎨
 
@@ -54,8 +55,8 @@ Create an application that helps workers and freelancers to find a workspace tha
 
 ## Stretch Goals ☄️
 
-- Payment
-- Reminder
+- Payment.
+- Reminder.
 - Adding map feature for location.
 - Add workspaceOwner user.
 
