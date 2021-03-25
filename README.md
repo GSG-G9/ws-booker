@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# WSbooker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Your Place, Our Space!!
 
-## Available Scripts
+## Live demo 📺
 
-In the project directory, you can run:
+[heroku demo]()
 
-### `npm start`
+## **Main Problem** 🚫
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Freelancers and workers in Gaza seek to find suitable workspace for them in a specific time and good price with additional services that will help them to accomplish their work, like good Internet connection and electricity.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **Problem Solution** 💡
 
-### `npm test`
+Create an application that helps workers and freelancers to find a workspace that suits their needs according to the name, location, number of people, and the date. and allows them to book the most suitable one.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## **User Journey** 🚀
 
-### `npm run build`
+- As a user, I can search for a workspace by entering the name, with the ability to specify the location, and the datetime to get the desired search results that I need. Also, I can see the top-rated workspaces. I can open the profile of any workspace to see all information about it. I can add my rate to the workspace to help other freelancers.And I can book any workspace, specify number of attendants and the date and time.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- As an admin , I can add workspaces information to the website, can edit a workspace information, and delete the workspace.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## **User Stories** 📝
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### **As a user(Booker)**
 
-### `npm run eject`
+- I can sign up and login with my google account to the site.
+- I can search for a workspace depending on the workspace name, location, datetime, and number of people.
+- I can see the top rated workspaces.
+- I can see the newest workspaces.
+- I can see inside each workspace card (Image, name, price, location, rate, booking button).
+- I can see the workspace details when I click on the card, such as (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amenities " Wifi, Desks, Kitchen, Free drinking water or coffee").
+- I can see a booking button in workspace details page.
+- I can book the workspace for a day or many days at specific time and no. of people.
+- I can rate for any workspace.
+- I can see my profile and edit my information.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### **As an admin**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- I can see all workspaces.
+- I can add a new workspace for the site with details like (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amenities "WIFI, Desks, Kitchen, Free drinking water or coffee").
+- I can edit a workspace details or delete it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## **Prototype** 🎨
 
-## Learn More
+[View Prototype](https://www.figma.com/proto/jyNhE8jvGetLezizZ3XnAV/WSbooker?node-id=8%3A2&scaling=min-zoom&page-id=0%3A1)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![WSbooker](https://i.imgur.com/DP7juf2.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## **DATABASE Schema** 🗄️
 
-### Code Splitting
+![ws-admin](https://user-images.githubusercontent.com/44459251/112457818-c964bb00-8d64-11eb-8d3b-2b10c57d0086.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Stretch Goals ☄️
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Payment.
+- Reminder.
+- Adding map feature for location.
+- Add workspaceOwner user.
 
-### Making a Progressive Web App
+## **Technologies** 💻
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- React js
+- Firebase
+- oauth2
+- FireStore
+- Ant Design
 
-### Advanced Configuration
+## **Lead Mentor** 🍰
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Lina Jamal
 
-### Deployment
+## **Team Members** 👩‍💻
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Alaa Sahloub
+- Israa Al Jamal
+- Sondos Alalami
 
-### `npm run build` fails to minify
+## **Resource** 🌐
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [React Js](https://reactjs.org/)
+- [oauth2](https://developers.google.com/identity/protocols/oauth2)
+- [Firebase](https://firebase.google.com/docs)
