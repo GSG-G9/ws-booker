@@ -1,12 +1,3 @@
-// {
-//     "editor.formatOnSave": true,
-//     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-//     "editor.tabSize": 2,
-//     "editor.codeActionsOnSave": {
-//         "source.fixAll": true
-//     }
-//   }
-
 {
     "[javascript]": {
       "editor.codeActionsOnSave": {
