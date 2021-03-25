@@ -14,7 +14,8 @@ Create an application that helps workers and freelancers to find a workspace tha
 - I can see inside each workspace's card (Image, name, price, location, rate, Booking button).
 -  I can see a workspace's details when I click on the card, such as (cover Image, photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, deskes, kitchen, free drinking water or coffie").
 - I can see a booking button in workspace's details page.
-- I can add a review for any workspace.
+- I can book the workspace for a day or many days at specfic time and no. of people.
+- I can rate for any workspace.
 - I can see my profile and edit my information.
 
 ### **As an admin**
