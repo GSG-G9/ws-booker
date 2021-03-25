@@ -4,11 +4,11 @@ Your Place, Our Space!!
 
 ## Live demo 📺
 
-[!Link heroku]()
+[heroku demo]()
 
 ## **Main Problem** 🚫
 
-Freelancers and workers in Gaza seek to find suitable workspace for them within specific times and good price with additional services that will help them to accomplish their work, like good Internet connection and electricity.
+Freelancers and workers in Gaza seek to find suitable workspace for them in a specific time and good price with additional services that will help them to accomplish their work, like good Internet connection and electricity.
 
 ## **Problem Solution** 💡
 
@@ -22,8 +22,8 @@ Create an application that helps workers and freelancers to find a workspace tha
 - I can search for a workspace depending on the workspace name, loaction, datetime, and number of people.
 - I can see the top rated workspaces.
 - I can see the newest workspaces.
-- I can see inside each workspace's card (Image, name, price, location, rate, Booking button).
-- I can see a workspace's details when I click on the card, such as (cover Image, photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, desks, kitchen, free drinking water or coffie").
+- I can see inside each workspace's card (Image, name, price, location, rate, booking button).
+- I can see a workspace's details when I click on the card, such as (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, Desks, Kitchen, Free drinking water or coffie").
 - I can see a booking button in workspace's details page.
 - I can book the workspace for a day or many days at specfic time and no. of people.
 - I can rate for any workspace.
@@ -32,8 +32,8 @@ Create an application that helps workers and freelancers to find a workspace tha
 ### **As an admin**
 
 - I can see all workspaces
-- I can add a new workspace for the site with details like (cover Image, photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, deskes, kitchen, free drinking water or coffie")
-- I can Edit a workspace details or delete it.
+- I can add a new workspace for the site with details like (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amentities "WIFI, Desks, Kitchen, Free drinking water or coffie")
+- I can edit a workspace details or delete it.
 
 ## **User Journey** 🚀
 
