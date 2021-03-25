@@ -56,4 +56,4 @@ Create an application that helps workers and freelancers to find a workspace tha
 ## **Resource**
 * [React Js](https://reactjs.org/)
 * [oauth2](https://developers.google.com/identity/protocols/oauth2)
-* [Firebase](https://firebase.google.com/docs/build)
+* [Firebase](https://firebase.google.com/docs)
