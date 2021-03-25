@@ -47,6 +47,11 @@ Create an application that helps workers and freelancers to find a workspace tha
 
 ![WSbooker](https://i.imgur.com/DP7juf2.png)
 
+## **DATABASE Schema** 🗄️
+
+![ws-admin](https://user-images.githubusercontent.com/44459251/112457818-c964bb00-8d64-11eb-8d3b-2b10c57d0086.png)
+
+
 ## Stretch Goals ☄️
 
 - Payment
