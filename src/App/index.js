@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import './style.css';
 import {
   About,
   AllWorkspaces,
@@ -12,18 +13,19 @@ import {
   UserProfile,
   WorkspaceProfile,
 } from '../utils/constants';
-import './style.css';
-import AboutPage from '../pages/About';
-import AdminLogin from '../pages/AdminLogin';
-import DashboardAddWorkspace from '../pages/DashboardAddWorkspace';
-import DashboardAllWorkspaces from '../pages/DashboardAllWorkspaces';
-import HomePage from '../pages/HomePage';
-import NewestWorkspacesPage from '../pages/NewestWorkspaces';
-import SearchResults from '../pages/SearchResults';
-import TopRatedPage from '../pages/TopRatedWorkspaces';
-import UserProfilePage from '../pages/UserProfile';
-import WorkSpaceProfilePage from '../pages/WorkSpaceProfile';
-import NotFound from '../pages/NotFound';
+import {
+  AboutPage,
+  AdminLogin,
+  DashboardAddWorkspace,
+  DashboardAllWorkspaces,
+  HomePage,
+  NewestWorkspacesPage,
+  SearchResults,
+  TopRatedPage,
+  UserProfilePage,
+  WorkSpaceProfilePage,
+  NotFound,
+} from '../pages';
 
 const App = () => (
   <Router>
