@@ -1,9 +1,6 @@
 import React from 'react';
+import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-
-import Header from '../components/Layout/Header';
-
-import './style.css';
 import {
   About,
   AllWorkspaces,
