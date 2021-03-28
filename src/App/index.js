@@ -1,5 +1,8 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+
+import Header from '../components/Layout/Header';
+
 import './style.css';
 import {
   About,
@@ -29,6 +32,11 @@ import {
 
 const App = () => (
   <Router>
+    <Header
+      isLogged
+      userName="Alaa"
+      userImage="https://avatars.githubusercontent.com/u/44459251?v=4"
+    />
     <Switch>
       <Route exact path={Login}>
         <AdminLogin />
