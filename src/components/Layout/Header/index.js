@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../../assets/images/WSBooker.png';
 import './style.css';
 
-const NavBar = () => (
+const Header = () => (
   <div className="navbar">
     <div className="Logo-menu-section">
       <Image width={200} preview={false} src={logo} alt="WSBooker logo" />
@@ -16,4 +16,4 @@ const NavBar = () => (
     <div className="user-loging">User</div>
   </div>
 );
-export default NavBar;
+export default Header;
