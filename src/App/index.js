@@ -12,7 +12,7 @@ import {
   TopRatedWorkspaces,
   UserProfile,
   WorkspaceProfile,
-} from '../utils/constants';
+} from '../utils';
 import {
   AboutPage,
   AdminLogin,
@@ -39,7 +39,6 @@ const App = () => (
       <Route exact path={AddWorkspace}>
         <DashboardAddWorkspace />
       </Route>
-
       <Route exact path={Home}>
         <HomePage />
       </Route>
@@ -62,10 +61,9 @@ const App = () => (
       <Route exact path={UserProfile}>
         <UserProfilePage />
       </Route>
-
-      <Router>
+      <Route>
         <NotFound />
-      </Router>
+      </Route>
     </Switch>
   </Router>
 );
