@@ -32,7 +32,7 @@ const App = () => (
   <Router>
     <Header
       isLogged
-      userName="Alaa"
+      userName="Alaa Sahloub"
       userImage="https://avatars.githubusercontent.com/u/44459251?v=4"
     />
     <Switch>
