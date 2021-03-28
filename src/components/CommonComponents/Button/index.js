@@ -6,6 +6,8 @@ const MainButton = ({
   onClick,
   buttName,
   id,
+  type,
+  icon,
   className,
   htmlType,
   ...otherStyleProps
@@ -13,6 +15,8 @@ const MainButton = ({
   <Button
     id={id}
     className={className}
+    type="primary"
+    icon={icon}
     onClick={onClick}
     htmlType={htmlType}
     style={otherStyleProps}
@@ -25,12 +29,16 @@ MainButton.defaultProps = {
   onClick: () => {},
   buttName: 'Search',
   id: '',
+  type: 'primary',
+  icon: '',
   className: '',
   htmlType: '',
 };
 
 MainButton.propTypes = {
   onClick: PropTypes.func,
+  type: PropTypes.string,
+  icon: PropTypes.string,
   buttName: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
