@@ -1,6 +1,6 @@
 import React from 'react';
+import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import './style.css';
 import {
   About,
   AllWorkspaces,
