@@ -15,7 +15,7 @@ const MainButton = ({
   <Button
     id={id}
     className={className}
-    type="primary"
+    type={type}
     icon={icon}
     onClick={onClick}
     htmlType={htmlType}
