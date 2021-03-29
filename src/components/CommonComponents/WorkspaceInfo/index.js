@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, Typography } from 'antd';
 import PropTypes from 'prop-types';
-import Icon from '@ant-design/icons';
 
 import './style.css';
 
@@ -9,8 +8,8 @@ const { Text } = Typography;
 
 const WorkspaceInfo = ({ icon, text }) => (
   <div className="ws-info">
-    <Image preview={false} src={icon} width={30} />
-    <p className="text">{text}</p>
+    <Image preview={false} src={icon} width={25} />
+    <Text className="text">{text}</Text>
   </div>
 );
 
