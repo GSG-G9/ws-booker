@@ -1,54 +1,126 @@
 import React from 'react';
 import { Input, InputNumber, DatePicker, TimePicker } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
 const { RangePicker } = DatePicker;
+const { TextArea } = Input;
+const TimeRange = TimePicker.RangePicker;
 
 function MainInput({
   type,
-  style,
-  onChange,
   label,
+  max,
   value,
+  onChange,
   placeholder,
-  size,
-  className,
-  id,
+  labelPosition,
+  rows,
+  ...restProps
 }) {
+  let labelType;
+  // eslint-disable-next-line no-unused-expressions
+  label &&
+    (labelPosition === 'left'
+      ? (labelType = <span>{label}</span>)
+      : (labelType = <p>{label}</p>));
+
   switch (type) {
+    case 'dateRange':
+      return (
+        <>
+          {labelType}
+          <RangePicker value={value} onChange={onChange} {...restProps} />
+        </>
+      );
     case 'date':
       return (
         <>
-          <RangePicker />
+          {labelType}
+          <DatePicker value={value} onChange={onChange} {...restProps} />
         </>
       );
     case 'time':
-      return <TimePicker.RangePicker />;
+      return (
+        <>
+          {labelType}
+          <TimeRange value={value} onChange={onChange} {...restProps} />
+        </>
+      );
     case 'number':
-      return <InputNumber />;
+      return (
+        <>
+          {labelType}
+          <InputNumber
+            min={1}
+            max={max}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            {...restProps}
+          />
+        </>
+      );
+    case 'textArea':
+      return (
+        <>
+          {labelType}
+          <TextArea
+            rows={rows}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            {...restProps}
+          />
+        </>
+      );
+
+    case 'search':
+      return (
+        <>
+          {label && <span>{label}</span>}
+          <Input
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            {...restProps}
+            prefix={<SearchOutlined style={{ color: '#929292' }} />}
+          />
+        </>
+      );
     default:
-      return <Input />;
+      return (
+        <>
+          {label && <span>{label}</span>}
+          <Input
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            {...restProps}
+          />
+        </>
+      );
   }
 }
 
 MainInput.propTypes = {
-  size: PropTypes.string,
-  id: PropTypes.string,
+  max: PropTypes.number,
+  rows: PropTypes.number,
   placeholder: PropTypes.string,
   label: PropTypes.string,
+  labelPosition: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   type: PropTypes.string,
-  className: PropTypes.string,
 };
 
 MainInput.defaultProps = {
-  size: 'middle',
-  id: '',
+  labelPosition: '',
+  max: '1000',
+  rows: '3',
   placeholder: '',
   label: '',
   type: '',
-  className: '',
 };
 
 export default MainInput;
