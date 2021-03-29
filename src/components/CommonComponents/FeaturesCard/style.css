@@ -1,0 +1,21 @@
+.features{
+    display: flex;
+    flex-direction: column;
+    width:345px;
+    height: 280px;
+}
+
+.text{
+    font-size: 18px;
+    width:341px;
+    height: 84px;
+    color:#6C6C6C;
+    border-top: 1px solid #C4C4C4;
+    padding-top: 10px;
+}
+
+#title{
+    margin-top: 15px;
+    color:#464D4B;
+   
+}
