@@ -6,24 +6,29 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    text-align: center;
     padding: 25px 80px;
 }
-.icons-list, .copyright{
+.icons-container, .copyright{
     width: 50%;
 }
-.icons-list a{
+.icons-container a{
     color: #fff;
 }
 .copyright{
     font-size: 23px;
+    display: flex;
+    justify-content: flex-end;
 }
-.fb , .tw, .ins{
-    font-size: 25px;
-    margin: 0px 5px;
+.icons-container {
+    display: flex;
+    align-items: center;
+}
+.icon {
+    padding-right: 10px;
 }
 @media only screen and (max-width: 600px) {
-    .icons-list, .copyright{
+    .icons-container, .copyright{
         width: 100%;
+        justify-content: center;
     }
 }

@@ -1,24 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  FacebookFilled,
-  TwitterCircleFilled,
-  InstagramFilled,
-} from '@ant-design/icons';
+import { Image } from 'antd';
+// import {
+//   FacebookFilled,
+//   TwitterCircleFilled,
+//   InstagramFilled,
+// } from '@ant-design/icons';
+import facebook from '../../../assets/icons/facebook.svg';
+import instagram from '../../../assets/icons/instagram.svg';
+import twitter from '../../../assets/icons/twitter.svg';
 
 import './style.css';
 
 const Footer = () => (
   <footer className="footer">
-    <div className="icons-list">
-      <Link to="https://www.facebook.com/">
-        <FacebookFilled className="fb" />
+    <div className="icons-container">
+      <Link to={{ pathname: 'https://www.instagram.com/' }} target="_blank">
+        <Image
+          preview={false}
+          src={instagram}
+          alt="instagram"
+          className="icon"
+        />
       </Link>
-      <Link to="https://www.twitter.com/">
-        <TwitterCircleFilled className="tw" />
+      <Link to={{ pathname: 'https://twitter.com/' }} target="_blank">
+        <Image preview={false} src={twitter} alt="twitter" className="icon" />
       </Link>
-      <Link to="https://www.instagram.com/">
-        <InstagramFilled className="ins" />
+      <Link to={{ pathname: 'https://www.facebook.com/' }} target="_blank">
+        <Image preview={false} src={facebook} alt="facebook" className="icon" />
       </Link>
     </div>
     <div className="copyright">&copy; 2021 WSBooker</div>
