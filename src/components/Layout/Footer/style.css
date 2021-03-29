@@ -1,0 +1,29 @@
+.footer{
+    width: 100%;
+    background-color: #007664;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    padding: 25px 80px;
+}
+.icons-list, .copyright{
+    width: 50%;
+}
+.icons-list a{
+    color: #fff;
+}
+.copyright{
+    font-size: 23px;
+}
+.fb , .tw, .ins{
+    font-size: 25px;
+    margin: 0px 5px;
+}
+@media only screen and (max-width: 600px) {
+    .icons-list, .copyright{
+        width: 100%;
+    }
+}
