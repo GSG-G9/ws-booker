@@ -1,11 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image } from 'antd';
-// import {
-//   FacebookFilled,
-//   TwitterCircleFilled,
-//   InstagramFilled,
-// } from '@ant-design/icons';
+
 import facebook from '../../../assets/icons/facebook.svg';
 import instagram from '../../../assets/icons/instagram.svg';
 import twitter from '../../../assets/icons/twitter.svg';

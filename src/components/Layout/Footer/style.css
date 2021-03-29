@@ -11,9 +11,6 @@
 .icons-container, .copyright{
     width: 50%;
 }
-.icons-container a{
-    color: #fff;
-}
 .copyright{
     font-size: 23px;
     display: flex;
