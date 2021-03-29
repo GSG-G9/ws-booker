@@ -16,22 +16,12 @@ function MainInput({
   value,
   onChange,
   placeholder,
-  labelPosition,
   rows,
   containerClass,
   direction,
-  height,
-  style,
   ...restProps
 }) {
-  // let labelType;
-  // // eslint-disable-next-line no-unused-expressions
-  // label &&
-  //   (labelPosition === 'left'
-  //     ? (labelType = <span className="label">{label}</span>)
-  //     : (labelType = <p className="label">{label}</p>));
   let input;
-
   switch (type) {
     case 'dateRange':
       input = (
@@ -142,19 +132,19 @@ MainInput.propTypes = {
   rows: PropTypes.number,
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  labelPosition: PropTypes.string,
+  containerClass: PropTypes.string,
+  type: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  type: PropTypes.string,
 };
 
 MainInput.defaultProps = {
-  labelPosition: '',
-  direction: 'column',
   max: '1000',
+  direction: 'column',
   rows: '3',
   placeholder: '',
   label: '',
+  containerClass: '',
   type: '',
 };
 
