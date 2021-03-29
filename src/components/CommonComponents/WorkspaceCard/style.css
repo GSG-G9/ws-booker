@@ -1,0 +1,39 @@
+*{
+  margin: 0;
+}
+.info-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 440px;
+  margin-top: 48px;
+  margin-left: 20px;
+  height: 200px;
+}
+.price{
+  color: #00C78A;
+  font-size: 18px;
+}
+.workspace-name{
+  color: #707472;
+  font-weight: bold;
+  font-size: 18px;
+}
+.location {
+  color: #707472;
+  font-size: 18px;
+  flex-grow: 2;
+}
+.cover-image{
+  width: 400px;
+  height: 266px;
+  margin-top: 42px;
+  margin-left: 50px;
+}
+.reviewers{
+  color: #707472;
+  font-size: 16px;
+}
+.ant-card-hoverable{
+  cursor: auto;
+}
