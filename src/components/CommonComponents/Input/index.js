@@ -2,10 +2,12 @@ import React from 'react';
 import { Input, InputNumber, DatePicker, TimePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
+import './style.css';
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const TimeRange = TimePicker.RangePicker;
+const { Password } = Input;
 
 function MainInput({
   type,
@@ -16,95 +18,127 @@ function MainInput({
   placeholder,
   labelPosition,
   rows,
+  containerClass,
+  direction,
+  height,
+  style,
   ...restProps
 }) {
-  let labelType;
-  // eslint-disable-next-line no-unused-expressions
-  label &&
-    (labelPosition === 'left'
-      ? (labelType = <span>{label}</span>)
-      : (labelType = <p>{label}</p>));
+  // let labelType;
+  // // eslint-disable-next-line no-unused-expressions
+  // label &&
+  //   (labelPosition === 'left'
+  //     ? (labelType = <span className="label">{label}</span>)
+  //     : (labelType = <p className="label">{label}</p>));
+  let input;
 
   switch (type) {
     case 'dateRange':
-      return (
-        <>
-          {labelType}
-          <RangePicker value={value} onChange={onChange} {...restProps} />
-        </>
+      input = (
+        <RangePicker
+          style={{ height: '55px' }}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
+      break;
     case 'date':
-      return (
-        <>
-          {labelType}
-          <DatePicker value={value} onChange={onChange} {...restProps} />
-        </>
+      input = (
+        <DatePicker
+          style={{ height: '55px' }}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
+      break;
     case 'time':
-      return (
-        <>
-          {labelType}
-          <TimeRange value={value} onChange={onChange} {...restProps} />
-        </>
+      input = (
+        <TimeRange
+          style={{ height: '55px' }}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
+      break;
     case 'number':
-      return (
-        <>
-          {labelType}
-          <InputNumber
-            min={1}
-            max={max}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            {...restProps}
-          />
-        </>
+      input = (
+        <InputNumber
+          style={{ height: '55px', lineHeight: '55px' }}
+          min={1}
+          max={max}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
+      break;
     case 'textArea':
-      return (
-        <>
-          {labelType}
-          <TextArea
-            rows={rows}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            {...restProps}
-          />
-        </>
+      input = (
+        <TextArea
+          style={{ height: '55px' }}
+          rows={rows}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
-
+      break;
     case 'search':
-      return (
-        <>
-          {label && <span>{label}</span>}
-          <Input
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            {...restProps}
-            prefix={<SearchOutlined style={{ color: '#929292' }} />}
-          />
-        </>
+      input = (
+        <Input
+          style={{ height: '55px' }}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+          prefix={<SearchOutlined style={{ color: '#929292' }} />}
+        />
       );
+      break;
+    case 'password':
+      input = (
+        <Password
+          style={{ height: '55px' }}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
+      );
+      break;
     default:
-      return (
-        <>
-          {label && <span>{label}</span>}
-          <Input
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            {...restProps}
-          />
-        </>
+      input = (
+        <Input
+          style={{ height: '55px' }}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...restProps}
+        />
       );
   }
+  return (
+    <div
+      className={containerClass}
+      style={{
+        display: 'flex',
+        flexDirection: direction,
+      }}
+    >
+      <span className="label">{label}</span>
+      {input}
+    </div>
+  );
 }
 
 MainInput.propTypes = {
   max: PropTypes.number,
+  direction: PropTypes.string,
   rows: PropTypes.number,
   placeholder: PropTypes.string,
   label: PropTypes.string,
@@ -116,6 +150,7 @@ MainInput.propTypes = {
 
 MainInput.defaultProps = {
   labelPosition: '',
+  direction: 'column',
   max: '1000',
   rows: '3',
   placeholder: '',
