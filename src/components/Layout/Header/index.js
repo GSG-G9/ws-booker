@@ -8,6 +8,7 @@ import {
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import MainButton from '../../CommonComponents/Button';
 import { Home, About } from '../../../utils';
 import logo from '../../../assets/images/WSBooker.png';
 import profileImage from '../../../assets/images/profile-user.png';
@@ -38,6 +39,8 @@ const Header = ({ isLogged, userImage, userName }) => {
             type="primary"
             onClick={toggleCollapsed}
             style={{ marginBottom: 16 }}
+            className="collapsebtn"
+            theme="light"
           >
             {React.createElement(
               collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
@@ -47,22 +50,12 @@ const Header = ({ isLogged, userImage, userName }) => {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
-            theme="dark"
+            theme="light"
             inlineCollapsed={collapsed}
           >
-            <Menu.Item key="1">
-              <NavLink to={Home} activeClassName="active">
-                HOME
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <NavLink to={About} activeClassName="active">
-                ABOUT
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="3">
-              {isLogged ? (
-                <>
+            {isLogged ? (
+              <>
+                <Menu.Item key="1">
                   <Image
                     preview={false}
                     src={userImage}
@@ -70,11 +63,28 @@ const Header = ({ isLogged, userImage, userName }) => {
                     className="userImage"
                   />
                   <Text className="usernameTitle">{userName}</Text>
-                  <Button shape="circle" icon={<LogoutOutlined />} />
-                </>
-              ) : (
-                `login`
-              )}
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <MainButton
+                    icon={<LogoutOutlined />}
+                    buttName="logout"
+                    id="logout"
+                    className="logout"
+                  />
+                </Menu.Item>
+              </>
+            ) : (
+              <MainButton buttName="Log In" id="login" className="login" />
+            )}
+            <Menu.Item key="3">
+              <NavLink to={Home} activeClassName="active">
+                HOME
+              </NavLink>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <NavLink to={About} activeClassName="active">
+                ABOUT
+              </NavLink>
             </Menu.Item>
           </Menu>
         </div>
@@ -89,10 +99,15 @@ const Header = ({ isLogged, userImage, userName }) => {
               className="userImage"
             />
             <Text className="usernameTitle">{userName}</Text>
-            <Button shape="circle" icon={<LogoutOutlined />} />
+            <MainButton
+              icon={<LogoutOutlined />}
+              buttName="logout"
+              id="logout"
+              className="logout"
+            />
           </>
         ) : (
-          `login`
+          <MainButton buttName="Log In" id="login" className="login" />
         )}
       </div>
     </div>

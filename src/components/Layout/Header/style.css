@@ -23,9 +23,6 @@
 .active{
    color:#00C78A;
 }
-.toggle{
-  display: none;
-}
 .user-loging{
   width: 40%;
   padding: 25px 80px 25px 0px;
@@ -48,8 +45,6 @@
 }
 .collapsedDiv{
   display: none;
-  direction: rtl;
-  text-align: right;
 }
 
 @media only screen and (max-width: 600px) {
@@ -67,22 +62,86 @@
     padding: 25px;
     justify-content: space-between;
   }
-  .toggle{
-    display: inline-block;
-  }
   .collapsedDiv{
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .collapsebtn{
+    direction: rtl;
+  }
+  .collapsedDiv .ant-menu-inline-collapsed{
+    display: none;
   }
  }
-/* @media only screen and (min-width: 600px) {
-
+@media only screen and (min-width: 600px) {
+  .navbar{
+    flex-wrap: wrap;
+  }
+  .user-loging{
+    display: none;
+  }
+  .menu-item{
+    display: none;
+  }
+  .Logo-menu-section{
+    width: 100%;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .collapsedDiv{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .collapsebtn{
+    direction: rtl;
+  }
+  .collapsedDiv .ant-menu-inline-collapsed{
+    display: none;
+  }
 }
 @media only screen and (min-width: 768px) {
+  .navbar{
+    flex-wrap: nowrap;
+  }
+  .user-loging{
+    display: flex;
+  }
+  .menu-item{
+    display:inline-block ;
+  }
+  .Logo-menu-section{
+    width: 60%;
+    padding: 25px 0px 25px 41px;
+    justify-content: flex-start;
+  }
+  .user-loging{
+    padding: 25px 41px 25px 0px;
+  }
+  .collapsedDiv{
+    display: none;
+  }
 
 }
 @media only screen and (min-width: 992px) {
+  .Logo-menu-section{
+    padding: 25px 0px 25px 55px;
+  }
+  .user-loging{
+    padding: 25px 55px 25px 0px;
+  }
 
+  
 }
-@media only screen and (min-width: 1200px) {
 
-}  */
+@media only screen and (min-width: 1200px) {
+  .Logo-menu-section{
+    padding: 25px 0px 25px 80px;
+  }
+  .user-loging{
+    padding: 25px 80px 25px 0px;
+  }
+}  
