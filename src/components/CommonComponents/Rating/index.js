@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Rate } from 'antd';
+import PropTypes from 'prop-types';
 
 const Rating = ({ rateValue, setRate }) => {
   const [value, setValue] = useState(0);
@@ -19,4 +20,15 @@ const Rating = ({ rateValue, setRate }) => {
     </span>
   );
 };
+
+Rating.defaultProps = {
+  rateValue: -1,
+  setRate: () => {},
+};
+
+Rating.propTypes = {
+  rateValue: PropTypes.number,
+  setRate: PropTypes.func,
+};
+
 export default Rating;
