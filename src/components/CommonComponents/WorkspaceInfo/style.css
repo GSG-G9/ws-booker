@@ -1,0 +1,19 @@
+.ws-info{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 250px;
+    height: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.text{
+    margin-left: 10px;
+    align-items: flex-start;
+    color:#464D4B ;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0px;
+}
