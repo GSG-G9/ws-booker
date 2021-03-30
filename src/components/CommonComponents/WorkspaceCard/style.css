@@ -25,10 +25,10 @@
   flex-grow: 2;
 }
 .cover-image{
-  width: 400px;
+  width: 500px;
   height: 266px;
   margin-top: 42px;
-  margin-left: 50px;
+  margin-left: 50px; 
 }
 .reviewers{
   color: #707472;
@@ -37,19 +37,37 @@
 .ant-card-hoverable{
   cursor: auto;
 }
+.medium-info-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  margin-top: 48px;
+  margin-left: 20px;
+  height: 200px;
+}
+.medium-cover-image{
+  width: 350px;
+  height: 266px;
+  margin-top: 42px;
+  margin-left: 30px;
+}
 .small-info-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 150px;
-  margin-top: 28px;
+  width: 130px;
+  margin-top:5px;
   margin-left: -10px;
-  height: 130px;
+  height: 140px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 .small-price{
   color: #00C78A;
   font-size: 12px;
-  margin: 0;
+  margin:0;
 }
 .small-workspace-name{
   color: #707472;
@@ -62,12 +80,16 @@
   font-size: 12px;
   flex-grow: 2;
   margin: 0;
+  width: 130px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 .small-cover-image{
   width: 180px;
   height: 150px;
-  margin-top: 45px;
-  margin-left: 5px;
+  margin-top: 25px;
+  margin-left: 10px;
 }
 .small-reviewers{
   color: #707472;

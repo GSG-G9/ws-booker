@@ -19,13 +19,15 @@ function WorkspaceCard({
   reviewers,
   onClick,
 }) {
-  const matches = useMediaQuery({ query: '(max-width:600px)' });
+  const matchesSmall = useMediaQuery({ query: '(max-width:768px)' });
+  const matchesMedium = useMediaQuery({ query: '(max-width:1200px)' });
   return (
     <Card
       hoverable
       style={{
-        width: size === 'small' || matches ? 350 : 985,
-        height: size === 'small' || matches ? 250 : 350,
+        width:
+          size === 'small' || matchesSmall ? 350 : matchesMedium ? 700 : 1055,
+        height: size === 'small' || matchesSmall ? 200 : 350,
         display: 'flex',
         flexDirection: 'row',
       }}
@@ -37,7 +39,11 @@ function WorkspaceCard({
               borderRadius: '5px',
             }}
             className={
-              size === 'small' || matches ? 'small-cover-image' : 'cover-image'
+              size === 'small' || matchesSmall
+                ? 'small-cover-image'
+                : matchesMedium
+                ? 'medium-cover-image'
+                : 'cover-image'
             }
             src={image}
           />
@@ -46,17 +52,21 @@ function WorkspaceCard({
     >
       <div
         className={
-          size === 'small' || matches
+          size === 'small' || matchesSmall
             ? 'small-info-container'
+            : matchesMedium
+            ? 'medium-info-container'
             : 'info-container'
         }
       >
-        <p className={size === 'small' || matches ? 'small-price' : 'price'}>
+        <p
+          className={size === 'small' || matchesSmall ? 'small-price' : 'price'}
+        >
           ₪ {feesPerDay} - Day - ₪ {feesPerHour} - Hour
         </p>
         <p
           className={
-            size === 'small' || matches
+            size === 'small' || matchesSmall
               ? 'small-workspace-name'
               : 'workspace-name'
           }
@@ -65,21 +75,21 @@ function WorkspaceCard({
         </p>
         <p
           className={
-            size === 'small' || matches ? 'small-location' : 'location'
+            size === 'small' || matchesSmall ? 'small-location' : 'location'
           }
         >
           {' '}
           {location}
         </p>
         <Rating rateValue={rating} />
-        {size === 'small' || matches ? (
+        {size === 'small' || matchesSmall ? (
           <br />
         ) : (
           <p className="reviewers">{reviewers} Reviewers</p>
         )}
         <Button
           buttName="Book Now"
-          width={size === 'small' || matches ? '100px' : '150px'}
+          width={size === 'small' || matchesSmall ? '100px' : '150px'}
           fontWeight="bold"
           onClick={onClick}
         />
