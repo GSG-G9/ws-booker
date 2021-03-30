@@ -1,0 +1,35 @@
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    top: auto;
+    background-color: #007664;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2px 80px;
+    height: 60px;
+}
+.icons-container, .copyright{
+    width: 50%;
+}
+.copyright{
+    font-size: 23px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.icons-container {
+    display: flex;
+    align-items: center;
+}
+.icon {
+    padding-right: 10px;
+}
+@media only screen and (max-width: 600px) {
+    .icons-container, .copyright{
+        width: 100%;
+        justify-content: center;
+    }
+}
