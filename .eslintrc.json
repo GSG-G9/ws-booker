@@ -32,6 +32,7 @@
         "singleQuote": true,
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-nested-ternary": "off"
   }
 }
