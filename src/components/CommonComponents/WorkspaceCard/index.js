@@ -30,6 +30,8 @@ function WorkspaceCard({
         height: size === 'small' || matchesSmall ? 200 : 350,
         display: 'flex',
         flexDirection: 'row',
+        borderColor: '#e6e6e6',
+        borderRadius: '5px',
       }}
       cover={
         <Link to={`/workspace/${id}`}>
@@ -62,7 +64,7 @@ function WorkspaceCard({
         <p
           className={size === 'small' || matchesSmall ? 'small-price' : 'price'}
         >
-          ₪ {feesPerDay} - Day - ₪ {feesPerHour} - Hour
+          ₪ {feesPerDay} - Day | ₪ {feesPerHour} - Hour
         </p>
         <p
           className={
