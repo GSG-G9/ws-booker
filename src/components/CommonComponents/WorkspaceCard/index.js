@@ -24,22 +24,17 @@ function WorkspaceCard({
   return (
     <Card
       hoverable
-      style={{
-        width:
-          size === 'small' || matchesSmall ? 350 : matchesMedium ? 700 : 1055,
-        height: size === 'small' || matchesSmall ? 200 : 350,
-        display: 'flex',
-        flexDirection: 'row',
-        borderColor: '#e6e6e6',
-        borderRadius: '5px',
-      }}
+      className={
+        size === 'small' || matchesSmall
+          ? 'small-card'
+          : matchesMedium
+          ? 'medium-card'
+          : 'card'
+      }
       cover={
         <Link to={`/workspace/${id}`}>
           <img
             alt="workspace"
-            style={{
-              borderRadius: '5px',
-            }}
             className={
               size === 'small' || matchesSmall
                 ? 'small-cover-image'
