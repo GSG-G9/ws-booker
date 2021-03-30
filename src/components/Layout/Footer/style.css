@@ -1,12 +1,15 @@
 .footer{
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    top: auto;
     background-color: #007664;
     color: #fff;
     font-weight: bold;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    padding: 25px 80px;
+    padding: 2px 80px;
+    height: 90px;
 }
 .icons-container, .copyright{
     width: 50%;
@@ -15,6 +18,7 @@
     font-size: 23px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 .icons-container {
     display: flex;
