@@ -6,16 +6,21 @@ import './style.css';
 
 const { Text } = Typography;
 
-const WorkspaceInfo = ({ icon, text }) => (
-  <div className="ws-info">
+const WorkspaceInfo = ({ icon, text, classname }) => (
+  <div className={`ws-info ${classname}`}>
     <Image preview={false} src={icon} width={25} />
     <Text className="text">{text}</Text>
   </div>
 );
 
+WorkspaceInfo.defaultProps = {
+  classname: 'ws-info',
+};
+
 WorkspaceInfo.propTypes = {
   icon: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  classname: PropTypes.string,
 };
 
 export default WorkspaceInfo;
