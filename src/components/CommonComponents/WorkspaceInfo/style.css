@@ -1,0 +1,15 @@
+.ws-info{
+    display:flex;
+    width: 250px;
+    height: 35px;
+    margin : 10px 0px 10px 10px;
+}
+
+.text{
+    margin-left: 10px;
+    padding-top: 2px;
+    color:#464D4B ;
+    font-size: 12px;
+    font-weight: 600;
+    width: 200px;
+}
