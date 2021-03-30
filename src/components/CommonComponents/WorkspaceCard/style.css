@@ -4,7 +4,7 @@
 .info-container{
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   width: 440px;
   margin-top: 48px;
   margin-left: 20px;
@@ -33,6 +33,53 @@
 .reviewers{
   color: #707472;
   font-size: 16px;
+}
+.ant-card-hoverable{
+  cursor: auto;
+}
+
+
+
+
+.small-info-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  width: 150px;
+  margin-top: 28px;
+  margin-left: -10px;
+  height: 130px;
+}
+.small-price{
+  color: #00C78A;
+  font-size: 12px;
+  margin: 0;
+
+}
+.small-workspace-name{
+  color: #707472;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+ 
+}
+.small-location {
+  color: #707472;
+  font-size: 12px;
+  flex-grow: 2;
+  margin: 0;
+  
+}
+.small-cover-image{
+  width: 180px;
+  height: 150px;
+  margin-top: 45px;
+  margin-left: 5px;
+}
+.small-reviewers{
+  color: #707472;
+  font-size: 12px;
 }
 .ant-card-hoverable{
   cursor: auto;
