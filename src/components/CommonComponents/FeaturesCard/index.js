@@ -1,5 +1,4 @@
 import React from 'react';
-import { Image, Typography } from 'antd';
 import PropTypes from 'prop-types';
 
 import './style.css';
@@ -7,7 +6,7 @@ import './style.css';
 const { Text, Title } = Typography;
 const FeaturesCard = ({ icon, title, description }) => (
   <div className="features">
-    <Image preview={false} src={icon} width={100} height={100} />
+    <img src={icon} alt="features" id="image" />
     <Title level={3} id="title">
       {title}
     </Title>
