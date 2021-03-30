@@ -19,7 +19,7 @@
   font-weight: bold;
   font-size: 18px;
 }
-.location {
+.location{
   color: #707472;
   font-size: 18px;
   flex-grow: 2;
@@ -37,12 +37,10 @@
 .ant-card-hoverable{
   cursor: auto;
 }
-
 .small-info-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
   width: 150px;
   margin-top: 28px;
   margin-left: -10px;
@@ -52,21 +50,18 @@
   color: #00C78A;
   font-size: 12px;
   margin: 0;
-
 }
 .small-workspace-name{
   color: #707472;
   font-weight: bold;
   font-size: 14px;
   margin: 0;
- 
 }
-.small-location {
+.small-location{
   color: #707472;
   font-size: 12px;
   flex-grow: 2;
   margin: 0;
-  
 }
 .small-cover-image{
   width: 180px;
@@ -77,7 +72,4 @@
 .small-reviewers{
   color: #707472;
   font-size: 12px;
-}
-.ant-card-hoverable{
-  cursor: auto;
 }
