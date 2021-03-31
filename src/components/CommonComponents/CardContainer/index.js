@@ -1,24 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Empty } from 'antd';
+import { Typography, Empty, Image } from 'antd';
 import PropTypes from 'prop-types';
+
 import WorkspaceCard from '../WorkspaceCard';
+import arrow from '../../../assets/icons/arrow.svg';
 import './style.css';
 
 const { Title, Text } = Typography;
 
 const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
-  <div className="maincontainer">
+  <div>
     {searchText ? (
-      <>
-        <Title>{title}</Title>
-        <Text>{searchText}</Text>
-      </>
+      <div className="search-title-container">
+        <Title className="search-title">{title}</Title>
+        <Text className="search-text"> {searchText}</Text>
+      </div>
     ) : (
-      <>
-        <Title>{title}</Title>
-        <Link to={`/${seeMoreLink}`}>See more</Link>
-      </>
+      <div className="title-container">
+        <Title className="toprated-title">{title}</Title>
+        <Link to={`/${seeMoreLink}`} className="seemore">
+          See more
+          <Image src={arrow} className="arrow" />
+        </Link>
+      </div>
     )}
 
     <div className="cardcontainer">
