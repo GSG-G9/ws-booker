@@ -27,10 +27,10 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
     )}
 
     <div className="cardcontainer">
-      <ul>
+      <ul className="cardcontainerul">
         {data.length !== 0 ? (
           data.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="cardcontainerli">
               <WorkspaceCard {...item} size={size} />
             </li>
           ))

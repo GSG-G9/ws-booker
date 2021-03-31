@@ -1,7 +1,7 @@
 .cardcontainer{
     width: 100%;
 }
-.cardcontainer ul {
+.cardcontainer .cardcontainerul {
     list-style-type: none;
     width: 100%;
     padding:0px;
@@ -11,7 +11,7 @@
     align-content: center;
     align-items: center;
 }
-.cardcontainer ul li{
+.cardcontainer .cardcontainerul .cardcontainerli{
     margin: 10px 30px;
 }
 .search-title-container{
