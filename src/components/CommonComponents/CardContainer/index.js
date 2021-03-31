@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Typography, Empty } from 'antd';
 import PropTypes from 'prop-types';
 import WorkspaceCard from '../WorkspaceCard';
@@ -6,7 +7,7 @@ import './style.css';
 
 const { Title, Text } = Typography;
 
-const CardContainer = ({ title, searchText, data, size }) => (
+const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
   <div>
     {searchText ? (
       <>
@@ -14,7 +15,10 @@ const CardContainer = ({ title, searchText, data, size }) => (
         <Text>{searchText}</Text>
       </>
     ) : (
-      <Title>{title}</Title>
+      <>
+        <Title>{title}</Title>
+        <Link to={`/${seeMoreLink}`}>See more</Link>
+      </>
     )}
 
     <div className="cardcontainer">
@@ -36,6 +40,7 @@ CardContainer.defaultProps = {
   title: '',
   searchText: '',
   size: '',
+  seeMoreLink: '',
   data: [],
 };
 
@@ -43,6 +48,7 @@ CardContainer.propTypes = {
   title: PropTypes.string,
   searchText: PropTypes.string,
   size: PropTypes.string,
+  seeMoreLink: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
