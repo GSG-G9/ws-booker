@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import getWorkspaceById from '../firebase/firestore';
 
 import {
   About,
@@ -28,6 +29,7 @@ import {
   NotFound,
 } from '../pages';
 
+getWorkspaceById();
 const App = () => (
   <Router>
     <Switch>
