@@ -8,7 +8,7 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
-  <div>
+  <div className="maincontainer">
     {searchText ? (
       <>
         <Title>{title}</Title>
