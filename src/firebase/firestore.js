@@ -1,11 +1,9 @@
 import { db } from './config';
 
-const getWorkspaceById = async () => {
-  const response = db.collection('workspaces');
+const getWorkspaceById = async (id) => {
+  const response = db.collection('workspaces').doc(id);
   const data = await response.get();
-  data.docs.forEach((item) => {
-    console.log(item.data());
-  });
+  console.log(data.data());
 };
 
 export default getWorkspaceById;

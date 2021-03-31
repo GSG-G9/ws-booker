@@ -29,7 +29,8 @@ import {
   NotFound,
 } from '../pages';
 
-getWorkspaceById();
+getWorkspaceById('0uXc9bOuRMYyzbO8rXJB');
+
 const App = () => (
   <Router>
     <Switch>
