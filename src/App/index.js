@@ -1,7 +1,10 @@
 import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from '../firebase/context';
+import { Button } from 'antd';
+import { AuthContext, AuthProvider } from '../firebase/context';
+import Nav from '../Login/Nav';
+import SignIn from '../Login/Signin';
 
 import {
   About,
@@ -29,9 +32,12 @@ import {
   NotFound,
 } from '../pages';
 
+console.log(AuthProvider);
 const App = () => (
   <AuthProvider>
     <Router>
+      <SignIn />
+
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />
