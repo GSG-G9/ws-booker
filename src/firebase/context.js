@@ -4,19 +4,20 @@ import firebase from './config';
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     try {
-      firebase.auth().onAuthStateChanged(setUser);
+      firebase.auth().onAuthStateChanged(setIsSignedIn);
     } catch (err) {
       setError(err);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, error }}>
+    <AuthContext.Provider value={{ isSignedIn, error, userData, setUserData }}>
       {children}
     </AuthContext.Provider>
   );
