@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import firebase from './config';
 
 export const AuthContext = React.createContext();
@@ -17,8 +18,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isSignedIn, error, userData, setUserData }}>
+    <AuthContext.Provider
+      value={{
+        userData,
+        isSignedIn,
+        error,
+        setUserData,
+        setIsSignedIn,
+        setError,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
