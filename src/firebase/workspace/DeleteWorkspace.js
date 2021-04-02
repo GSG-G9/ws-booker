@@ -1,9 +1,9 @@
 import { db } from '../config';
 
 const DeleteWorkspace = async (id) => {
-  const response = db.collection('workspaces').doc(id);
-  const data = await response.get();
   try {
+    const response = db.collection('workspaces').doc(id);
+    const data = await response.get();
     if (!data.exists) {
       return { msg: 'The Workspace Not Found!' };
     }
