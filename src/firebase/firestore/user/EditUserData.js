@@ -1,7 +1,7 @@
 import { db } from '../../config';
 import editUserSchema from '../../../utils/validation';
 
-const EditUserData = async (payload) => {
+const EditUserData = async (id, payload) => {
   const payloadObj = {
     id: payload.id,
     name: payload.name,
@@ -9,7 +9,7 @@ const EditUserData = async (payload) => {
     image: payload.image,
   };
   try {
-    const { id, name, phoneNumber, image } = await editUserSchema.validate(
+    const { name, phoneNumber, image } = await editUserSchema.validate(
       payloadObj
     );
     const response = db.collection('users').doc(id);
