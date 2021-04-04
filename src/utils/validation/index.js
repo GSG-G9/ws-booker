@@ -1,3 +1,4 @@
-import addWorkspaceSchema from './addWorkspaceSchema';
+import addWorkspaceSchema from './workspaceSchema';
+import editUserSchema from './userSchema';
 
-export default addWorkspaceSchema;
+export { addWorkspaceSchema, editUserSchema };
