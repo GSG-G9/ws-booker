@@ -1,3 +1,3 @@
-import getAllWorkspaces from './getAllWorkspaces';
+import getAllWorkspaces from './workspace/getAllWorkspaces';
 
 export default getAllWorkspaces;
