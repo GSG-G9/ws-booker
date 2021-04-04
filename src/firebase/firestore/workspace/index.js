@@ -1,5 +1,6 @@
-import DeleteWorkspace from './DeleteWorkspace';
-import getWorkspaceById from './getWorkspaceById';
 import addWorkspace from './addWorkspace';
+import getWorkspaceById from './getWorkspaceById';
+import getAllWorkspaces from './getAllWorkspaces';
+import DeleteWorkspace from './DeleteWorkspace';
 
-export { addWorkspace, getWorkspaceById, DeleteWorkspace };
+export { addWorkspace, getWorkspaceById, getAllWorkspaces, DeleteWorkspace };
