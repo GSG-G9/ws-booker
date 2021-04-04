@@ -2,12 +2,11 @@ import { db } from '../../config';
 
 const getWorkspaceById = async (id) => {
   try {
-    const response = db.collection('workspaces').doc(id);
-    const data = await response.get();
-    if (!data.exists) {
+    const response = await db.collection('workspaces').doc(id).get();
+    if (!response.exists) {
       throw new Error('No such document!');
     }
-    return data.data();
+    return response.data();
   } catch (err) {
     return err;
   }
