@@ -1,3 +1,5 @@
+import getWorkspaceById from './getWorkspaceById';
+import addWorkspace from './addWorkspace';
 import editWorkspaceRating from './editWorkspaceRating';
 
-export default editWorkspaceRating;
+export { addWorkspace, getWorkspaceById, editWorkspaceRating };
