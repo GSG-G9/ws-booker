@@ -2,12 +2,11 @@ import { db } from '../../config';
 
 const getUserById = async (id) => {
   try {
-    const response = db.collection('users').doc(id);
-    const doc = await response.get();
-    if (!doc.exists) {
+    const response = await db.collection('users').doc(id).get();
+    if (!response.exists) {
       throw new Error('No such document!');
     }
-    return doc.data();
+    return response.data();
   } catch (err) {
     return err;
   }
