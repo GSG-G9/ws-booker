@@ -1,3 +1,4 @@
-import addWorkspaceSchema from './addWorkspaceSchema';
+import workspaceSchema from './workspaceSchema';
+import workspaceRatingSchema from './workspaceRatingSchema';
 
-export default addWorkspaceSchema;
+export { workspaceSchema, workspaceRatingSchema };
