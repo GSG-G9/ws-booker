@@ -1,9 +1,9 @@
 import { db } from '../../config';
-import WorkspaceSchema from '../../../utils/validation';
+import workspaceSchema from '../../../utils/validation';
 
 const editWorkspaceRating = async (id, data) => {
   try {
-    const { rating, reviewers_number } = await WorkspaceSchema.validate(data);
+    const { rating, reviewers_number } = await workspaceSchema.validate(data);
     await db.collection('workspaces').doc(id).update({
       rating,
       reviewers_number,
