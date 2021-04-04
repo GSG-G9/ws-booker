@@ -1,5 +1,5 @@
 import { db } from '../../config';
-import addWorkspaceSchema from '../../../utils/validation';
+import { workspaceSchema } from '../../../utils/validation';
 
 const editWorkspace = async (id, data) => {
   try {
@@ -17,9 +17,8 @@ const editWorkspace = async (id, data) => {
       city,
       header_image,
       image_gallery,
-    } = await addWorkspaceSchema.validate(data);
-    const response = db.collection('workspaces').doc(id);
-    await response.update({
+    } = await workspaceSchema.validate(data);
+    await db.collection('workspaces').doc(id).update({
       name,
       description,
       days_of_work,
