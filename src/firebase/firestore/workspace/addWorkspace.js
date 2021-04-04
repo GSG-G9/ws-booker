@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import { db } from '../../config';
 import addWorkspaceSchema from '../../../utils/validation';
 
@@ -53,6 +54,7 @@ const addWorkspace = async (payload) => {
       image_gallery,
       rating,
       reviewers_number,
+      created_at: firebase.firestore.Timestamp.now(),
     });
     return { msg: 'workspace added successfully!' };
   } catch (err) {
