@@ -10,8 +10,8 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
-  <div>
-    {searchText ? (
+  <div className="main-container-cards">
+    {searchText || searchText === 'top-new' ? (
       <div className="search-title-container">
         <Title className="search-title">{title}</Title>
         <Text className="search-text"> {searchText}</Text>
