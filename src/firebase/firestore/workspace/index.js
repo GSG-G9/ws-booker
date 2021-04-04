@@ -1,3 +1,4 @@
+import getWorkspaceById from './getWorkspaceById';
 import addWorkspace from './addWorkspace';
 
-export default addWorkspace;
+export { addWorkspace, getWorkspaceById };
