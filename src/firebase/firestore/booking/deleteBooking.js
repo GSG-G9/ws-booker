@@ -6,7 +6,7 @@ const deleteBooking = async (id) => {
     const response = db.collection('booking').where('user_id', '==', docRef);
     const docs = await response.get();
     if (docs.empty) {
-      throw new Error('No such document!');
+      throw new Error('No matching documents.');
     }
     docs.forEach((doc) => {
       doc.ref.delete();
