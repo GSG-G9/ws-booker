@@ -1,9 +1,9 @@
 import { object, number, string } from 'yup';
 
-const editUserSchema = object({
+const userSchema = object({
   name: string().required(),
   phoneNumber: number().required(),
   image: string().required(),
 });
 
-export default editUserSchema;
+export default userSchema;
