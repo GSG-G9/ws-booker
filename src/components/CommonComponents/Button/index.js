@@ -27,7 +27,7 @@ const MainButton = ({
 
 MainButton.defaultProps = {
   onClick: () => {},
-  buttName: 'Search',
+  buttName: '',
   id: '',
   type: 'primary',
   icon: '',

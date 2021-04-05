@@ -1,4 +1,6 @@
-import addWorkspaceSchema from './workspaceSchema';
 import bookingSchema from './bookingSchema';
+import userSchema from './userSchema';
+import workspaceSchema from './workspaceSchema';
+import workspaceRatingSchema from './workspaceRatingSchema';
 
-export { addWorkspaceSchema, bookingSchema };
+export { workspaceSchema, workspaceRatingSchema, userSchema, bookingSchema };

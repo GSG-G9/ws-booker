@@ -1,3 +1,5 @@
 import getUserById from './getUserById';
+import EditUserData from './EditUserData';
+import addUser from './addUser';
 
-export default getUserById;
+export { getUserById, EditUserData, addUser };
