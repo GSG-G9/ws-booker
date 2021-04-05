@@ -1,5 +1,5 @@
 import { db } from '../../config';
-import postBookingSchema from '../../../utils/validation';
+import { bookingSchema } from '../../../utils/validation';
 
 const postBooking = async (user_id, workspace_id, payload) => {
   const payloadObj = {
@@ -13,7 +13,7 @@ const postBooking = async (user_id, workspace_id, payload) => {
       book_capacity,
       book_start_time,
       book_end_time,
-    } = await postBookingSchema.validate(payloadObj);
+    } = await bookingSchema.validate(payloadObj);
     const bookingCollection = db.collection('booking');
     bookingCollection.add({
       user_id: db.doc(`users/${user_id}`),

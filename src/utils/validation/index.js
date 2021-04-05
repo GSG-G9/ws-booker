@@ -1,5 +1,4 @@
-// import addWorkspaceSchema from './workspaceSchema';
-import postBookingSchema from './bookingSchema';
+import addWorkspaceSchema from './workspaceSchema';
+import bookingSchema from './bookingSchema';
 
-// export { addWorkspaceSchema, postBookingSchema };
-export default postBookingSchema;
+export { addWorkspaceSchema, bookingSchema };
