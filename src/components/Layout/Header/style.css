@@ -1,0 +1,147 @@
+.navbar{
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  box-shadow: -1px -1px 5px 5px #eee;
+}
+.Logo-menu-section{
+  width: 60%;
+  padding: 25px 0px 25px 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.menu-item{
+  text-decoration: none;
+  outline: none;
+  padding-left: 21px;
+  padding-top: 9px;
+  color: #464D4B;
+  font-weight: bold;
+}
+.active{
+   color:#00C78A;
+}
+.user-loging{
+  width: 40%;
+  padding: 25px 80px 25px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+.userImage{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.usernameTitle{
+  font-size: 18px;
+    margin-top: 5px;
+    padding: 0px 10px;
+    font-weight: 500;
+    color: #464D4B;
+}
+.collapsedDiv{
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar{
+    flex-wrap: wrap;
+  }
+  .user-loging{
+    display: none;
+  }
+  .menu-item{
+    display: none;
+  }
+  .Logo-menu-section{
+    width: 100%;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .collapsedDiv{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .collapsebtn{
+    direction: rtl;
+  }
+  .collapsedDiv .ant-menu-inline-collapsed{
+    display: none;
+  }
+ }
+@media only screen and (min-width: 600px) {
+  .navbar{
+    flex-wrap: wrap;
+  }
+  .user-loging{
+    display: none;
+  }
+  .menu-item{
+    display: none;
+  }
+  .Logo-menu-section{
+    width: 100%;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .collapsedDiv{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .collapsebtn{
+    direction: rtl;
+  }
+  .collapsedDiv .ant-menu-inline-collapsed{
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .navbar{
+    flex-wrap: nowrap;
+  }
+  .user-loging{
+    display: flex;
+  }
+  .menu-item{
+    display:inline-block ;
+  }
+  .Logo-menu-section{
+    width: 60%;
+    padding: 25px 0px 25px 41px;
+    justify-content: flex-start;
+  }
+  .user-loging{
+    padding: 25px 41px 25px 0px;
+  }
+  .collapsedDiv{
+    display: none;
+  }
+
+}
+@media only screen and (min-width: 992px) {
+  .Logo-menu-section{
+    padding: 25px 0px 25px 55px;
+  }
+  .user-loging{
+    padding: 25px 55px 25px 0px;
+  }
+
+  
+}
+
+@media only screen and (min-width: 1200px) {
+  .Logo-menu-section{
+    padding: 25px 0px 25px 80px;
+  }
+  .user-loging{
+    padding: 25px 80px 25px 0px;
+  }
+}  
