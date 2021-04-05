@@ -2,7 +2,7 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-
+import { addUser } from '../firebase/firestore/user';
 import {
   About,
   AllWorkspaces,
@@ -29,6 +29,13 @@ import {
   NotFound,
 } from '../pages';
 
+addUser({
+  displayName: 'hala',
+  email: 'hala@hala.com',
+  phoneNumber: '1234456',
+  photoURL:
+    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinclipart.com%2Fpindetail%2FiixmbRo_user-profile-avatar-scalable-vector-graphics-icon-woman%2F&psig=AOvVaw3TVwHz7j5pUEs3b_S1dgtv&ust=1617689795846000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJCkmaW65u8CFQAAAAAdAAAAABAD',
+}).then((r) => console.log(r));
 const App = () => (
   <AuthProvider>
     <Router>

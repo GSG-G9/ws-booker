@@ -2,7 +2,8 @@ import { db } from '../../config';
 
 const addUser = async (user) => {
   try {
-    const doc = await db.collection('users').doc(user.uid).get();
+    const response = db.collection('users').doc(user.uid);
+    const doc = await response.get();
     if (doc.exists) {
       console.log('already here');
     } else {
