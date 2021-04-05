@@ -1,3 +1,3 @@
-import addWorkspaceSchema from './addWorkspaceSchema';
+import addWorkspaceSchema from './workspaceSchema';
 
 export default addWorkspaceSchema;
