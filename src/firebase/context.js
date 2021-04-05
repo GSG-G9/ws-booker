@@ -11,7 +11,16 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     try {
       firebase.auth().onAuthStateChanged((userAuth) => {
-        setUser(userAuth);
+        if (userAuth) {
+          setUser({
+            name: userAuth.displayName,
+            image: userAuth.photoURL,
+            phone: userAuth.phoneNumber,
+            email: userAuth.email,
+          });
+        } else {
+          setUser(userAuth);
+        }
       });
     } catch (err) {
       setError(err);

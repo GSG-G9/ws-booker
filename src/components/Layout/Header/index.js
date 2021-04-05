@@ -60,11 +60,11 @@ const Header = () => {
                 <Menu.Item key="1">
                   <Image
                     preview={false}
-                    src={user.photoURL}
+                    src={user.Image}
                     alt="user"
                     className="userImage"
                   />
-                  <Text className="usernameTitle">{user.displayName}</Text>
+                  <Text className="usernameTitle">{user.name}</Text>
                 </Menu.Item>
                 <Menu.Item key="2">
                   <MainButton
@@ -103,11 +103,11 @@ const Header = () => {
           <>
             <Image
               preview={false}
-              src={user.photoURL}
+              src={user.image}
               alt="user"
               className="userImage"
             />
-            <Text className="usernameTitle">{user.displayName}</Text>
+            <Text className="usernameTitle">{user.name}</Text>
             <MainButton
               icon={<LogoutOutlined />}
               buttName="logout"
