@@ -1,6 +1,6 @@
 import { object, number, string, array } from 'yup';
 
-const addWorkspaceSchema = object({
+const workspaceSchema = object({
   name: string().required(),
   description: string().required(),
   days_of_work: array().of(number()).required(),
@@ -15,7 +15,6 @@ const addWorkspaceSchema = object({
   header_image: string().required(),
   image_gallery: array().of(string()).required(),
   rating: number().required(),
-  reviewers_number: number().required(),
 });
 
-export default addWorkspaceSchema;
+export default workspaceSchema;
