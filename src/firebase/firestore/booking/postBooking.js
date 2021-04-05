@@ -16,8 +16,8 @@ const postBooking = async (user_id, workspace_id, payload) => {
     } = await postBookingSchema.validate(payloadObj);
     const bookingCollection = db.collection('booking');
     bookingCollection.add({
-      user_id,
-      workspace_id,
+      user_id: db.doc(`users/${user_id}`),
+      workspace_id: db.doc(`workspaces/${workspace_id}`),
       book_capacity,
       book_start_time,
       book_end_time,
