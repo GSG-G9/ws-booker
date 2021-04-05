@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { db } from '../../config';
-import addWorkspaceSchema from '../../../utils/validation';
+import { workspaceSchema } from '../../../utils/validation';
 
 const addWorkspace = async (payload) => {
   const payloadObj = {
@@ -18,7 +18,6 @@ const addWorkspace = async (payload) => {
     header_image: payload.header_image,
     image_gallery: payload.image_gallery,
     rating: payload.rating,
-    reviewers_number: payload.reviewers_number,
   };
   try {
     const {
@@ -36,8 +35,7 @@ const addWorkspace = async (payload) => {
       header_image,
       image_gallery,
       rating,
-      reviewers_number,
-    } = await addWorkspaceSchema.validate(payloadObj);
+    } = await workspaceSchema.validate(payloadObj);
     db.collection('workspaces').add({
       name,
       description,
@@ -53,7 +51,6 @@ const addWorkspace = async (payload) => {
       header_image,
       image_gallery,
       rating,
-      reviewers_number,
       created_at: firebase.firestore.Timestamp.now(),
     });
     return { msg: 'workspace added successfully!' };
