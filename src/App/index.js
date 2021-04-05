@@ -2,8 +2,7 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-import { editWorkspaceRating } from '../firebase/firestore/workspace';
-
+import Header from '../components/Layout/Header';
 import {
   About,
   AllWorkspaces,
@@ -30,12 +29,10 @@ import {
   NotFound,
 } from '../pages';
 
-editWorkspaceRating('0uXc9bOuRMYyzbO8rXJB', { rating: 3 }).then((r) =>
-  console.log(r)
-);
 const App = () => (
   <AuthProvider>
     <Router>
+      <Header />
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />
