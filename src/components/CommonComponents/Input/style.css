@@ -1,0 +1,22 @@
+.label{
+  color: #5C5C5C;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-right: 30px;
+}
+
+/* 
+To change the style of any label you can pass a containerClass prop and then reach to the label as shown:
+.container span.label{
+  margin-top: 20px;
+} 
+To change the position of  the label to the left of an input, you can pass this prop > direction="row"
+
+To change the position of a label that is of direction (row), to make it vertically in the center, you can pass a containerClass prop and give it the property:
+.container {
+  align-items: center ;
+
+You can change the style on an input by className prop
+
+}  */
+
