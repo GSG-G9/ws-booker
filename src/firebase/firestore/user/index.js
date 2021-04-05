@@ -1,3 +1,4 @@
 import getUserById from './getUserById';
+import addUser from './addUser';
 
-export default getUserById;
+export { getUserById, addUser };
