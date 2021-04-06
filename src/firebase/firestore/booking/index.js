@@ -1,3 +1,4 @@
 import postBooking from './postBooking';
+import getBookingByWorkspaceId from './getBookingByWorkspaceId';
 
-export default postBooking;
+export { postBooking, getBookingByWorkspaceId };
