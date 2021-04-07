@@ -9,22 +9,29 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    try {
-      firebase.auth().onAuthStateChanged((userAuth) => {
-        if (userAuth) {
-          setUser({
-            name: userAuth.displayName,
-            image: userAuth.photoURL,
-            phone: userAuth.phoneNumber,
-            email: userAuth.email,
-          });
-        } else {
-          setUser(userAuth);
-        }
-      });
-    } catch (err) {
-      setError(err);
+    let isActive = 'true';
+    if (isActive) {
+      try {
+        firebase.auth().onAuthStateChanged((userAuth) => {
+          if (userAuth) {
+            setUser({
+              id: userAuth.uid,
+              name: userAuth.displayName,
+              image: userAuth.photoURL,
+              phone: userAuth.phoneNumber,
+              email: userAuth.email,
+            });
+          } else {
+            setUser(userAuth);
+          }
+        });
+      } catch (err) {
+        setError(err);
+      }
     }
+    return () => {
+      isActive = 'false';
+    };
   }, []);
 
   return (

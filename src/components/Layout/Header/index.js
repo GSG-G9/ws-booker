@@ -20,9 +20,17 @@ const { Text } = Typography;
 
 const Header = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, setError } = useContext(AuthContext);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleOnClick = async () => {
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      setError(err);
+    }
   };
   return (
     <div className="navbar">
@@ -60,37 +68,40 @@ const Header = () => {
                 <Menu.Item key="1">
                   <Image
                     preview={false}
-                    src={user.Image}
+                    src={user.image}
                     alt="user"
                     className="userImage"
                   />
-                  <Text className="usernameTitle">{user.name}</Text>
                 </Menu.Item>
                 <Menu.Item key="2">
                   <MainButton
                     icon={<LogoutOutlined />}
-                    buttName="logout"
                     id="logout"
-                    className="logout"
-                    onClick={() => app.auth().signOut()}
+                    className="logout userImage"
+                    onClick={() => {
+                      app.auth().signOut();
+                    }}
                   />
                 </Menu.Item>
               </>
             ) : (
-              <MainButton
-                buttName="Log In with Google"
-                id="login"
-                icon={<GoogleOutlined />}
-                className="login"
-                onClick={() => loginWithGoogle()}
-              />
+              <Menu.Item key="3">
+                <MainButton
+                  buttName="Log In"
+                  id="login"
+                  icon={<GoogleOutlined />}
+                  className="login"
+                  onClick={handleOnClick}
+                />
+              </Menu.Item>
             )}
-            <Menu.Item key="3">
+
+            <Menu.Item key="4">
               <NavLink to={Home} activeClassName="active">
                 HOME
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="5">
               <NavLink to={About} activeClassName="active">
                 ABOUT
               </NavLink>
@@ -122,7 +133,7 @@ const Header = () => {
             id="login"
             icon={<GoogleOutlined />}
             className="login"
-            onClick={() => loginWithGoogle()}
+            onClick={handleOnClick}
           />
         )}
       </div>
