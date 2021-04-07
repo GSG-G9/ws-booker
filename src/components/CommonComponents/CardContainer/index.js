@@ -19,9 +19,9 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
     ) : (
       <div className="title-container">
         <Title className="toprated-title">{title}</Title>
-        <Link to={`/${seeMoreLink}`} className="seemore">
+        <Link to={`${seeMoreLink}`} className="seemore">
           See more
-          <Image src={arrow} className="arrow" />
+          <Image src={arrow} className="arrow" preview={false} />
         </Link>
       </div>
     )}

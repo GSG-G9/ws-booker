@@ -3,6 +3,7 @@ import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
 import Header from '../components/Layout/Header';
+import Footer from '../components/Layout/Footer';
 import {
   About,
   AllWorkspaces,
@@ -52,9 +53,12 @@ const App = () => (
         <Route exact path={NewestWorkspaces}>
           <NewestWorkspacesPage />
         </Route>
-        <Route exact path={TopRatedWorkspaces}>
-          <TopRatedPage />
-        </Route>
+        <Route
+          exact
+          path={TopRatedWorkspaces}
+          render={(props) => <TopRatedPage {...props} />}
+        />
+
         <Route exact path={Search}>
           <SearchResults />
         </Route>
@@ -69,6 +73,7 @@ const App = () => (
           <NotFound />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   </AuthProvider>
 );
