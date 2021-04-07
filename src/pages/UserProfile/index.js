@@ -18,40 +18,25 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
-  const [userData, setUserData] = useState({ name });
+  const [userData, setUserData] = useState({});
   const { userId } = match.params;
   console.log('userrrrr', userId);
-  // const [isLoaded, setIsLoaded] = useState(true);
-  // const [workspaceData, setWorkspaceData] = useState([]);
 
-  const getUserData = async (id) => {
-    try {
-      const UserData = await getUserById(id);
-      console.log('dataaaa', UserData.name);
-      setUserData({ name: UserData.name });
-      console.log('State22222', userData);
-    } catch (err) {
-      // return `err${err}`;
-      if (err === 'No such document!') {
-        return;
-      }
-      err = 'Sorry! Could not fetch user data';
-    }
-  };
-
-  useEffect(() => {
+  useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
-      getUserData(userId);
-      console.log('State', userData);
+      // const UserData = await getUserById('TiXV6ZR2z4YKB5ovaGmm287iqF83');
+      const UserData = await getUserById();
+      console.log('data', UserData);
+      setUserData(UserData);
     }
     return () => {
       isActive = 'false';
     };
   }, []);
+  console.log('Stat222222e', userData);
   return (
     <div>
-      {/* <h1>hi from profile</h1> */}
       <div className="profile-main-header">
         <div className="back-profile-header">
           <Image
