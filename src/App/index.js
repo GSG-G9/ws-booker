@@ -3,6 +3,7 @@ import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
 import { postBooking } from '../firebase/firestore/booking/index';
+import getBookingByDate from '../firebase/firestore/booking/getBookingByDate';
 import {
   About,
   AllWorkspaces,
@@ -29,15 +30,19 @@ import {
   NotFound,
 } from '../pages';
 
-postBooking('0QgtDLY6AEhCUK40z9lI', '0uXc9bOuRMYyzbO8rXJB', {
-  book_capacity: 400,
-  book_start_time: 'Sun Mar 7 2021 09:00:00',
-  book_end_time: 'Thu Mar 11 2021 11:00:00',
-  book_days: [],
-})
-  .then((data) => console.log('data', data))
-  .catch((err) => console.log(err));
-
+// postBooking('0QgtDLY6AEhCUK40z9lI', '0uXc9bOuRMYyzbO8rXJB', {
+//   book_capacity: 25,
+//   book_start_time: 'Apr 11 2021 13:00:00',
+//   book_end_time: 'Apr 13 2021 14:00:00',
+//   book_days: [],
+// })
+//   .then((data) => console.log('data', data))
+//   .catch((err) => console.log(err));
+getBookingByDate(
+  '0uXc9bOuRMYyzbO8rXJB',
+  'Apr 10 2021 10:00:00',
+  'Apr 12 2021 10:00:00'
+).then((data) => console.log('data', data));
 const App = () => (
   <AuthProvider>
     <Router>
