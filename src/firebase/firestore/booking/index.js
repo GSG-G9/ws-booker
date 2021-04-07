@@ -1,3 +1,3 @@
-import getBookingByUserId from './getBooking';
+import getBookingByUserId from './getBookingByUserId';
 
 export default getBookingByUserId;
