@@ -19,7 +19,7 @@ const MainButton = ({
     icon={icon}
     onClick={onClick}
     htmlType={htmlType}
-    style={otherStyleProps}
+    {...otherStyleProps}
   >
     {buttName}
   </Button>
