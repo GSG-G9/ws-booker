@@ -32,17 +32,18 @@ import {
 
 // postBooking('0QgtDLY6AEhCUK40z9lI', '0uXc9bOuRMYyzbO8rXJB', {
 //   book_capacity: 25,
-//   book_start_time: 'Apr 11 2021 13:00:00',
-//   book_end_time: 'Apr 13 2021 14:00:00',
+//   book_start_time: 'Apr 18 2021 12:05:00',
+//   book_end_time: 'Apr 20 2021 14:00:00',
 //   book_days: [],
 // })
 //   .then((data) => console.log('data', data))
 //   .catch((err) => console.log(err));
-getBookingByDate(
-  '0uXc9bOuRMYyzbO8rXJB',
-  'Apr 10 2021 10:00:00',
-  'Apr 12 2021 10:00:00'
-).then((data) => console.log('data', data));
+
+// getBookingByDate(
+//   '0uXc9bOuRMYyzbO8rXJB',
+//   'Apr 10 2021 10:00:00',
+//   'Apr 12 2021 10:00:00'
+// ).then((data) => console.log('data', data));
 const App = () => (
   <AuthProvider>
     <Router>
