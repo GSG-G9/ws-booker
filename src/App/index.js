@@ -61,9 +61,12 @@ const App = () => (
           <WorkSpaceProfilePage />
         </Route>
 
-        <Route exact path={UserProfile}>
-          <UserProfilePage />
-        </Route>
+        <Route
+          exact
+          path={UserProfile}
+          render={(props) => <UserProfilePage {...props} />}
+        />
+
         <Route>
           <NotFound />
         </Route>
