@@ -139,9 +139,9 @@ MainInput.propTypes = {
 };
 
 MainInput.defaultProps = {
-  max: '1000',
+  max: 1000,
   direction: 'column',
-  rows: '3',
+  rows: 3,
   placeholder: '',
   label: '',
   containerClass: '',

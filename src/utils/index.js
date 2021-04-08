@@ -10,6 +10,7 @@ import {
   UserProfile,
   WorkspaceProfile,
 } from './constants';
+import createSearchUrl from './createSearchUrl';
 
 export {
   About,
@@ -22,4 +23,5 @@ export {
   TopRatedWorkspaces,
   UserProfile,
   WorkspaceProfile,
+  createSearchUrl,
 };

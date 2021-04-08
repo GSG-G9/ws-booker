@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
-import Header from '../../components/Header';
+import HomeHeader from '../../components/HomeHeader';
 import CardContainer from '../../components/CommonComponents/CardContainer';
 import { getAllWorkspaces } from '../../firebase/firestore/workspace';
 import Loader from '../../components/CommonComponents/Loader';
@@ -46,6 +46,7 @@ const HomePage = () => {
       });
       setNewestWorkspace(sortNewest);
       setFirstNewest(newestWorkspace.slice(0, 3));
+
       setIsLoading(false);
     } catch (err) {
       message.error('Something went wrong , Please try again');
@@ -63,7 +64,7 @@ const HomePage = () => {
   }, []);
   return (
     <div>
-      <Header />
+      <HomeHeader />
       {isLoading ? (
         <Loader />
       ) : (
