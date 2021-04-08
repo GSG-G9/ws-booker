@@ -2,8 +2,8 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-import { postBooking } from '../firebase/firestore/booking/index';
-import getBookingByDate from '../firebase/firestore/booking/getBookingByDate';
+// import { postBooking } from '../firebase/firestore/booking/index';
+// import getBookingByDate from '../firebase/firestore/booking/getBookingByDate';
 import {
   About,
   AllWorkspaces,
@@ -32,8 +32,8 @@ import {
 
 // postBooking('0QgtDLY6AEhCUK40z9lI', '0uXc9bOuRMYyzbO8rXJB', {
 //   book_capacity: 25,
-//   book_start_time: 'Apr 18 2021 12:05:00',
-//   book_end_time: 'Apr 20 2021 14:00:00',
+//   book_start_time: 'Apr 23 2021 16:05:00',
+//   book_end_time: 'Apr 24 2021 17:00:00',
 //   book_days: [],
 // })
 //   .then((data) => console.log('data', data))

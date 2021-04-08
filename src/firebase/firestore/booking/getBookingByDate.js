@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import Moment from 'moment';
 import { db } from '../../config';
 
 const getBookingByDate = async (workspaceId, startDate, endDate) => {

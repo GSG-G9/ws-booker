@@ -5,7 +5,7 @@ const checkOverlap = (timeSegments) => {
     timeSegment1[0].localeCompare(timeSegment2[0])
   );
 
-  for (let i = 0; i < timeSegments.length - 1; i++) {
+  for (let i = 0; i < timeSegments.length - 1; i += 1) {
     const currentEndTime = timeSegments[i][1];
     const nextStartTime = timeSegments[i + 1][0];
 

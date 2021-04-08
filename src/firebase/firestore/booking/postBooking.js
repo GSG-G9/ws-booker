@@ -1,11 +1,8 @@
-import firebase from 'firebase';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { db } from '../../config';
 import { bookingSchema } from '../../../utils/validation';
-import { getWorkspaceById } from '../workspace/index';
-import getBookingByWorkspaceId from './getBookingByWorkspaceId';
 import getBookingByDate from './getBookingByDate';
+import addBooking from './addBooking';
 import { checkOverlap } from '../../../utils';
 
 const moment = extendMoment(Moment);
@@ -14,36 +11,30 @@ let message;
 
 const postBooking = async (userId, workspaceId, payload) => {
   try {
-    const payloadObj = {
-      book_capacity: payload.book_capacity,
-      book_start_time: payload.book_start_time,
-      book_end_time: payload.book_end_time,
-    };
-
     const {
-      book_capacity,
-      book_start_time,
-      book_end_time,
-    } = await bookingSchema.validate(payloadObj);
+      book_capacity: bookCapacity,
+      book_start_time: bookStartTime,
+      book_end_time: bookEndTime,
+    } = await bookingSchema.validate(payload);
 
     const overlappedBookings = await getBookingByDate(
       workspaceId,
-      book_start_time,
-      book_end_time
+      bookStartTime,
+      bookEndTime
     );
+
     console.log(overlappedBookings);
 
     if (overlappedBookings.length) {
       const bookingsTimes = overlappedBookings.map(
-        ({ book_start_time, book_end_time }) => [
-          moment(book_start_time.toDate()).format('HH:mm:ss'),
-          moment(book_end_time.toDate()).format('HH:mm:ss'),
+        ({ book_start_time: startTime, book_end_time: endTime }) => [
+          moment(startTime.toDate()).format('HH:mm:ss'),
+          moment(endTime.toDate()).format('HH:mm:ss'),
         ]
       );
-
       const newBookingTimeRange = [
-        moment(book_start_time).format('HH:mm:ss'),
-        moment(book_end_time).format('HH:mm:ss'),
+        moment(bookStartTime).format('HH:mm:ss'),
+        moment(bookEndTime).format('HH:mm:ss'),
       ];
 
       bookingsTimes.forEach((range) => {
@@ -60,65 +51,25 @@ const postBooking = async (userId, workspaceId, payload) => {
     if (isOverlapped) {
       return message;
     }
-    const millisecondsStartTime = firebase.firestore.Timestamp.fromDate(
-      new Date(book_start_time)
+    const bookingResult = await addBooking(
+      userId,
+      workspaceId,
+      bookCapacity,
+      bookStartTime,
+      bookEndTime
     );
-    const millisecondsEndTime = firebase.firestore.Timestamp.fromDate(
-      new Date(book_end_time)
-    );
-    const bookingCollection = await db.collection('booking');
-    bookingCollection.add({
-      user_id: db.doc(`users/${userId}`),
-      workspace_id: db.doc(`workspaces/${workspaceId}`),
-      book_capacity,
-      book_start_time: millisecondsStartTime.toDate(),
-      book_end_time: millisecondsEndTime.toDate(),
-    });
-    return { message: 'booking added successfully' };
+    return bookingResult;
   } catch (err) {
     return err;
   }
 };
-// const newBookingStartDay = moment(book_start_time).format(
-//   'ddd MMM DD YYYY'
-// );
-// const newBookingEndDay = moment(book_end_time).format('ddd MMM DD YYYY');
-// console.log('compare', newBookingStartDay, newBookingEndDay);
-// if (newBookingStartDay === newBookingEndDay) {
-//   const newBookingRange = moment.range(book_start_time, book_end_time);
-//   console.log('newww', newBookingRange);
-//   timeRanges.forEach((item) => {
-//     if (item.overlaps(newBookingRange)) {
-//       console.log(`sorry, the date ${item} is already booked`);
-//     }
-//   });
-// }
 
+// get array of new booking days
 // const bookingStartDay = moment(book_start_time).format('ddd MMM DD YYYY');
 // const bookingEndDay = moment(book_end_time).format('ddd MMM DD YYYY');
 // console.log('dayyyyy', bookingStartDay, bookingEndDay);
-
 // const daysRange = moment.range(book_start_time, book_end_time);
 // const days = Array.from(daysRange.by('day'));
 // const bookingDays = days.map((m) => m.format('ddd MMM DD YYYY'));
 // console.log(bookingDays);
-
-// const { start_time, end_time, days_of_work } = await getWorkspaceById(
-//   workspace_id
-// );
-// const wsWorkingTime = {
-//   startTime: start_time.toDate(),
-//   endTime: end_time,
-//   .toDate().toLocaleTimeString(),
-//   dayOfWork: days_of_work,
-// };
-// console.log(wsWorkingTime);
-
-// Wed Mar 31 2021 09:00:00 GMT+0300 (Israel Daylight Time)
-
-// console.log(
-//   'hiiii',
-//   wsWorkingTime.startTime,
-//   wsWorkingTime.start_time.toDate().toLocaleTimeString()
-// );
 export default postBooking;
