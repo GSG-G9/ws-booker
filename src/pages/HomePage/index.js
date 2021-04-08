@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
+import { message, Typography } from 'antd';
 import HomeHeader from '../../components/HomeHeader';
 import CardContainer from '../../components/CommonComponents/CardContainer';
 import { getAllWorkspaces } from '../../firebase/firestore/workspace';
@@ -10,7 +10,9 @@ import trust from '../../assets/icons/trust.svg';
 import free from '../../assets/icons/free.svg';
 import { TopRatedWorkspaces } from '../../utils';
 
+import './style.css';
 // getAllWorkspaces().then((res) => console.log(res));
+const { Title } = Typography;
 const HomePage = () => {
   const [workspaceData, setWorkspaceData] = useState([]);
   const [topRatedWorkspace, setTopRatedWorkspace] = useState([]);
@@ -34,7 +36,7 @@ const HomePage = () => {
       });
       setWorkspaceData(data);
       setTopRatedWorkspace(sortRated);
-      setFirstTopItems(topRatedWorkspace.slice(0, 3));
+      setFirstTopItems(topRatedWorkspace.slice(0, 4));
       const sortNewest = data.sort((a, b) => {
         if (a.created_at < b.created_at) {
           return -1;
@@ -45,7 +47,7 @@ const HomePage = () => {
         return 0;
       });
       setNewestWorkspace(sortNewest);
-      setFirstNewest(newestWorkspace.slice(0, 3));
+      setFirstNewest(newestWorkspace.slice(0, 4));
 
       setIsLoading(false);
     } catch (err) {
@@ -64,6 +66,7 @@ const HomePage = () => {
   }, []);
   return (
     <div>
+      {console.log('hi')}
       <HomeHeader />
       {isLoading ? (
         <Loader />
@@ -81,14 +84,8 @@ const HomePage = () => {
             seeMoreLink={TopRatedWorkspaces}
             data={firstNewest}
           />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}
-          >
-            {/* <h1>Hi from home page</h1> */}
+          <Title className="features_title">Why Book On WSBooker</Title>
+          <div className="features_container">
             <FeaturesCard
               icon={validate}
               title="Validate Spaces"
