@@ -1,10 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Image, Typography, Button, Menu } from 'antd';
+
 import {
   LogoutOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   GoogleOutlined,
+  HomeOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/context';
@@ -14,13 +17,14 @@ import MainButton from '../../CommonComponents/Button';
 import { Home, About } from '../../../utils';
 import logo from '../../../assets/images/WSBooker.png';
 import app from '../../../firebase/config';
+import Loader from '../../CommonComponents/Loader';
 import './style.css';
 
 const { Text } = Typography;
 
 const Header = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { user, setError } = useContext(AuthContext);
+  const { user, setError, isLoading } = useContext(AuthContext);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -63,80 +67,95 @@ const Header = () => {
             theme="light"
             inlineCollapsed={collapsed}
           >
-            {user ? (
-              <>
-                <Menu.Item key="1">
-                  <Image
-                    preview={false}
-                    src={user.image}
-                    alt="user"
-                    className="userImage"
-                  />
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <MainButton
-                    icon={<LogoutOutlined />}
-                    id="logout"
-                    className="logout userImage"
-                    onClick={() => {
-                      app.auth().signOut();
-                    }}
-                  />
-                </Menu.Item>
-              </>
+            {isLoading ? (
+              <Loader size="small" />
             ) : (
-              <Menu.Item key="3">
-                <MainButton
-                  buttName="Log In"
-                  id="login"
-                  icon={<GoogleOutlined />}
-                  className="login"
-                  onClick={handleOnClick}
-                />
-              </Menu.Item>
+              <>
+                {' '}
+                {user ? (
+                  <>
+                    <Menu.Item key="1">
+                      <Image
+                        preview={false}
+                        src={user.image}
+                        alt="user"
+                        className="userImage"
+                      />
+                    </Menu.Item>
+                    <Menu.Item key="2">
+                      <MainButton
+                        icon={<LogoutOutlined />}
+                        id="logout"
+                        className="logout userImage"
+                        onClick={() => {
+                          app.auth().signOut();
+                        }}
+                      />
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <Menu.Item key="3">
+                    <MainButton
+                      buttName="Log In"
+                      id="login"
+                      icon={<GoogleOutlined />}
+                      className="login"
+                      onClick={handleOnClick}
+                    />
+                  </Menu.Item>
+                )}
+              </>
             )}
 
             <Menu.Item key="4">
               <NavLink to={Home} activeClassName="active">
+                <HomeOutlined />
                 HOME
               </NavLink>
             </Menu.Item>
             <Menu.Item key="5">
               <NavLink to={About} activeClassName="active">
+                <InfoCircleOutlined />
                 ABOUT
               </NavLink>
             </Menu.Item>
           </Menu>
         </div>
       </div>
-      <div className="user-loging">
-        {user ? (
-          <>
-            <Image
-              preview={false}
-              src={user.image}
-              alt="user"
-              className="userImage"
-            />
-            <Text className="usernameTitle">{user.name}</Text>
-            <MainButton
-              icon={<LogoutOutlined />}
-              buttName="logout"
-              id="logout"
-              className="logout"
-              onClick={() => app.auth().signOut()}
-            />
-          </>
+      <>
+        {isLoading ? (
+          <Loader size="small" />
         ) : (
-          <MainButton
-            buttName="Log In with Google"
-            id="login"
-            icon={<GoogleOutlined />}
-            className="login"
-            onClick={handleOnClick}
-          />
+          <div className="user-loging">
+            {user ? (
+              <>
+                <Image
+                  preview={false}
+                  src={user.image}
+                  alt="user"
+                  className="userImage"
+                />
+                <Text className="usernameTitle">{user.name}</Text>
+                <MainButton
+                  icon={<LogoutOutlined />}
+                  buttName="logout"
+                  id="logout"
+                  className="logout"
+                  onClick={() => app.auth().signOut()}
+                />
+              </>
+            ) : (
+              <MainButton
+                buttName="Log In with Google"
+                id="login"
+                icon={<GoogleOutlined />}
+                className="login"
+                onClick={handleOnClick}
+              />
+            )}
+          </div>
         )}
-      </div>
+      </>
     </div>
   );
 };

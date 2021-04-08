@@ -7,6 +7,7 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isActive = 'true';
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
           } else {
             setUser(userAuth);
           }
+          setIsLoading(false);
         });
       } catch (err) {
         setError(err);
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         error,
         setUser,
         setError,
+        isLoading,
       }}
     >
       {children}
