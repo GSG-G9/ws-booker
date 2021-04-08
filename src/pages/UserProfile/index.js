@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
-import { Image, Typography } from 'antd';
+import { Upload, message, Modal, Image, Button, Typography } from 'antd';
 
+import { EditFilled, UploadOutlined } from '@ant-design/icons';
 import { getUserById } from '../../firebase/firestore/user';
 import getBookingByUserId from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
-// import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
-import CardContainer from '../../components/CommonComponents/CardContainer';
+import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
+import MainInput from '../../components/CommonComponents/Input';
 
 import coverImage from '../../assets/images/backgound_cover.png';
 import emailico from '../../assets/icons/email.svg';
 import phoneico from '../../assets/icons/phone.svg';
-import user from '../../assets/images/user.png';
-import editico from '../../assets/icons/edit.svg';
 
 import './style.css';
 
@@ -21,6 +20,7 @@ const { Title, Text } = Typography;
 const UserProfile = ({ match }) => {
   const [userData, setUserData] = useState({});
   const [workspaceData, setWorkspaceData] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { userId } = match.params;
 
   useEffect(async () => {
@@ -31,17 +31,27 @@ const UserProfile = ({ match }) => {
       const bookingbyUserId = await getBookingByUserId(userId);
       const workspaceId = bookingbyUserId.workspace_id.id;
       const wsData = await getWorkspaceById(workspaceId);
-      console.log('wsData', wsData);
       setWorkspaceData(wsData);
     }
     return () => {
       isActive = 'false';
     };
   }, []);
-  console.log('statee', workspaceData);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div>
-      <h1>hi from page</h1>
       <div className="profile-main-header">
         <div className="back-profile-header">
           <Image
@@ -53,12 +63,33 @@ const UserProfile = ({ match }) => {
           <div className="user-data">
             <div className="username-section">
               <Title className="username">{userData.name}</Title>
-              <Image
-                preview={false}
-                src={editico}
-                alt="edit button"
+              <Button
+                onClick={showModal}
+                type="primary"
+                shape="circle"
+                icon={<EditFilled />}
                 className="edit"
               />
+              <Modal
+                title="Update profile"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <MainInput
+                  placeholder="User Name"
+                  value={userData.name}
+                  label="User Name"
+                />
+                <MainInput
+                  placeholder="Email"
+                  value={userData.email}
+                  label="Email"
+                />
+                {/* <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p> */}
+              </Modal>
             </div>
             <div className="email-section">
               <Image preview={false} src={emailico} alt="email" />
@@ -79,32 +110,26 @@ const UserProfile = ({ match }) => {
           />
         </div>
       </div>
-      {/* <div className="user-ws-section"> */}
-      {/* <Title>My workspace</Title>
-      <WorkspaceCard /> */}
-      <CardContainer
-        title="My Workspace"
-        size="large"
-        data={[
-          {
-            name: workspaceData.name,
-            feesPerDay: workspaceData.fees_per_day,
-            feesPerHour: workspaceData.fees_per_hour,
-            rating: workspaceData.rating,
-            reviewers: workspaceData.reviewers,
-            location: workspaceData.location,
-            image: workspaceData.header_image,
-          },
-        ]}
-      />
-      {/* </div> */}
+      <div className="user-ws-section">
+        <Title className="my-ws-title">My workspace</Title>
+        <WorkspaceCard
+          name={workspaceData.name}
+          feesPerDay={workspaceData.fees_per_day}
+          feesPerHour={workspaceData.fees_per_hour}
+          rating={workspaceData.rating}
+          reviewers={workspaceData.reviewers}
+          location={workspaceData.location}
+          image={workspaceData.header_image}
+          buttonName="Cancel Book"
+        />
+      </div>
     </div>
   );
 };
 UserProfile.propTypes = {
   match: propTypes.shape({
     params: propTypes.shape({
-      id: propTypes.string,
+      userId: propTypes.string,
     }).isRequired,
   }).isRequired,
 };
