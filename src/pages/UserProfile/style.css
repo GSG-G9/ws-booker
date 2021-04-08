@@ -75,3 +75,16 @@
     font-size: 20px;
     color: #707472;
 }
+@media only screen and (max-width: 600px) {
+    .user-ws-section{
+        padding: 46px 52px;;
+    }
+    .user-ws-section h1{
+        align-self: center;
+    }
+    .user-data{
+        width: 67%;
+        margin: 34px 2px 0px;
+        padding-left: 0px;
+    }
+}

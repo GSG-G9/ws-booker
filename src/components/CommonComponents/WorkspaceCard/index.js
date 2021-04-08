@@ -87,7 +87,7 @@ function WorkspaceCard({
         )}
         <Button
           buttName={buttonName}
-          width={size === 'small' || matchesSmall ? '100px' : '150px'}
+          width={size === 'small' || matchesSmall ? '120px' : '150px'}
           fontWeight="bold"
           onClick={onClick}
         />
