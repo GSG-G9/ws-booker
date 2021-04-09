@@ -97,7 +97,7 @@ function WorkspaceCard({
 
 WorkspaceCard.propTypes = {
   size: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   name: PropTypes.string,
   image: PropTypes.string,
   feesPerDay: PropTypes.number,
@@ -110,7 +110,7 @@ WorkspaceCard.propTypes = {
 
 WorkspaceCard.defaultProps = {
   size: '',
-  id: '',
+  id: 0,
   name: '',
   image: '',
   feesPerDay: 0,
