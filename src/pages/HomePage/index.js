@@ -20,33 +20,26 @@ const HomePage = () => {
   const [firstTopItems, setFirstTopItems] = useState([]);
   const [firstNewest, setFirstNewest] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const fetchWorkspaceData = async () => {
     try {
-      console.log('hi');
       const data = await getAllWorkspaces();
-      console.log('data', data);
-      const sortRated = data.sort((a, b) => {
-        if (a.rating < b.rating) {
-          return 1;
-        }
-        if (a.rating > b.rating) {
-          return -1;
-        }
-        return 0;
-      });
+
       setWorkspaceData(data);
-      setTopRatedWorkspace(sortRated);
-      setFirstTopItems(topRatedWorkspace.slice(0, 4));
-      const sortNewest = data.sort((a, b) => {
+      workspaceData.sort((a, b) => b.rating - a.rating);
+
+      setTopRatedWorkspace(workspaceData);
+      setFirstTopItems(workspaceData.slice(0, 4));
+      setNewestWorkspace(data);
+      newestWorkspace.sort((a, b) => {
         if (a.created_at < b.created_at) {
-          return -1;
+          return 1;
         }
         if (a.created_at > b.created_at) {
-          return 1;
+          return -1;
         }
         return 0;
       });
-      setNewestWorkspace(sortNewest);
       setFirstNewest(newestWorkspace.slice(0, 4));
 
       setIsLoading(false);
@@ -66,7 +59,6 @@ const HomePage = () => {
   }, []);
   return (
     <div>
-      {console.log('hi')}
       <HomeHeader />
       {isLoading ? (
         <Loader />
