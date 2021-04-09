@@ -1,5 +1,4 @@
 .features_container{
-
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -15,3 +14,14 @@
     margin-top: 80px;
 }
 
+@media only screen and (max-width :900px){
+    .features_title{
+       text-align: center;
+       margin-left: 10px;
+    }
+    .features_container{
+        margin-left:-100px;
+        justify-content:center;
+        
+    }
+}
