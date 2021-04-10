@@ -32,6 +32,7 @@
   flex-wrap: nowrap;
 }
 .userImage{
+  margin-right: 8px;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -68,8 +69,15 @@
     flex-wrap: wrap;
     justify-content: flex-end;
   }
+  
   .collapsebtn{
     direction: rtl;
+  }
+  .collapsedDiv-contact{
+    display: flex;
+  }
+  .collapsedDiv-contact .ant-image{
+    height: 20px;
   }
   .collapsedDiv .ant-menu-inline-collapsed{
     display: none;
@@ -95,6 +103,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
+  }
+  .collapsedDiv-contact{
+    display: flex;
+  }
+  .collapsedDiv-contact .ant-image{
+    height: 20px;
   }
   .collapsebtn{
     direction: rtl;

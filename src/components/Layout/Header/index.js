@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Image, Typography, Button, Menu } from 'antd';
-
+import { Image, Typography, Menu, Dropdown } from 'antd';
 import {
+  UserOutlined,
   LogoutOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   GoogleOutlined,
   HomeOutlined,
   InfoCircleOutlined,
@@ -12,7 +10,6 @@ import {
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/context';
 import loginWithGoogle from '../../../Login/loginWithGoogle';
-
 import MainButton from '../../CommonComponents/Button';
 import { Home, About } from '../../../utils';
 import logo from '../../../assets/images/WSBooker.png';
@@ -36,6 +33,48 @@ const Header = () => {
       setError(err);
     }
   };
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <NavLink to={Home} activeClassName="active">
+          <HomeOutlined />
+          HOME
+        </NavLink>
+      </Menu.Item>
+
+      <Menu.Item key="2">
+        <NavLink to={About} activeClassName="active">
+          <InfoCircleOutlined />
+          ABOUT
+        </NavLink>
+      </Menu.Item>
+
+      {isLoading ? (
+        <Loader size="small" />
+      ) : (
+        <>
+          {user ? (
+            <>
+              <Menu.Item
+                key="3"
+                onClick={() => {
+                  app.auth().signOut();
+                }}
+              >
+                <LogoutOutlined />
+                LogOut
+              </Menu.Item>
+            </>
+          ) : (
+            <Menu.Item key="4" onClick={handleOnClick}>
+              <GoogleOutlined />
+              Login
+            </Menu.Item>
+          )}
+        </>
+      )}
+    </Menu>
+  );
   return (
     <div className="navbar">
       <div className="Logo-menu-section">
@@ -49,78 +88,87 @@ const Header = () => {
           ABOUT
         </NavLink>
         <div className="collapsedDiv">
-          <Button
-            type="primary"
-            onClick={toggleCollapsed}
-            style={{ marginBottom: 16 }}
-            className="collapsebtn"
-            theme="light"
-          >
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
-            )}
-          </Button>
-          <Menu
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-            theme="light"
-            inlineCollapsed={collapsed}
-          >
+          <Dropdown.Button overlay={menu} icon={<UserOutlined />}>
+            Hello
+            {isLoading ? <Loader size="small" /> : user && ` , ${user.name}!`}
+          </Dropdown.Button>
+        </div>
+        {/* <div className="collapsedDiv-contact">
             {isLoading ? (
               <Loader size="small" />
             ) : (
-              <>
-                {' '}
-                {user ? (
-                  <>
-                    <Menu.Item key="1">
-                      <Image
-                        preview={false}
-                        src={user.image}
-                        alt="user"
-                        className="userImage"
-                      />
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                      <MainButton
-                        icon={<LogoutOutlined />}
-                        id="logout"
-                        className="logout userImage"
-                        onClick={() => {
-                          app.auth().signOut();
-                        }}
-                      />
-                    </Menu.Item>
-                  </>
-                ) : (
-                  <Menu.Item key="3">
-                    <MainButton
-                      buttName="Log In"
-                      id="login"
-                      icon={<GoogleOutlined />}
-                      className="login"
-                      onClick={handleOnClick}
-                    />
-                  </Menu.Item>
-                )}
-              </>
+              user && (
+                <Tooltip placement="top" title={user.name}>
+                  <Image
+                    preview={false}
+                    src={user.image}
+                    alt="user"
+                    className="userImage"
+                  />
+                </Tooltip>
+              )
             )}
+            <div className="coll">
+              <Button
+                type="primary"
+                onClick={toggleCollapsed}
+                style={{ marginBottom: 16 }}
+                className="collapsebtn"
+                theme="light"
+              >
+                {React.createElement(
+                  collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+                )}
+              </Button>
 
-            <Menu.Item key="4">
-              <NavLink to={Home} activeClassName="active">
-                <HomeOutlined />
-                HOME
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <NavLink to={About} activeClassName="active">
-                <InfoCircleOutlined />
-                ABOUT
-              </NavLink>
-            </Menu.Item>
-          </Menu>
-        </div>
+              <Menu
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                mode="inline"
+                theme="light"
+                inlineCollapsed={collapsed}
+              >
+                <Menu.Item key="1">
+                  <NavLink to={Home} activeClassName="active">
+                    <HomeOutlined />
+                    HOME
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <NavLink to={About} activeClassName="active">
+                    <InfoCircleOutlined />
+                    ABOUT
+                  </NavLink>
+                </Menu.Item>
+                {isLoading ? (
+                  <Loader size="small" />
+                ) : (
+                  <>
+                    {' '}
+                    {user ? (
+                      <>
+                        <Menu.Item
+                          key="3"
+                          onClick={() => {
+                            app.auth().signOut();
+                          }}
+                        >
+                          <LogoutOutlined />
+                          LogOut
+                        </Menu.Item>
+                      </>
+                    ) : (
+                      <Menu.Item key="4" onClick={handleOnClick}>
+                        <GoogleOutlined />
+                        Login
+                      </Menu.Item>
+                    )}
+                  </>
+                )}
+              </Menu>
+            </div>
+          </div>
+        </div> */}
       </div>
       <>
         {isLoading ? (
