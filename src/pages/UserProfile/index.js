@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { Upload, message, Modal, Image, Button, Typography } from 'antd';
 
 import { EditFilled, UploadOutlined } from '@ant-design/icons';
+import firebaseConfig, { db } from '../../firebase/config';
 import { getUserById } from '../../firebase/firestore/user';
 import getBookingByUserId from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
@@ -18,6 +19,7 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
+  const [fileURL, setFileURl] = useState(null);
   const [userData, setUserData] = useState({});
   const [workspaceData, setWorkspaceData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,12 +44,27 @@ const UserProfile = ({ match }) => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
+  const handleOk = (e) => {
+    e.preventDefault();
     setIsModalVisible(false);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const onFileChange = async (e) => {
+    const file = e.target.files[0];
+    const storageRef = firebaseConfig.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    await fileRef.put(file);
+    setFileURl(await fileRef.getDownloadURL());
+    db.collection('users').doc(userId).set({
+      name: e.target.username.value,
+      email: e.target.email.value,
+      phone_number: e.target.phoneNumber.value,
+      image: fileURL,
+    });
   };
 
   const props = {
@@ -98,18 +115,25 @@ const UserProfile = ({ match }) => {
                   placeholder="User Name"
                   value={userData.name}
                   label="User Name"
+                  name="username"
                 />
                 <MainInput
                   placeholder="Email"
                   value={userData.email}
                   label="Email"
+                  name="email"
+                />
+                <MainInput
+                  placeholder="Phone Number"
+                  value={userData.phone_number}
+                  label="Phone Number"
+                  name="phoneNumber"
                 />
                 <Upload {...props}>
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  <Button icon={<UploadOutlined />} onChange={onFileChange}>
+                    Click to Upload
+                  </Button>
                 </Upload>
-                {/* <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p> */}
               </Modal>
             </div>
             <div className="email-section">
