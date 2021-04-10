@@ -75,7 +75,7 @@
     font-size: 20px;
     color: #707472;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 450px) {
     .user-ws-section{
         padding: 46px 52px;;
     }
@@ -83,8 +83,84 @@
         align-self: center;
     }
     .user-data{
-        width: 67%;
-        margin: 34px 2px 0px;
-        padding-left: 0px;
+        width: 97%;
+        margin: 63px 2px 0px;
+        padding-left: 14px;
+    }
+    .front-profile-header{
+        padding:0px;
+        height: 401px;
+        width: 100%;
+        justify-content: center;
+    }
+    .background-image {
+        height: 228px;
+    }
+    .small-card {
+        width: 300px;
+    }
+}
+@media only screen and (min-width: 450px) { 
+    .user-data {
+        width: 95%;
+        margin: 63px 2px 0px;
+        padding-left: 159px; 
+    }
+    .user-ws-section{
+        padding: 46px 52px;;
+    }
+    .user-ws-section h1{
+        align-self: center;
+    }
+    .front-profile-header{
+        padding:0px;
+        height: 533px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media only screen and (min-width: 768px){
+    .background-image{
+        height: 255px;
+    }
+    .front-profile-header{
+        height: 524px;
+        padding: 0px 0px 0px 37px;
+        justify-content: left;
+    }
+    .user-data {
+        height: 176px;
+        width: 95%;
+        margin: 19px 0px 0px;
+        padding-left: 237px;
+        justify-content: flex-start;
+    }
+    .user-ws-section h1{
+        align-self: start;
+    }
+    .small-card {
+        width: 462px;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .background-image{
+        height: 300px;
+    }
+    .front-profile-header{
+        height: 530px;
+        align-items: center;
+        padding: 0px 0px 0px 143px;
+    }
+    .user-data {
+        width: 86%;
+        height: 192px;
+        margin: 19px 0px 0px;
+        padding-left: 33%;
+        justify-content: flex-start;
+    }
+    .user-ws-section h1{
+        align-self: flex-start;
+        padding-left: 95px;
     }
 }
