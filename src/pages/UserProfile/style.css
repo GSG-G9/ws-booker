@@ -5,15 +5,6 @@
 .ant-image{
     margin-left: 0px;
 }
-.profile-main-header{
-    /* position: relative; */
-    /* margin-bottom: 30px; */
-}
-.back-profile-header{
-    /* position: absolute;
-    top:0;
-    z-index: 0; */
-}
 .front-profile-header{
     position: absolute;
     top:0;
@@ -54,7 +45,6 @@
     padding-left: 25%;
 }
 .edit{
-    /* padding-right: 195px; */
     color: #4D5352;
     background-color: #fff;
     border: 1px solid #4D5352;
@@ -104,30 +94,33 @@
     .user-data {
         width: 95%;
         margin: 63px 2px 0px;
-        padding-left: 159px; 
+        padding-left: 100px; 
     }
     .user-ws-section{
         padding: 46px 52px;;
     }
     .user-ws-section h1{
         align-self: center;
-    }
+    }    
     .front-profile-header{
         padding:0px;
-        height: 533px;
+        height: 392px;
         width: 100%;
         justify-content: center;
-    }
+        align-items: flex-end;
+    }  
 }
+
 
 @media only screen and (min-width: 768px){
     .background-image{
         height: 255px;
     }
     .front-profile-header{
-        height: 524px;
+        height: 337px;
         padding: 0px 0px 0px 37px;
         justify-content: left;
+        width: 50%;
     }
     .user-data {
         height: 176px;
@@ -151,6 +144,7 @@
         height: 530px;
         align-items: center;
         padding: 0px 0px 0px 143px;
+        width: 50%;
     }
     .user-data {
         width: 86%;
