@@ -29,11 +29,15 @@ const UserProfile = ({ match }) => {
     let isActive = 'true';
     if (isActive) {
       const UserData = await getUserById(userId);
-      setUserData(UserData);
-      const bookingbyUserId = await getBookingByUserId(userId);
-      const workspaceId = bookingbyUserId.workspace_id.id;
-      const wsData = await getWorkspaceById(workspaceId);
-      setWorkspaceData(wsData);
+      console.log('User', UserData);
+      if (UserData) {
+        setUserData(UserData);
+        const bookingbyUserId = await getBookingByUserId(userId);
+        const workspaceId = bookingbyUserId.workspace_id.id;
+        const wsData = await getWorkspaceById(workspaceId);
+        console.log('ws', wsData);
+        setWorkspaceData(wsData);
+      }
     }
     return () => {
       isActive = 'false';
@@ -60,9 +64,9 @@ const UserProfile = ({ match }) => {
     await fileRef.put(file);
     setFileURl(await fileRef.getDownloadURL());
     db.collection('users').doc(userId).set({
-      name: e.target.username.value,
-      email: e.target.email.value,
-      phone_number: e.target.phoneNumber.value,
+      // name: e.target.username.value,
+      // email: e.target.email.value,
+      // phone_number: e.target.phoneNumber.value,
       image: fileURL,
     });
   };
