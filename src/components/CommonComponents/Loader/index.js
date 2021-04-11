@@ -2,9 +2,7 @@ import React from 'react';
 import { Spin } from 'antd';
 import PropTypes from 'prop-types';
 
-const Loader = ({ size }) => (
-  <Spin size={size} style={{ padding: '100px 0', display: 'block' }} />
-);
+const Loader = ({ size }) => <Spin size={size} style={{ display: 'block' }} />;
 
 Loader.defaultProps = {
   size: 'large',

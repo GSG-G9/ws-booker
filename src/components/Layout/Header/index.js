@@ -102,38 +102,40 @@ const Header = () => {
         </div>
       </div>
       <>
-        {isLoading ? (
-          <Loader size="small" />
-        ) : (
-          <div className="user-loging">
-            {user ? (
-              <>
-                <Image
-                  preview={false}
-                  src={user.image}
-                  alt="user"
-                  className="userImage"
-                />
-                <Text className="usernameTitle">{user.name}</Text>
+        <div className="user-loging">
+          {isLoading ? (
+            <Loader size="small" spinClass="loader" />
+          ) : (
+            <>
+              {user ? (
+                <>
+                  <Image
+                    preview={false}
+                    src={user.image}
+                    alt="user"
+                    className="userImage"
+                  />
+                  <Text className="usernameTitle">{user.name}</Text>
+                  <MainButton
+                    icon={<LogoutOutlined />}
+                    buttName="logout"
+                    id="logout"
+                    className="logout"
+                    onClick={() => app.auth().signOut()}
+                  />
+                </>
+              ) : (
                 <MainButton
-                  icon={<LogoutOutlined />}
-                  buttName="logout"
-                  id="logout"
-                  className="logout"
-                  onClick={() => app.auth().signOut()}
+                  buttName="Log In with Google"
+                  id="login"
+                  icon={<GoogleOutlined />}
+                  className="login"
+                  onClick={handleOnClick}
                 />
-              </>
-            ) : (
-              <MainButton
-                buttName="Log In with Google"
-                id="login"
-                icon={<GoogleOutlined />}
-                className="login"
-                onClick={handleOnClick}
-              />
-            )}
-          </div>
-        )}
+              )}
+            </>
+          )}
+        </div>
       </>
     </div>
   );

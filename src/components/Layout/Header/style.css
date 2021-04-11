@@ -52,7 +52,6 @@
 }
 .collapsedDiv{
   display: none;
-  /* color: '#007664'; */
 }
 
 @media only screen and (max-width: 600px) {
