@@ -1,0 +1,46 @@
+.about-container{
+    position: relative;
+}
+.back-top-section{
+    width: 100%;
+    height: 600px;
+    background: #eee url("../../assets/images/about_cover.png") no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+.back-bottom-section{
+    height: 200px;
+    width: 100%;
+}
+.about-front-section{
+    padding: 30px;
+    width: 70%;
+    margin: 0px 15%;
+    height: 390px;
+    z-index: 1;
+    background-color: #fff;
+    position: absolute;
+    top: 46%;
+    box-shadow: 1px 3px 10px 2px #e0e0e0;
+}
+.about-first-title{
+    font-weight: bold;
+    padding-top: 150px;
+    color: #fff !important;
+}
+.about-second-title{
+    color: #00C78A !important;
+}
+.about-third-title{
+    color: #00C78A !important;
+    padding-bottom: 30px;
+}
+.about-front-section span{
+    display: block;
+    font-size: 19px;
+    padding-bottom: 27px;
+    text-align: justify;
+}
