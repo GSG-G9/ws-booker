@@ -110,7 +110,7 @@ WorkspaceCard.propTypes = {
 
 WorkspaceCard.defaultProps = {
   size: '',
-  id: 0,
+  id: '',
   name: '',
   image: '',
   feesPerDay: 0,

@@ -33,7 +33,7 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
-      <Header userName="alaa" />
+      {/* <Header userName="alaa" /> */}
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />

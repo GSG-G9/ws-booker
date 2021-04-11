@@ -24,7 +24,6 @@ const HomePage = () => {
   const fetchWorkspaceData = async () => {
     try {
       const data = await getAllWorkspaces();
-
       setWorkspaceData(data);
       workspaceData.sort((a, b) => b.rating - a.rating);
 
@@ -49,14 +48,14 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    let isActive = 'true';
+    let isActive = true;
     if (isActive) {
       fetchWorkspaceData();
     }
     return () => {
-      isActive = 'false';
+      isActive = false;
     };
-  }, []);
+  }, [firstTopItems, firstNewest]);
   return (
     <div>
       <HomeHeader />
@@ -64,18 +63,26 @@ const HomePage = () => {
         <Loader />
       ) : (
         <div>
-          <CardContainer
-            title="Top Rated Workspaces"
-            size="small"
-            seeMoreLink={TopRatedWorkspaces}
-            data={firstTopItems}
-          />
-          <CardContainer
-            title="Newest Workspaces"
-            size="small"
-            seeMoreLink={TopRatedWorkspaces}
-            data={firstNewest}
-          />
+          {!firstTopItems.length ? (
+            <Loader />
+          ) : (
+            <CardContainer
+              title="Top Rated Workspaces"
+              size="small"
+              seeMoreLink={TopRatedWorkspaces}
+              data={firstTopItems}
+            />
+          )}
+          {!firstTopItems.length ? (
+            <Loader />
+          ) : (
+            <CardContainer
+              title="Newest Workspaces"
+              size="small"
+              seeMoreLink={TopRatedWorkspaces}
+              data={firstNewest}
+            />
+          )}
           <Title className="features_title">Why Book On WSBooker</Title>
           <div className="features_container">
             <FeaturesCard

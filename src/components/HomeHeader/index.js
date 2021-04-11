@@ -38,7 +38,7 @@ const HomeHeader = () => {
           <MainInput
             className="search_items search_input"
             type="search"
-            placeholder="Search by workspace name..."
+            placeholder="Search by city name..."
             size="large"
             onChange={handleCityChange}
           />
