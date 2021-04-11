@@ -104,7 +104,7 @@ const Header = () => {
       <>
         <div className="user-loging">
           {isLoading ? (
-            <Loader size="small" spinClass="loader" />
+            <Loader size="small" />
           ) : (
             <>
               {user ? (
