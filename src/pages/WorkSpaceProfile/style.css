@@ -1,3 +1,12 @@
+*{
+  box-sizing: border-box;
+}
+.header-img{
+  max-height: 700px;
+  width: 100%;
+  margin-top: '10px';
+
+}
 .workspace-info-container{
   height: 1124px;
   box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.25);
@@ -21,14 +30,29 @@
   padding-top: 20px;
 }
 .rate-text{
-  
-  justify-content: center;
   margin: auto;
-  
   color: #00C78A;
   font-weight: bold;
   font-size: 25px;
   text-align: center;
+}
+.name-text{
+  display: inline-block;
+  width: 100%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #00C78A;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+.amenities-text{
+  color: #00C78A;
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 50px;
+  margin-top: 40px;
 }
 .ant-divider{
   width: 90%;
@@ -41,14 +65,83 @@
   justify-content: center;
   margin-top: 20px;
 }
+.rating .ant-rate{
+  font-size: 20px;
+  display: flex;
+  justify-content: start;
+  margin-left: 60px;
+}
+.rating{
+  display: flex;
+  align-items: center;
+}
+.rating-value-text{
+  margin-top: 20px;
+  margin-left: 20px;
+  color: #464D4B;
+  font-weight: 500;
+  font-size: 18px;
+}
 .divider-container{
   width: 90%;
-   margin: auto;
-   margin-top: 10px;
+  margin: auto;
+  margin-top: 10px;
+}
+.small-divider-container{
+  width: 40%;
+  margin-top: 10px;
+  margin-left: 40px;
 }
 .divider{
   border-color: rgb(226, 226, 226);
 }
-
-
-
+.description-text{
+  width: 85%;
+  margin: auto;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #464D4B;
+}
+.amenities-container{
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  margin-top: 20px;
+  width: 85%;
+}
+.amenities-frame{
+  border: solid #00C78A 1px;
+  border-radius: 5px;
+  width:25%;
+  text-align: center;
+  margin: 10px;
+  height: 40px;
+  line-height: 40px;
+}
+.basic-img{
+  width: 300px;
+  height: 300px;
+  margin-left: 10px;
+}
+.small-img{
+  width: 135px;
+  height: 140px;
+  margin: 5px;
+}
+.small-photos-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 300px;
+  height: 300px;
+  align-items: flex-start;
+  margin-left: 5px;
+}
+.photos-container{
+  display: flex;
+  height: 400px;
+  margin: auto;
+  flex-wrap: wrap;
+  width: 90%;
+  margin-top: 20px;
+}
