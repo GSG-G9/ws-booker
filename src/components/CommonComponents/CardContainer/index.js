@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Empty, Image } from 'antd';
+import { Typography, Empty, Image, Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
 import WorkspaceCard from '../WorkspaceCard';
@@ -9,38 +9,66 @@ import './style.css';
 
 const { Title, Text } = Typography;
 
-const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
-  <div className="main-container-cards">
-    {searchText || searchText === 'top-new' ? (
-      <div className="search-title-container">
-        <Title className="search-title">{title}</Title>
-        <Text className="search-text"> {searchText}</Text>
-      </div>
-    ) : (
-      <div className="title-container">
-        <Title className="toprated-title">{title}</Title>
-        <Link to={`/${seeMoreLink}`} className="seemore">
-          See more
-          <Image src={arrow} className="arrow" />
-        </Link>
-      </div>
-    )}
+const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
+  const numEachPage = 4;
+  const [limit, setLimit] = useState([0, numEachPage]);
+  return (
+    <div className="main-container-cards">
+      {searchText || searchText === 'top-new' ? (
+        <>
+          <div className="search-title-container">
+            <Title className="search-title">{title}</Title>
+            <Text className="search-text"> {searchText}</Text>
+          </div>
+          <div className="cardcontainer">
+            <ul className="cardcontainerul">
+              {data.length !== 0 ? (
+                data.slice(limit[0], limit[1]).map((item) => (
+                  <li key={item.id} className="cardcontainerli">
+                    <WorkspaceCard {...item} size={size} />
+                  </li>
+                ))
+              ) : (
+                <Empty description="Sorry! There is no Workspaces." />
+              )}
+            </ul>
+            <Pagination
+              total={data.length}
+              pageSize={4}
+              onChange={(value) => {
+                setLimit([(value - 1) * numEachPage, value * numEachPage]);
+              }}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="title-container">
+            <Title className="toprated-title">{title}</Title>
+            <Link to={`/${seeMoreLink}`} className="seemore">
+              See more
+              <Image src={arrow} className="arrow" />
+            </Link>
+          </div>
 
-    <div className="cardcontainer">
-      <ul className="cardcontainerul">
-        {data.length !== 0 ? (
-          data.map((item) => (
-            <li key={item.id} className="cardcontainerli">
-              <WorkspaceCard {...item} size={size} />
-            </li>
-          ))
-        ) : (
-          <Empty description="Sorry! There is no Workspaces." />
-        )}
-      </ul>
+          <div className="cardcontainer">
+            <ul className="cardcontainerul">
+              {data.length !== 0 ? (
+                data.map((item) => (
+                  <li key={item.id} className="cardcontainerli">
+                    <WorkspaceCard {...item} size={size} />
+                  </li>
+                ))
+              ) : (
+                <Empty description="Sorry! There is no Workspaces." />
+              )}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
-  </div>
-);
+  );
+};
 CardContainer.defaultProps = {
   title: '',
   searchText: '',
