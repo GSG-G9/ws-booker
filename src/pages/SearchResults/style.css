@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.search_div{
+    display: flex;
+    align-self: center;
+    margin-top: 50px;
+}
+.search_input{
+    width:45vw;
+}
+.search_button{
+   height: 55px;
+   width :144px;
+   margin-top: 10px;
+   margin-left: 20px;
+}
+.card_container{
+    margin-top: 50px;
+}
