@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Image, Typography, Menu, Dropdown } from 'antd';
 import {
   UserOutlined,
@@ -7,6 +7,7 @@ import {
   HomeOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons';
+
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../firebase/context';
 import loginWithGoogle from '../../../Login/loginWithGoogle';
@@ -20,12 +21,7 @@ import './style.css';
 const { Text } = Typography;
 
 const Header = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const { user, setError, isLoading } = useContext(AuthContext);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
   const handleOnClick = async () => {
     try {
       await loginWithGoogle();
@@ -36,15 +32,15 @@ const Header = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1">
-        <NavLink to={Home} activeClassName="active">
-          <HomeOutlined />
+        <NavLink to={Home}>
+          <HomeOutlined style={{ color: '#00C78A' }} />
           HOME
         </NavLink>
       </Menu.Item>
 
       <Menu.Item key="2">
-        <NavLink to={About} activeClassName="active">
-          <InfoCircleOutlined />
+        <NavLink to={About}>
+          <InfoCircleOutlined style={{ color: '#00C78A' }} />
           ABOUT
         </NavLink>
       </Menu.Item>
@@ -61,13 +57,13 @@ const Header = () => {
                   app.auth().signOut();
                 }}
               >
-                <LogoutOutlined />
+                <LogoutOutlined style={{ color: '#00C78A' }} />
                 LogOut
               </Menu.Item>
             </>
           ) : (
             <Menu.Item key="4" onClick={handleOnClick}>
-              <GoogleOutlined />
+              <GoogleOutlined style={{ color: '#00C78A' }} />
               Login
             </Menu.Item>
           )}
@@ -75,6 +71,7 @@ const Header = () => {
       )}
     </Menu>
   );
+
   return (
     <div className="navbar">
       <div className="Logo-menu-section">
@@ -88,87 +85,21 @@ const Header = () => {
           ABOUT
         </NavLink>
         <div className="collapsedDiv">
-          <Dropdown.Button overlay={menu} icon={<UserOutlined />}>
-            Hello
-            {isLoading ? <Loader size="small" /> : user && ` , ${user.name}!`}
+          <Dropdown.Button
+            overlay={menu}
+            icon={<UserOutlined style={{ color: '#00C78A' }} />}
+          >
+            {isLoading ? <Loader size="small" /> : user && `  ${user.name}!`}
           </Dropdown.Button>
+          {user && (
+            <Image
+              preview={false}
+              src={user.image}
+              alt="user"
+              className="userImage2"
+            />
+          )}
         </div>
-        {/* <div className="collapsedDiv-contact">
-            {isLoading ? (
-              <Loader size="small" />
-            ) : (
-              user && (
-                <Tooltip placement="top" title={user.name}>
-                  <Image
-                    preview={false}
-                    src={user.image}
-                    alt="user"
-                    className="userImage"
-                  />
-                </Tooltip>
-              )
-            )}
-            <div className="coll">
-              <Button
-                type="primary"
-                onClick={toggleCollapsed}
-                style={{ marginBottom: 16 }}
-                className="collapsebtn"
-                theme="light"
-              >
-                {React.createElement(
-                  collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
-                )}
-              </Button>
-
-              <Menu
-                defaultSelectedKeys={['1']}
-                defaultOpenKeys={['sub1']}
-                mode="inline"
-                theme="light"
-                inlineCollapsed={collapsed}
-              >
-                <Menu.Item key="1">
-                  <NavLink to={Home} activeClassName="active">
-                    <HomeOutlined />
-                    HOME
-                  </NavLink>
-                </Menu.Item>
-                <Menu.Item key="2">
-                  <NavLink to={About} activeClassName="active">
-                    <InfoCircleOutlined />
-                    ABOUT
-                  </NavLink>
-                </Menu.Item>
-                {isLoading ? (
-                  <Loader size="small" />
-                ) : (
-                  <>
-                    {' '}
-                    {user ? (
-                      <>
-                        <Menu.Item
-                          key="3"
-                          onClick={() => {
-                            app.auth().signOut();
-                          }}
-                        >
-                          <LogoutOutlined />
-                          LogOut
-                        </Menu.Item>
-                      </>
-                    ) : (
-                      <Menu.Item key="4" onClick={handleOnClick}>
-                        <GoogleOutlined />
-                        Login
-                      </Menu.Item>
-                    )}
-                  </>
-                )}
-              </Menu>
-            </div>
-          </div>
-        </div> */}
       </div>
       <>
         {isLoading ? (
