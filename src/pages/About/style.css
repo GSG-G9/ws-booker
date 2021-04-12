@@ -5,6 +5,7 @@
     width: 100%;
     height: 600px;
     background: #eee url("../../assets/images/about_cover.png") no-repeat;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
