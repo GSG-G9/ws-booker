@@ -4,6 +4,8 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
 // import { postBooking } from '../firebase/firestore/booking/index';
 // import getBookingByDate from '../firebase/firestore/booking/getBookingByDate';
+import Header from '../components/Layout/Header';
+
 import {
   About,
   AllWorkspaces,
@@ -47,6 +49,7 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
+      <Header />
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />
