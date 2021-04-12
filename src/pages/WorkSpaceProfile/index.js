@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Divider } from 'antd';
-import Header from '../../components/Layout/Header';
-import headerImg from '../../assets/images/homeheader.jpg';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Rating from '../../components/CommonComponents/Rating';
@@ -20,7 +18,6 @@ const WorkspaceProfile = () => {
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const { workspaceId } = useParams();
-  console.log(workspaceId);
 
   const fetchWorkspaceData = async (id) => {
     try {
@@ -42,7 +39,6 @@ const WorkspaceProfile = () => {
   }, []);
   return (
     <div>
-      <Header />
       {!isLoaded ? (
         <Loader />
       ) : (
@@ -53,13 +49,11 @@ const WorkspaceProfile = () => {
                 alt="header"
                 src={workspaceData.header_image}
                 className="header-img"
-                style={{ maxHeight: '700px', width: '100%', marginTop: '10px' }}
               />
             </Col>
           </Row>
-          <Row justify="space-around" style={{ marginTop: '80px' }}>
-            <Col span={0.5} />
-            <Col xs={24} sm={24} md={24} lg={14} xl={14}>
+          <Row justify="space-around" className="main-container">
+            <Col xs={24} sm={24} md={14} lg={14} xl={14}>
               <div className="workspace-info-container">
                 <p className="name-text"> {isLoaded && workspaceData.name}</p>
                 <div className="divider-container">
@@ -78,13 +72,13 @@ const WorkspaceProfile = () => {
                 </div>
                 <div className="amenities-container">
                   {workspaceData.amenities.length ? (
-                    workspaceData.amenities.map((item, index) => (
-                      <div key={index} className="amenities-frame">
+                    workspaceData.amenities.map((item) => (
+                      <div key={item} className="amenities-frame">
                         <p>{item}</p>
                       </div>
                     ))
                   ) : (
-                    <p>no amenities</p>
+                    <p>No amenities</p>
                   )}
                 </div>
 
@@ -109,21 +103,23 @@ const WorkspaceProfile = () => {
                         />
                       ))
                     ) : (
-                      <p>no images</p>
+                      <p>No images</p>
                     )}
                   </div>
                 </div>
               </div>
             </Col>
-            <Col span={5}>
+            <Col
+              xs={24}
+              sm={24}
+              md={9}
+              lg={7}
+              xl={6}
+              xxl={5}
+              className="book-rate-container"
+            >
               <div className="booking-info-container">
-                <MainButton
-                  buttName="Book Now"
-                  width="180px"
-                  fontWeight="bold"
-                  fontSize="20px"
-                  height="43px"
-                />
+                <MainButton buttName="Book Now" className="book-btn" />
                 <div>
                   <WorkspaceInfo
                     icon={location}
@@ -159,7 +155,6 @@ const WorkspaceProfile = () => {
                 <Rating setRate={setRate} />
               </div>
             </Col>
-            <Col span={0.5} />
           </Row>
         </div>
       )}
