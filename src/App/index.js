@@ -3,7 +3,6 @@ import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
 import Header from '../components/Layout/Header';
-import Footer from '../components/Layout/Footer';
 import {
   About,
   AllWorkspaces,
@@ -33,7 +32,7 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
-      {/* <Header userName="alaa" /> */}
+      <Header />
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />
@@ -73,7 +72,6 @@ const App = () => (
           <NotFound />
         </Route>
       </Switch>
-      <Footer />
     </Router>
   </AuthProvider>
 );
