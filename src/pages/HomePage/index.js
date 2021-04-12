@@ -24,8 +24,6 @@ const HomePage = () => {
   const fetchWorkspaceData = async () => {
     try {
       const data = await getAllWorkspaces();
-      console.log('dd', data[0]);
-      // console.log('dd', result);
       setWorkspaceData(data);
       workspaceData.sort((a, b) => b.rating - a.rating);
 
@@ -45,7 +43,6 @@ const HomePage = () => {
 
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
       message.error('Something went wrong , Please try again');
     }
   };
@@ -61,7 +58,6 @@ const HomePage = () => {
   }, []);
   return (
     <div>
-      {console.log('i')}
       <HomeHeader />
       {isLoading ? (
         <Loader />

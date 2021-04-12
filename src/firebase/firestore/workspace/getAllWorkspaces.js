@@ -9,7 +9,7 @@ const getAllWorkspaces = async () => {
 
     const id = data.docs.map((i) => console.log(i.id));
     const result = data.docs.map((doc) => doc.data());
-    console.log({ id, ...result });
+
     return [...id, ...result];
   } catch (err) {
     return err;

@@ -28,10 +28,9 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
 
     <div className="cardcontainer">
       <ul className="cardcontainerul">
-        {console.log('id', data.id)}
         {data.length !== 0 ? (
           data.map((item) => (
-            <li key={data.id} className="cardcontainerli">
+            <li key={item.id} className="cardcontainerli">
               <WorkspaceCard
                 image={item.header_image}
                 feesPerDay={item.fees_per_day}
