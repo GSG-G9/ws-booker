@@ -1,8 +1,8 @@
-const createSearchUrl = (q, date, numOfPeople) => {
+const createSearchUrl = (q, date, capacity) => {
   const queryData = {
     q,
     date,
-    numOfPeople,
+    capacity,
   };
   const queryStringArray = [];
   Object.keys(queryData).forEach((key) => {

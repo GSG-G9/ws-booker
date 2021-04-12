@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, AimOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import MainButton from '../CommonComponents/Button';
 import MainInput from '../CommonComponents/Input';
@@ -11,23 +11,21 @@ const { Title } = Typography;
 const HomeHeader = () => {
   const history = useHistory();
   const [city, setCity] = useState('');
-  const [dateData, setDateData] = useState();
-  const [numberOfPeople, setNumberOfPeople] = useState(0);
+  const [name, setName] = useState('');
+  const [capacity, setCapacity] = useState(0);
 
   const handleCityChange = (e) => {
     setCity(e.target.value);
   };
-
-  const handleDateChange = (date, dateString) => {
-    setDateData(dateString);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
-
   const handleNumberChange = (value) => {
-    setNumberOfPeople(value);
+    setCapacity(value);
   };
 
   const handleButtonClick = () => {
-    const searchUrl = createSearchUrl(city, dateData, numberOfPeople);
+    const searchUrl = createSearchUrl(name, city, capacity);
     history.push(searchUrl);
   };
   return (
@@ -38,16 +36,16 @@ const HomeHeader = () => {
           <MainInput
             className="search_items search_input"
             type="search"
-            placeholder="Search by city name..."
+            placeholder="Search by Workspace name..."
             size="large"
-            onChange={handleCityChange}
+            onChange={handleNameChange}
           />
           <MainInput
-            className="search_items date_input"
-            type="date"
-            placeholder="Start Date"
+            className="search_items search_input"
+            placeholder="Search by city name..."
+            prefix={<AimOutlined style={{ color: '#929292' }} />}
             size="large"
-            onChange={handleDateChange}
+            onChange={handleCityChange}
           />
           <MainInput
             className="search_items number_input"

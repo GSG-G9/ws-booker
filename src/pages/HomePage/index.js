@@ -11,7 +11,7 @@ import free from '../../assets/icons/free.svg';
 import { TopRatedWorkspaces } from '../../utils';
 
 import './style.css';
-// getAllWorkspaces().then((res) => console.log(res));
+
 const { Title } = Typography;
 const HomePage = () => {
   const [firstTopItems, setFirstTopItems] = useState([]);
