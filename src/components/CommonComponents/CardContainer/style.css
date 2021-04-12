@@ -4,6 +4,7 @@
 .cardcontainer{
     width: 100%;
 }
+
 .cardcontainer .cardcontainerul {
     list-style-type: none;
     width: 100%;
@@ -16,7 +17,9 @@
 }
 .cardcontainer .cardcontainerul .cardcontainerli{
     margin: 10px 30px;
+
 }
+
 .search-title-container{
     text-align: center;
 }

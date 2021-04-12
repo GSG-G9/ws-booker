@@ -7,15 +7,18 @@
     display: flex;
     align-self: center;
     margin-top: 50px;
+    flex-wrap: wrap;
 }
 .search_input{
     width:45vw;
+    font-size: 2em;
 }
 .search_button{
    height: 55px;
    width :144px;
    margin-top: 10px;
    margin-left: 20px;
+   font-size: 2em;
 }
 .card_container{
     margin-top: 50px;

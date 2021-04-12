@@ -14,7 +14,7 @@ const getSearchResults = async (city, capacity) => {
       const result = data.docs.map((doc) => doc.data());
       return result;
     }
-    if (city != null && capacity === null) {
+    if (city) {
       const data = await db
         .collection('workspaces')
         .where('city', '==', city)
@@ -25,7 +25,7 @@ const getSearchResults = async (city, capacity) => {
       const result = data.docs.map((doc) => doc.data());
       return result;
     }
-    if (city === null && capacity != null) {
+    if (capacity) {
       const data = await db
         .collection('workspaces')
 
@@ -37,6 +37,7 @@ const getSearchResults = async (city, capacity) => {
       const result = data.docs.map((doc) => doc.data());
       return result;
     }
+    return null;
   } catch (err) {
     return err;
   }

@@ -32,6 +32,7 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
                 <Empty description="Sorry! There is no Workspaces." />
               )}
             </ul>
+
             <Pagination
               total={data.length}
               pageSize={4}

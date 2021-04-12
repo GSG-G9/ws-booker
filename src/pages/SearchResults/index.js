@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { notification } from 'antd';
+import Loader from '../../components/CommonComponents/Loader';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import CardContainer from '../../components/CommonComponents/CardContainer';
@@ -12,6 +13,7 @@ const SearchResults = () => {
   const history = useHistory();
   const [city, setCity] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const query = useQuery();
   const queryObj = {
     q: query.get('q'),
@@ -32,6 +34,7 @@ const SearchResults = () => {
       const data = await getSearchResults(queryObj.q, queryObj.numberOfPeople);
 
       setSearchResults(data);
+      setIsLoading(false);
     } catch (error) {
       notification.open({
         message: 'Something went wrong , Please try again',
@@ -58,12 +61,16 @@ const SearchResults = () => {
         />
       </div>
       <div className="card_container">
-        <CardContainer
-          title="Top Rated"
-          searchText={queryObj.q || queryObj.numberOfPeople}
-          size="large"
-          data={searchResults}
-        />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <CardContainer
+            title="Top Rated"
+            searchText={queryObj.q || queryObj.numberOfPeople}
+            size="large"
+            data={searchResults}
+          />
+        )}
       </div>
     </div>
   );
