@@ -8,7 +8,7 @@ import FeaturesCard from '../../components/CommonComponents/FeaturesCard';
 import validate from '../../assets/icons/validate.svg';
 import trust from '../../assets/icons/trust.svg';
 import free from '../../assets/icons/free.svg';
-import { TopRatedWorkspaces } from '../../utils';
+import { NewestWorkspaces, TopRatedWorkspaces } from '../../utils';
 
 import './style.css';
 // getAllWorkspaces().then((res) => console.log(res));
@@ -24,13 +24,17 @@ const HomePage = () => {
   const fetchWorkspaceData = async () => {
     try {
       const data = await getAllWorkspaces();
+      const data2 = await data;
       setWorkspaceData(data);
-      workspaceData.sort((a, b) => b.rating - a.rating);
 
-      setTopRatedWorkspace(workspaceData);
-      setFirstTopItems(workspaceData.slice(0, 4));
-      setNewestWorkspace(data);
-      newestWorkspace.sort((a, b) => {
+      data.sort((a, b) => b.rating - a.rating);
+
+      setTopRatedWorkspace(data);
+      setFirstTopItems(data.slice(0, 4));
+
+      setNewestWorkspace(data2);
+
+      data2.sort((a, b) => {
         if (a.created_at < b.created_at) {
           return 1;
         }
@@ -39,7 +43,7 @@ const HomePage = () => {
         }
         return 0;
       });
-      setFirstNewest(newestWorkspace.slice(0, 4));
+      setFirstNewest(data2.slice(0, 4));
 
       setIsLoading(false);
     } catch (err) {
@@ -58,6 +62,7 @@ const HomePage = () => {
   }, []);
   return (
     <div>
+      {console.log('j')}
       <HomeHeader />
       {isLoading ? (
         <Loader />
