@@ -2,8 +2,6 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-// import { postBooking } from '../firebase/firestore/booking/index';
-// import getBookingByDate from '../firebase/firestore/booking/getBookingByDate';
 import Header from '../components/Layout/Header';
 
 import {
@@ -32,20 +30,6 @@ import {
   NotFound,
 } from '../pages';
 
-// postBooking('0QgtDLY6AEhCUK40z9lI', '0uXc9bOuRMYyzbO8rXJB', {
-//   book_capacity: 25,
-//   book_start_time: 'Apr 23 2021 16:05:00',
-//   book_end_time: 'Apr 24 2021 17:00:00',
-//   book_days: [],
-// })
-//   .then((data) => console.log('data', data))
-//   .catch((err) => console.log(err));
-
-// getBookingByDate(
-//   '0uXc9bOuRMYyzbO8rXJB',
-//   'Apr 10 2021 10:00:00',
-//   'Apr 12 2021 10:00:00'
-// ).then((data) => console.log('data', data));
 const App = () => (
   <AuthProvider>
     <Router>

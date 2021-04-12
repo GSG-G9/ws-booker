@@ -15,8 +15,7 @@ const addBooking = async (
     const millisecondsEndTime = firebase.firestore.Timestamp.fromDate(
       new Date(bookEndTime)
     );
-    const bookingCollection = await db.collection('booking');
-    bookingCollection.add({
+    await db.collection('booking').add({
       user_id: db.doc(`users/${userId}`),
       workspace_id: db.doc(`workspaces/${workspaceId}`),
       book_capacity: bookCapacity,

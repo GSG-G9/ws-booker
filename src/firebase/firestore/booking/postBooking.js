@@ -3,6 +3,8 @@ import { extendMoment } from 'moment-range';
 import { bookingSchema } from '../../../utils/validation';
 import getBookingByDate from './getBookingByDate';
 import addBooking from './addBooking';
+import { getWorkspaceById } from '../workspace';
+import { getUserById } from '../user';
 import { checkOverlap } from '../../../utils';
 
 const moment = extendMoment(Moment);
@@ -11,6 +13,14 @@ let message;
 
 const postBooking = async (userId, workspaceId, payload) => {
   try {
+    const isWorkspace = await getWorkspaceById(workspaceId);
+    if (isWorkspace instanceof Error) {
+      throw new Error('This workspace is not exist post');
+    }
+    const isUser = await getUserById(userId);
+    if (isUser instanceof Error) {
+      throw new Error('This user is not exist post');
+    }
     const {
       book_capacity: bookCapacity,
       book_start_time: bookStartTime,
@@ -22,8 +32,6 @@ const postBooking = async (userId, workspaceId, payload) => {
       bookStartTime,
       bookEndTime
     );
-
-    console.log(overlappedBookings);
 
     if (overlappedBookings.length) {
       const bookingsTimes = overlappedBookings.map(
@@ -39,14 +47,10 @@ const postBooking = async (userId, workspaceId, payload) => {
 
       bookingsTimes.forEach((range) => {
         if (checkOverlap([range, newBookingTimeRange])) {
-          message = `sorry, the date ${range} is already booked`;
+          message = `Sorry, the time range ${range} is already booked at this date`;
           isOverlapped = true;
         }
       });
-
-      console.log('timmmmmmm', bookingsTimes);
-      console.log('newwww ranggggg', newBookingTimeRange);
-      console.log('resultt overlap', isOverlapped);
     }
     if (isOverlapped) {
       return message;
@@ -64,12 +68,4 @@ const postBooking = async (userId, workspaceId, payload) => {
   }
 };
 
-// get array of new booking days
-// const bookingStartDay = moment(book_start_time).format('ddd MMM DD YYYY');
-// const bookingEndDay = moment(book_end_time).format('ddd MMM DD YYYY');
-// console.log('dayyyyy', bookingStartDay, bookingEndDay);
-// const daysRange = moment.range(book_start_time, book_end_time);
-// const days = Array.from(daysRange.by('day'));
-// const bookingDays = days.map((m) => m.format('ddd MMM DD YYYY'));
-// console.log(bookingDays);
 export default postBooking;
