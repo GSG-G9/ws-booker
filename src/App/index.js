@@ -2,6 +2,7 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
+import Header from '../components/Layout/Header';
 
 import {
   About,
@@ -32,6 +33,7 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
+      <Header />
       <Switch>
         <Route exact path={Login}>
           <AdminLogin />
