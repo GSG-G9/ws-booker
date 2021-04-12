@@ -20,12 +20,12 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
-  const [fileURL, setFileURl] = useState(null);
   const [userData, setUserData] = useState({});
+  const [fileURL, setFileURl] = useState(userData.image);
   const [workspaceData, setWorkspaceData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [updatedUsername, setUpdatedUsername] = useState('');
-  const [updatedPhone, setUpdatedPhone] = useState('');
+  const [updatedUsername, setUpdatedUsername] = useState(userData.name);
+  const [updatedPhone, setUpdatedPhone] = useState(userData.phone_number);
   const { userId } = match.params;
 
   useEffect(async () => {
@@ -49,12 +49,6 @@ const UserProfile = ({ match }) => {
     setIsModalVisible(true);
   };
 
-  const handleOk = (e) => {
-    e.preventDefault();
-    setIsModalVisible(false);
-    EditUserData(updatedUsername, updatedPhone, fileURL);
-  };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -76,12 +70,24 @@ const UserProfile = ({ match }) => {
     const storageRef = firebaseConfig.storage().ref();
     const fileRef = storageRef.child(file.name);
     await fileRef.put(file);
+    console.log('img', await fileRef.getDownloadURL());
     setFileURl(await fileRef.getDownloadURL());
-    db.collection('users').doc(userId).set({
+    // db.collection('users').doc(userId).set({
+    //   image: fileURL,
+    // });
+  };
+  console.log('file', fileURL);
+
+  const handleOk = (e) => {
+    e.preventDefault();
+    console.log('to', { updatedUsername, updatedPhone, fileURL });
+    setIsModalVisible(false);
+    EditUserData(userId, {
+      name: updatedUsername,
+      phoneNumber: updatedPhone,
       image: fileURL,
     });
   };
-
   const props = {
     name: 'file',
     headers: {

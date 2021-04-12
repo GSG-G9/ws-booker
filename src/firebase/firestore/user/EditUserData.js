@@ -4,14 +4,14 @@ import { userSchema } from '../../../utils/validation';
 const EditUserData = async (id, payload) => {
   const payloadObj = {
     name: payload.name,
-    phoneNumber: payload.phoneNumber,
+    phone_number: payload.phone_number,
     image: payload.image,
   };
   try {
-    const { name, phoneNumber, image } = await userSchema.validate(payloadObj);
+    const { name, phone_number, image } = await userSchema.validate(payloadObj);
     const response = db.collection('users').doc(id);
     await response.update({
-      phoneNumber,
+      phone_number,
       name,
       image,
     });
