@@ -1,27 +1,77 @@
-import React, { useState } from 'react';
-import { Image, Typography, Button, Menu } from 'antd';
+import React, { useContext } from 'react';
+import { Image, Typography, Menu, Dropdown } from 'antd';
 import {
+  UserOutlined,
   LogoutOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
+  GoogleOutlined,
+  HomeOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../firebase/context';
+import loginWithGoogle from '../../../Login/loginWithGoogle';
 import MainButton from '../../CommonComponents/Button';
 import { Home, About } from '../../../utils';
 import logo from '../../../assets/images/WSBooker.png';
-import profileImage from '../../../assets/images/profile-user.png';
+import app from '../../../firebase/config';
+import Loader from '../../CommonComponents/Loader';
 import './style.css';
 
 const { Text } = Typography;
 
-const Header = ({ isLogged, userImage, userName }) => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
+const Header = () => {
+  const { user, setError, isLoading } = useContext(AuthContext);
+  const handleOnClick = async () => {
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      setError(err);
+    }
   };
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <NavLink to={Home}>
+          <HomeOutlined style={{ color: '#00C78A' }} />
+          HOME
+        </NavLink>
+      </Menu.Item>
+
+      <Menu.Item key="2">
+        <NavLink to={About}>
+          <InfoCircleOutlined style={{ color: '#00C78A' }} />
+          ABOUT
+        </NavLink>
+      </Menu.Item>
+
+      {isLoading ? (
+        <Loader size="small" />
+      ) : (
+        <>
+          {user ? (
+            <>
+              <Menu.Item
+                key="3"
+                onClick={() => {
+                  app.auth().signOut();
+                }}
+              >
+                <LogoutOutlined style={{ color: '#00C78A' }} />
+                LogOut
+              </Menu.Item>
+            </>
+          ) : (
+            <Menu.Item key="4" onClick={handleOnClick}>
+              <GoogleOutlined style={{ color: '#00C78A' }} />
+              Login
+            </Menu.Item>
+          )}
+        </>
+      )}
+    </Menu>
+  );
+
   return (
     <div className="navbar">
       <div className="Logo-menu-section">
@@ -35,93 +85,60 @@ const Header = ({ isLogged, userImage, userName }) => {
           ABOUT
         </NavLink>
         <div className="collapsedDiv">
-          <Button
-            type="primary"
-            onClick={toggleCollapsed}
-            style={{ marginBottom: 16 }}
-            className="collapsebtn"
-            theme="light"
+          <Dropdown.Button
+            overlay={menu}
+            icon={<UserOutlined style={{ color: '#00C78A' }} />}
           >
-            {React.createElement(
-              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
-            )}
-          </Button>
-          <Menu
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-            theme="light"
-            inlineCollapsed={collapsed}
-          >
-            {isLogged ? (
-              <>
-                <Menu.Item key="1">
+            {isLoading ? <Loader size="small" /> : user && `  ${user.name}!`}
+          </Dropdown.Button>
+          {user && (
+            <Image
+              preview={false}
+              src={user.image}
+              alt="user"
+              className="userImage2"
+            />
+          )}
+        </div>
+      </div>
+      <>
+        <div className="user-loging">
+          {isLoading ? (
+            <Loader size="small" />
+          ) : (
+            <>
+              {user ? (
+                <>
                   <Image
                     preview={false}
-                    src={userImage}
+                    src={user.image}
                     alt="user"
                     className="userImage"
                   />
-                  <Text className="usernameTitle">{userName}</Text>
-                </Menu.Item>
-                <Menu.Item key="2">
+                  <Text className="usernameTitle">{user.name}</Text>
                   <MainButton
                     icon={<LogoutOutlined />}
                     buttName="logout"
                     id="logout"
                     className="logout"
+                    onClick={() => app.auth().signOut()}
                   />
-                </Menu.Item>
-              </>
-            ) : (
-              <MainButton buttName="Log In" id="login" className="login" />
-            )}
-            <Menu.Item key="3">
-              <NavLink to={Home} activeClassName="active">
-                HOME
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <NavLink to={About} activeClassName="active">
-                ABOUT
-              </NavLink>
-            </Menu.Item>
-          </Menu>
+                </>
+              ) : (
+                <MainButton
+                  buttName="Log In with Google"
+                  id="login"
+                  icon={<GoogleOutlined />}
+                  className="login"
+                  onClick={handleOnClick}
+                />
+              )}
+            </>
+          )}
         </div>
-      </div>
-      <div className="user-loging">
-        {isLogged ? (
-          <>
-            <Image
-              preview={false}
-              src={userImage}
-              alt="user"
-              className="userImage"
-            />
-            <Text className="usernameTitle">{userName}</Text>
-            <MainButton
-              icon={<LogoutOutlined />}
-              buttName="logout"
-              id="logout"
-              className="logout"
-            />
-          </>
-        ) : (
-          <MainButton buttName="Log In" id="login" className="login" />
-        )}
-      </div>
+      </>
     </div>
   );
 };
 
-Header.defaultProps = {
-  isLogged: false,
-  userImage: profileImage,
-};
-
-Header.propTypes = {
-  isLogged: PropTypes.bool,
-  userImage: PropTypes.string,
-  userName: PropTypes.string.isRequired,
-};
 export default Header;
