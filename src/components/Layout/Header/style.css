@@ -1,7 +1,6 @@
 .navbar{
   width:100%;
   display: flex;
-  flex-direction: row;
   flex-wrap: nowrap;
   box-shadow: -1px -1px 5px 5px #eee;
 }
@@ -9,7 +8,6 @@
   width: 60%;
   padding: 25px 0px 25px 80px;
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
 }
 .menu-item{
@@ -27,7 +25,6 @@
   width: 40%;
   padding: 25px 80px 25px 0px;
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   flex-wrap: nowrap;
 }
@@ -71,23 +68,11 @@
   }
   .collapsedDiv{
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
   
-  .collapsebtn{
-    direction: rtl;
-  }
-  .collapsedDiv-contact{
-    display: flex;
-  }
-  .collapsedDiv-contact .ant-image{
-    height: 20px;
-  }
-  .collapsedDiv .ant-menu-inline-collapsed{
-    display: none;
-  }
+ 
  }
 @media only screen and (min-width: 600px) {
   .navbar{
@@ -110,18 +95,7 @@
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-  .collapsedDiv-contact{
-    display: flex;
-  }
-  .collapsedDiv-contact .ant-image{
-    height: 20px;
-  }
-  .collapsebtn{
-    direction: rtl;
-  }
-  .collapsedDiv .ant-menu-inline-collapsed{
-    display: none;
-  }
+
 }
 @media only screen and (min-width: 768px) {
   .navbar{
