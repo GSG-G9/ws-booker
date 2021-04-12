@@ -6,11 +6,8 @@ const getAllWorkspaces = async () => {
     if (!data) {
       return new Error('No data returned!');
     }
-
-    const id = data.docs.map((i) => console.log(i.id));
-    const result = data.docs.map((doc) => doc.data());
-
-    return [...id, ...result];
+    const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return result;
   } catch (err) {
     return err;
   }
