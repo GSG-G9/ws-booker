@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
-import { Upload, message, Modal, Image, Button, Typography } from 'antd';
+import { message, Modal, Image, Button, Typography } from 'antd';
 
-import { EditFilled, UploadOutlined } from '@ant-design/icons';
+import { EditFilled } from '@ant-design/icons';
 import firebaseConfig, { db } from '../../firebase/config';
-import { getUserById } from '../../firebase/firestore/user';
+import { EditUserData, getUserById } from '../../firebase/firestore/user';
+
 import getBookingByUserId from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
@@ -23,19 +24,19 @@ const UserProfile = ({ match }) => {
   const [userData, setUserData] = useState({});
   const [workspaceData, setWorkspaceData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [updatedUsername, setUpdatedUsername] = useState('');
+  const [updatedPhone, setUpdatedPhone] = useState('');
   const { userId } = match.params;
 
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
       const UserData = await getUserById(userId);
-      console.log('User', UserData);
       if (UserData) {
         setUserData(UserData);
         const bookingbyUserId = await getBookingByUserId(userId);
         const workspaceId = bookingbyUserId.workspace_id.id;
         const wsData = await getWorkspaceById(workspaceId);
-        console.log('ws', wsData);
         setWorkspaceData(wsData);
       }
     }
@@ -51,10 +52,23 @@ const UserProfile = ({ match }) => {
   const handleOk = (e) => {
     e.preventDefault();
     setIsModalVisible(false);
+    EditUserData(updatedUsername, updatedPhone, fileURL);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const handleChangeUsername = (e) => {
+    e.preventDefault();
+    const newUser = e.target.value;
+    setUpdatedUsername(newUser);
+  };
+
+  const handleChangePhone = (e) => {
+    e.preventDefault();
+    const newPhone = e.target.value;
+    setUpdatedPhone(newPhone);
   };
 
   const onFileChange = async (e) => {
@@ -64,16 +78,12 @@ const UserProfile = ({ match }) => {
     await fileRef.put(file);
     setFileURl(await fileRef.getDownloadURL());
     db.collection('users').doc(userId).set({
-      // name: e.target.username.value,
-      // email: e.target.email.value,
-      // phone_number: e.target.phoneNumber.value,
       image: fileURL,
     });
   };
 
   const props = {
     name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     headers: {
       authorization: 'authorization-text',
     },
@@ -117,27 +127,19 @@ const UserProfile = ({ match }) => {
               >
                 <MainInput
                   placeholder="User Name"
-                  value={userData.name}
+                  defaultValue={userData.name}
                   label="User Name"
                   name="username"
-                />
-                <MainInput
-                  placeholder="Email"
-                  value={userData.email}
-                  label="Email"
-                  name="email"
+                  onChange={handleChangeUsername}
                 />
                 <MainInput
                   placeholder="Phone Number"
-                  value={userData.phone_number}
+                  defaultValue={userData.phone_number}
                   label="Phone Number"
                   name="phoneNumber"
+                  onChange={handleChangePhone}
                 />
-                <Upload {...props}>
-                  <Button icon={<UploadOutlined />} onChange={onFileChange}>
-                    Click to Upload
-                  </Button>
-                </Upload>
+                <input type="file" {...props} onChange={onFileChange} />
               </Modal>
             </div>
             <div className="email-section">
