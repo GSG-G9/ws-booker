@@ -19,7 +19,7 @@ const MainButton = ({
     icon={icon}
     onClick={onClick}
     htmlType={htmlType}
-    style={otherStyleProps}
+    {...otherStyleProps}
   >
     {buttName}
   </Button>
@@ -38,7 +38,7 @@ MainButton.defaultProps = {
 MainButton.propTypes = {
   onClick: PropTypes.func,
   type: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.PropTypes.shape({ icon: PropTypes.string }),
   buttName: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,

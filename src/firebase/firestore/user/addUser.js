@@ -5,14 +5,15 @@ const addUser = async (user) => {
     const response = db.collection('users').doc(user.uid);
     const doc = await response.get();
     if (!doc.exists) {
-      doc.set({
+      await response.set({
         name: user.displayName,
         image: user.photoURL,
         email: user.email,
         phone_number: user.phoneNumber,
       });
+      return { message: 'User added successfully' };
     }
-    return doc.data();
+    return { message: 'User already exists' };
   } catch (err) {
     return err;
   }
