@@ -134,7 +134,7 @@ MainInput.propTypes = {
   label: PropTypes.string,
   containerClass: PropTypes.string,
   type: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   value: PropTypes.string,
 };
 
@@ -147,6 +147,7 @@ MainInput.defaultProps = {
   containerClass: '',
   type: '',
   value: '',
+  onChange: () => {},
 };
 
 export default MainInput;
