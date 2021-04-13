@@ -1,7 +1,7 @@
-const createSearchUrl = (q, date, capacity) => {
+const createSearchUrl = (q, city, capacity) => {
   const queryData = {
     q,
-    date,
+    city,
     capacity,
   };
   const queryStringArray = [];
