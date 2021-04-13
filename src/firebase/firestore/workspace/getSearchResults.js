@@ -1,63 +1,68 @@
 import { db } from '../../config';
+import { searchSchema } from '../../../utils/validation';
 
-const getSearchResults = async (name, city, capacity) => {
+const getSearchResults = async (queryObj) => {
   try {
-    if (name && city && capacity) {
+    const { q, city, capacity } = await searchSchema.validate(queryObj);
+    // const { q, city, capacity } = queryObj;
+    if (q && city && capacity) {
       const data = await db
         .collection('workspaces')
-        .where('name', '==', name)
+        .where('name', '==', q)
         .where('city', '==', city)
         .where('capacity', '>=', Number(capacity))
         .get();
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
-    if (name && city) {
+    if (q && city) {
       const data = await db
         .collection('workspaces')
-        .where('name', '==', name)
+        .where('name', '==', q)
         .where('city', '==', city)
         .get();
       if (!data) {
         return new Error('No data returned!');
       }
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      return result;
     }
-    if (name && capacity) {
+    if (q && capacity) {
       const data = await db
         .collection('workspaces')
-        .where('name', '==', name)
-        .where('capacity', '==', capacity)
+        .where('name', '==', q)
+        .where('capacity', '>=', capacity)
         .get();
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
     if (city && capacity) {
       const data = await db
         .collection('workspaces')
-        .where('capacity', '==', capacity)
+        .where('capacity', '>=', capacity)
         .where('city', '==', city)
         .get();
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
-    if (name) {
+    if (q) {
       const data = await db
         .collection('workspaces')
-        .where('name', '==', name)
+        .where('name', '==', q)
         .get();
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
     if (city) {
@@ -68,7 +73,7 @@ const getSearchResults = async (name, city, capacity) => {
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
     if (capacity) {
@@ -80,11 +85,12 @@ const getSearchResults = async (name, city, capacity) => {
       if (!data) {
         return new Error('No data returned!');
       }
-      const result = data.docs.map((doc) => doc.data());
+      const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return result;
     }
     return null;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };
