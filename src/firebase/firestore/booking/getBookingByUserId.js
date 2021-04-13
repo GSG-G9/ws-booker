@@ -1,5 +1,5 @@
 import { db } from '../../config';
-import getUserById from '../user';
+import { getUserById } from '../user';
 
 const getBookingByUserId = async (userId) => {
   try {

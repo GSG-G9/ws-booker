@@ -11,6 +11,7 @@ import {
   WorkspaceProfile,
 } from './constants';
 import createSearchUrl from './createSearchUrl';
+import checkOverlap from './checkOverlap';
 
 export {
   About,
@@ -24,4 +25,5 @@ export {
   UserProfile,
   WorkspaceProfile,
   createSearchUrl,
+  checkOverlap,
 };
