@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Divider } from 'antd';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+import { Row, Col, Divider, Modal, Radio } from 'antd';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
+import Input from '../../components/CommonComponents/Input';
 import Rating from '../../components/CommonComponents/Rating';
 import Loader from '../../components/CommonComponents/Loader';
 import location from '../../assets/icons/location.svg';
@@ -17,7 +20,47 @@ const WorkspaceProfile = () => {
   const [rate, setRate] = useState();
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [visible, setVisible] = useState(false);
   const { workspaceId } = useParams();
+  const [repeat, setRepeat] = useState('once');
+  const moment = extendMoment(Moment);
+
+  const handleRepeatChange = (e) => {
+    setRepeat(e.target.value);
+  };
+  function range(start, end) {
+    const result = [];
+    for (let i = start; i < end; i += 1) {
+      result.push(i);
+    }
+    return result;
+  }
+  const arrayOfHours = Array.from(Array(24).keys());
+  const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const disabledDays = (a1, a2) => {
+    const disabledDaysArray = [];
+    a1.forEach((n) => {
+      if (a2.indexOf(n) === -1) {
+        disabledDaysArray.push(a1.indexOf(n));
+      }
+    });
+    return disabledDaysArray;
+  };
+
+  const disabledDate = (current) =>
+    disabledDays(arrayOfDays, workspaceData.days_of_work).includes(
+      Number(current.format('e'))
+    ) ||
+    (current && current < moment().endOf('day'));
+
+  const disabledHours = () => {
+    const startTime = Number(workspaceData.start_time.split(':')[0]);
+    const endTime = Number(workspaceData.end_time.split(':')[0]);
+    return arrayOfHours.filter(
+      (n) => range(startTime, endTime).indexOf(n) === -1
+    );
+  };
 
   const fetchWorkspaceData = async (id) => {
     try {
@@ -37,12 +80,65 @@ const WorkspaceProfile = () => {
       isActive = 'false';
     };
   }, []);
+
+  const onClick = () => {
+    setVisible(true);
+  };
+
   return (
     <div>
       {!isLoaded ? (
         <Loader />
       ) : (
         <div>
+          <Modal
+            title="Booking"
+            centered
+            visible={visible}
+            onOk={() => setVisible(false)}
+            onCancel={() => setVisible(false)}
+            width={500}
+          >
+            <p className="requirement-text">
+              Please enter your Requirements below:
+            </p>
+            <Input
+              type="number"
+              label="No. of People"
+              direction="row"
+              containerClass="container"
+              className="input-number"
+              max={workspaceData.capacity}
+            />
+            <Input
+              type="time"
+              label="Time"
+              direction="row"
+              containerClass="container"
+              className="input-number"
+              disabledHours={disabledHours}
+            />
+            <div style={{ display: 'flex' }}>
+              <p className="repeat-text">Repeat</p>
+              <Radio.Group value={repeat} onChange={handleRepeatChange}>
+                <Radio.Button value="once" className="radio-button">
+                  Once
+                </Radio.Button>
+                <Radio.Button value="daily" className="radio-button">
+                  Daily
+                </Radio.Button>
+              </Radio.Group>
+            </div>
+            <Input
+              disabled={repeat === 'once'}
+              type="dateRange"
+              label="Day"
+              direction="row"
+              containerClass="container"
+              className="input-number"
+              disabledDate={disabledDate}
+            />
+          </Modal>
           <Row>
             <Col span={24}>
               <img
@@ -119,7 +215,11 @@ const WorkspaceProfile = () => {
               className="book-rate-container"
             >
               <div className="booking-info-container">
-                <MainButton buttName="Book Now" className="book-btn" />
+                <MainButton
+                  buttName="Book Now"
+                  className="book-btn"
+                  onClick={onClick}
+                />
                 <div>
                   <WorkspaceInfo
                     icon={location}
