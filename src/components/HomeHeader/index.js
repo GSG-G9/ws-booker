@@ -28,7 +28,7 @@ const HomeHeader = () => {
       <div className="header_image ">
         <Title className="header_title"> The Future of Work has Arrived </Title>
         <div className="search_div">
-          <Form layout="inline" onFinish={onFinish}>
+          <Form layout="inline" onFinish={onFinish} className="search_div">
             <Form.Item name="q">
               <MainInput
                 className="search_items search_input"
