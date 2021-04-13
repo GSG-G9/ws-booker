@@ -5,27 +5,45 @@ import firebase from './config';
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [userData, setUserData] = useState([]);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      firebase.auth().onAuthStateChanged(setIsSignedIn);
-    } catch (err) {
-      setError(err);
+    let isActive = 'true';
+    if (isActive) {
+      try {
+        firebase.auth().onAuthStateChanged((userAuth) => {
+          if (userAuth) {
+            setUser({
+              id: userAuth.uid,
+              name: userAuth.displayName,
+              image: userAuth.photoURL,
+              phone: userAuth.phoneNumber,
+              email: userAuth.email,
+            });
+          } else {
+            setUser(userAuth);
+          }
+          setIsLoading(false);
+        });
+      } catch (err) {
+        setError(err);
+      }
     }
+    return () => {
+      isActive = 'false';
+    };
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        userData,
-        isSignedIn,
+        user,
         error,
-        setUserData,
-        setIsSignedIn,
+        setUser,
         setError,
+        isLoading,
       }}
     >
       {children}

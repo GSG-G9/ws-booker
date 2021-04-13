@@ -85,7 +85,7 @@ CardContainer.propTypes = {
   seeMoreLink: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       name: PropTypes.string,
       image: PropTypes.string,
       feesPerDay: PropTypes.number,

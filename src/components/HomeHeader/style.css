@@ -1,0 +1,141 @@
+.header_image {
+  padding: 100px;
+  height: 40%;
+  width: 100%;
+  background: url('../../assets/images/homeheader.jpg') no-repeat;
+  background-size: cover;
+  text-align: center;
+  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.header_title {
+  font-size: 4em !important;
+  color: #ffffff !important;
+  text-shadow: 0px 4px 4px #007664;;
+}
+.search_div{
+  width:80%;
+  height: auto;
+  padding-bottom: 30px;
+  background-color: #ffffff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-self: center;
+}
+.search_input{
+  width:350px ;
+}
+.date_input, .number_input{
+  width:215px ;
+}
+.search_items{
+  margin-left: 10px ;
+  margin-top:37px  ;
+  height: 85px !important;
+  font-size: 1.4em !important;
+}
+.search_button{
+  margin-top: 47px;
+  margin-left: 10px;
+  width: 200px !important;
+  height: 85px !important;
+  font-size: 2em;
+}
+
+@media only screen and (max-width:500px) {
+  .header_image {
+    padding: 10px;
+  }
+  .header_title {
+    font-size: 1em !important;
+    }
+    .search_div{
+      width:300px;
+    }
+    .search_input{
+      width:70px !important;
+    }
+    .date_input, .number_input{
+      width:70px !important;
+    }
+    .search_items{
+      margin-left: 10px ;
+      margin-top:37px  ;
+      height: 50px !important;
+      width:70px !important;
+      font-size: 1em !important;
+      overflow: hidden;
+    }
+    .search_button{
+      margin-top: 47px;
+      margin-left: 10px;
+      width: 2rem !important;
+      height: 50px !important;
+      font-size: 2em;
+    }
+  }
+@media only screen and (max-width:750px) {
+.header_title {
+  font-size: 2em !important;
+  }
+.search_div{
+  width:98%;
+  }
+.search_items{
+  margin-left: 4px ;
+  margin-right: 4px;
+  font-size: 1em !important;
+  width:inherit!important;
+  }
+.search_button{
+  margin-left: 10px ;
+  margin-right: 10px;
+  width: inherit !important;
+  font-size: 1.3em;
+ }
+}
+
+@media only screen and (max-width:1100px) {
+
+  .search_div{
+    width:90%;
+    }
+  .search_items{
+    margin-left: 10px ;
+    margin-right: 10px;
+    width:150px!important;
+    }
+  .search_button{
+    margin-left: 10px ;
+    margin-right: 10px;
+    width:150px !important;
+
+   }
+  }
+
+  @media only screen and (max-width:1538px) {
+    .search_div{
+      width:90%;
+      }
+    .search_items{
+      margin-left: 10px ;
+      margin-right: 10px;
+      width:200px!important;
+      }
+    .search_button{
+      margin-left: 10px ;
+      margin-right: 10px;
+      width: 200px !important;
+
+     }
+    }
+    @media only screen and (max-width:1900px) {
+      .search_div{
+        width:90%;
+        }
+      }
+      
