@@ -21,10 +21,9 @@ const HomePage = () => {
   const fetchWorkspaceData = async () => {
     try {
       const data = await getAllWorkspaces();
-      const data2 = await data;
-      data.sort((a, b) => b.rating - a.rating);
-      setFirstTopItems(data.slice(0, 4));
-      data2.sort((a, b) => {
+      const topRated = [...data].sort((a, b) => b.rating - a.rating);
+      setFirstTopItems(topRated.slice(0, 4));
+      const newest = [...data].sort((a, b) => {
         if (a.created_at < b.created_at) {
           return 1;
         }
@@ -33,7 +32,7 @@ const HomePage = () => {
         }
         return 0;
       });
-      setFirstNewest(data2.slice(0, 4));
+      setFirstNewest(newest.slice(0, 4));
       setIsLoading(false);
     } catch (err) {
       message.error('Something went wrong , Please try again');
