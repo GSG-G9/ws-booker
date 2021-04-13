@@ -19,9 +19,9 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
     ) : (
       <div className="title-container">
         <Title className="toprated-title">{title}</Title>
-        <Link to={`/${seeMoreLink}`} className="seemore">
+        <Link to={`${seeMoreLink}`} className="seemore">
           See more
-          <Image src={arrow} className="arrow" />
+          <Image src={arrow} className="arrow" preview={false} />
         </Link>
       </div>
     )}
@@ -31,7 +31,13 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => (
         {data.length !== 0 ? (
           data.map((item) => (
             <li key={item.id} className="cardcontainerli">
-              <WorkspaceCard {...item} size={size} />
+              <WorkspaceCard
+                image={item.header_image}
+                feesPerDay={item.fees_per_day}
+                feesPerHour={item.fees_per_hour}
+                {...item}
+                size={size}
+              />
             </li>
           ))
         ) : (
@@ -56,7 +62,7 @@ CardContainer.propTypes = {
   seeMoreLink: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
       name: PropTypes.string,
       image: PropTypes.string,
       feesPerDay: PropTypes.number,
