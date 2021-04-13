@@ -6,7 +6,7 @@ const getAllWorkspaces = async () => {
     if (!data) {
       return new Error('No data returned!');
     }
-    const result = data.docs.map((doc) => doc.data());
+    const result = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     return result;
   } catch (err) {
     return err;
