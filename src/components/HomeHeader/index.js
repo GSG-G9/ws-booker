@@ -39,7 +39,7 @@ const HomeHeader = () => {
             </Form.Item>
             <Form.Item name="city">
               <MainInput
-                className="search_items search_input"
+                className="search_items number_input"
                 placeholder="Search by city name..."
                 prefix={<AimOutlined style={{ color: '#929292' }} />}
                 size="large"

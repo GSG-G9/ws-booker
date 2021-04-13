@@ -23,11 +23,13 @@
     text-align: center;
     display: flex;
     justify-content: center;
+    align-content: center;
+    align-items: center;
     flex-wrap: wrap;
     align-self: center;
   }
   .search_input{
-    width:350px !important;
+    width:300px !important;
   }
   .date_input, .number_input{
     width:215px !important;
@@ -50,12 +52,9 @@
   .header_title {
     font-size: 2em !important;
     }
-  .search_div{
-    width:98%;
-    }
+  
   .search_items{
-    margin-left: 4px ;
-    margin-right: 4px;
+   align-self: center;
     font-size: 1em !important;
     width:inherit!important;
     }
@@ -66,28 +65,70 @@
     font-size: 1.3em;
    }
   }
-
-  @media only screen and (max-width:1100px) {
+  /* @media only screen and (max-width:1065px) {
    
     .search_div{
+    
       width:90%;
       }
     .search_items{
-      margin-left: 10px ;
-      margin-right: 10px;
-      width:150px!important;
+     
+      width:10px !important;
+      color: lawngreen;
+      }
+      .search_input{
+        width:100px !important;
       }
     .search_button{
-      margin-left: 10px ;
-      margin-right: 10px;
+      margin-top: 30px;
+     margin-left: 250px !important;
       width:150px !important;
    
      }
+    } */
+    @media only screen and (max-width:1065px) {
+   
+      .search_div{
+        padding-left: 40px;
+        width:90%;
+        }
+      .search_items{
+       /* margin-left: 100px; */
+        width:100px!important;
+        }
+      .search_button{
+       /* margin-top: 30px;*/
+       margin-left: 150px !important; 
+       /* font-size: 1em !important; */
+        width:100px !important;
+     
+       }
+      }
+  
+  @media only screen and (max-width:1250px)and (min-width :1065px){
+   
+    .search_div{
+      padding-left: 70px;
+
+      width:90%;
+      }
+    .search_items{
+     /* margin-left: 100px; */
+      width:100px!important;
+      }
+    .search_button{
+     margin-top: 30px;
+     margin-left: 250px !important;
+     /* font-size: 1em !important; */
+      width:100px !important;
+   
+     }
     }
+ 
 
     @media only screen and (max-width:1500px) {
       .search_div{
-        width:90%;
+        width:100%;
         }
       .search_items{
         margin-left: 10px ;
@@ -101,7 +142,7 @@
        
        }
       }
-      @media only screen and (max-width:1700px) {
+      @media only screen and (max-width:1750px) {
         .search_div{
           width:90%;
           }
