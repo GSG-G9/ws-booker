@@ -32,8 +32,9 @@ const postBooking = async (userId, workspaceId, payload) => {
       bookStartTime,
       bookEndTime
     );
-
-    if (overlappedBookings.length) {
+    if (!overlappedBookings.length) {
+      isOverlapped = false;
+    } else {
       const bookingsTimes = overlappedBookings.map(
         ({ book_start_time: startTime, book_end_time: endTime }) => [
           moment(startTime.toDate()).format('HH:mm:ss'),

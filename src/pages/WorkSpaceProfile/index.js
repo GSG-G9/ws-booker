@@ -29,29 +29,28 @@ const WorkspaceProfile = () => {
   const [endTime, setEndTime] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [fullStartDate, setFullStartDate] = useState('');
-  const [fullEndDate, setFullEndDate] = useState('');
   const [confirmVisible, setConfirmVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [confirmTitle, setConfirmTitle] = useState('');
   const [userData, setUserData] = useState('');
   const { workspaceId } = useParams();
   const [repeat, setRepeat] = useState('once');
-  const { user, setError, isLoading } = useContext(AuthContext);
+  const [capacityError, setCapacityError] = useState(null);
+  const [timeError, setTimeError] = useState(null);
+  const [dateError, setDateError] = useState(null);
+  const { user } = useContext(AuthContext);
   const moment = extendMoment(Moment);
 
-  const handleRepeatChange = (e) => {
-    setRepeat(e.target.value);
-  };
-  function range(start, end) {
+  const arrayOfHours = Array.from(Array(24).keys());
+  const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i += 1) {
       result.push(i);
     }
     return result;
-  }
-  const arrayOfHours = Array.from(Array(24).keys());
-  const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
+  };
   const disabledDays = (a1, a2) => {
     const disabledDaysArray = [];
     a1.forEach((n) => {
@@ -61,37 +60,47 @@ const WorkspaceProfile = () => {
     });
     return disabledDaysArray;
   };
-
   const disabledDate = (current) =>
     disabledDays(arrayOfDays, workspaceData.days_of_work).includes(
       Number(current.format('e'))
     ) ||
     (current && current < moment().endOf('day'));
-
   const disabledHours = () => {
     const start = Number(workspaceData.start_time.split(':')[0]);
     const end = Number(workspaceData.end_time.split(':')[0]);
     return arrayOfHours.filter((n) => range(start, end).indexOf(n) === -1);
   };
-
+  const concatDate = (timePart, datePart) =>
+    moment(`${datePart} ${timePart}`, 'YYYY-MM-DD HH:mm:ss').format();
   const dateFormat = 'YYYY-MM-DD';
 
+  const calculateHours = (start, end) => {
+    const tStart = moment(start, 'h:mm:ss');
+    const tEnd = moment(end, 'h:mm:ss');
+    return moment.duration(tEnd.diff(tStart)).asHours();
+  };
+
   const handleChangeCapacity = (value) => {
+    setCapacityError(null);
     setCapacity(value);
   };
   const handleChangeDateRange = (e, string) => {
+    setDateError(null);
     setStartDate(string[0]);
     setEndDate(string[1]);
   };
   const handleChangeDate = (e, string) => {
+    setDateError(null);
     setStartDate(string);
   };
-  const concatDate = (timePart, datePart) =>
-    moment(`${datePart} ${timePart}`, 'YYYY-MM-DD HH:mm:ss').format();
-
   const handleChangeTime = (e, string) => {
+    setTimeError(null);
     setStartTime(string[0]);
     setEndTime(string[1]);
+  };
+  const handleRepeatChange = (e) => {
+    setRepeat(e.target.value);
+    setStartDate(null);
   };
 
   const fetchWorkspaceData = async (id) => {
@@ -114,6 +123,7 @@ const WorkspaceProfile = () => {
       return err;
     }
   };
+
   useEffect(() => {
     let isActive = 'true';
     if (isActive) {
@@ -137,29 +147,53 @@ const WorkspaceProfile = () => {
     setConfirmVisible(false);
     setConfirmTitle('');
   };
+  const handleConfirmCancel = () => {
+    setConfirmVisible(false);
+    setConfirmTitle('');
+  };
 
-  const onBook = () => {
-    const fullStart = concatDate(startTime, startDate);
-    const fullEnd =
-      repeat === 'once'
-        ? concatDate(endTime, startDate)
-        : concatDate(endTime, endDate);
-
-    postBooking(user.id, workspaceId, {
-      book_capacity: capacity,
-      book_start_time: fullStart,
-      book_end_time: fullEnd,
-    })
-      .then((data) => {
-        if (data instanceof Error) {
-          setConfirmTitle(data.message);
-          setConfirmVisible(true);
+  const onBook = async () => {
+    try {
+      if (!capacity) {
+        setCapacityError('Please select capacity!');
+      }
+      if (!startTime) {
+        setTimeError('Please select time!');
+      }
+      if (!startDate) {
+        setDateError('Please select date!');
+      }
+      if (capacity && startTime && startDate) {
+        if (calculateHours(startTime, endTime) < 1) {
+          setTimeError('Booking time should be more than one hour');
         } else {
-          setConfirmVisible(true);
-          setConfirmTitle(data);
+          setConfirmLoading(true);
+          const fullStart = concatDate(startTime, startDate);
+          const fullEnd =
+            repeat === 'once'
+              ? concatDate(endTime, startDate)
+              : concatDate(endTime, endDate);
+
+          const result = await postBooking(user.id, workspaceId, {
+            book_capacity: capacity,
+            book_start_time: fullStart,
+            book_end_time: fullEnd,
+          });
+
+          if (result instanceof Error) {
+            setConfirmLoading(false);
+            setConfirmTitle('Something went wrong, please try again');
+            setConfirmVisible(true);
+          } else {
+            setConfirmLoading(false);
+            setConfirmVisible(true);
+            setConfirmTitle(result);
+          }
         }
-      })
-      .catch((err) => console.log(err));
+      }
+    } catch (err) {
+      return err;
+    }
   };
 
   return (
@@ -174,7 +208,9 @@ const WorkspaceProfile = () => {
             visible={visible}
             onOk={!user ? onOk : onBook}
             onCancel={() => setVisible(false)}
+            confirmLoading={confirmLoading}
             width={500}
+            okText="Book"
           >
             {!user ? (
               <p className="requirement-text">
@@ -190,6 +226,7 @@ const WorkspaceProfile = () => {
                   title={confirmTitle}
                   visible={confirmVisible}
                   onConfirm={handleConfirmOk}
+                  onCancel={handleConfirmCancel}
                 />
                 <p className="requirement-text">
                   Please enter your Requirements below:
@@ -204,6 +241,16 @@ const WorkspaceProfile = () => {
                   onChange={handleChangeCapacity}
                   value={capacity}
                 />
+                <div
+                  style={{
+                    height: '20px',
+                    marginTop: '10px',
+                  }}
+                >
+                  {capacityError && (
+                    <span className="error-text">{capacityError}</span>
+                  )}
+                </div>
                 <Input
                   type="time"
                   label="Time"
@@ -213,6 +260,14 @@ const WorkspaceProfile = () => {
                   disabledHours={disabledHours}
                   onChange={handleChangeTime}
                 />
+                <div
+                  style={{
+                    height: '20px',
+                    marginTop: '10px',
+                  }}
+                >
+                  {timeError && <span className="error-text">{timeError}</span>}
+                </div>
                 <div style={{ display: 'flex' }}>
                   <p className="repeat-text">Repeat</p>
                   <Radio.Group value={repeat} onChange={handleRepeatChange}>
@@ -224,6 +279,12 @@ const WorkspaceProfile = () => {
                     </Radio.Button>
                   </Radio.Group>
                 </div>
+                <div
+                  style={{
+                    height: '20px',
+                    marginTop: '10px',
+                  }}
+                />
                 {repeat === 'once' ? (
                   <Input
                     type="date"
@@ -247,6 +308,14 @@ const WorkspaceProfile = () => {
                     format={dateFormat}
                   />
                 )}
+                <div
+                  style={{
+                    height: '20px',
+                    marginTop: '10px',
+                  }}
+                >
+                  {dateError && <span className="error-text">{dateError}</span>}
+                </div>
               </div>
             )}
           </Modal>
