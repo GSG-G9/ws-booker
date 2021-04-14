@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Image, Typography, Menu, Divider, message, Checkbox } from 'antd';
+import {
+  Image,
+  Typography,
+  Menu,
+  Divider,
+  message,
+  Form,
+  Checkbox,
+} from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
@@ -18,33 +26,38 @@ const DashboardAddWorkspace = () => {
   const [workspaceData, setWorkspaceData] = useState({});
   const [workspaceName, setWorkspaceName] = useState();
 
-  const props = {
-    name: 'file',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+  // const props = {
+  //   name: 'file',
+  //   headers: {
+  //     authorization: 'authorization-text',
+  //   },
+  //   onChange(info) {
+  //     if (info.file.status !== 'uploading') {
+  //       console.log(info.file, info.fileList);
+  //     }
+  //     if (info.file.status === 'done') {
+  //       message.success(`${info.file.name} file uploaded successfully`);
+  //     } else if (info.file.status === 'error') {
+  //       message.error(`${info.file.name} file upload failed.`);
+  //     }
+  //   },
+  // };
+
+  // const handleChangeName = (e) => {
+  //   const name = e.target.value;
+  //   setWorkspaceName(name);
+  //   console.log('lllllllllll');
+  //   console.log('name', name);
+  //   console.log('user', workspaceName);
+  // };
+  const onFinish = ({ workspaceUsername }) => {
+    console.log('name', workspaceUsername);
   };
 
-  const handleChangeName = (e) => {
-    const name = e.target.value;
-    setWorkspaceName(name);
-    console.log('user', workspaceName);
-  };
-
-  const handleChangeDescription = () => {
-    // e.preventDefault();
-    console.log('user', workspaceData);
-  };
+  // const handleChangeDescription = () => {
+  //   // e.preventDefault();
+  //   console.log('user', workspaceName);
+  // };
 
   return (
     <div className="main-container">
@@ -68,26 +81,23 @@ const DashboardAddWorkspace = () => {
         </Menu>
       </div>
       <div className="dashboard-container">
-        <Image width={158} preview={false} src={logo} alt="WSBooker logo" />
-        <div className="admin-data">
-          <Image preview={false} src={adminData.image} alt="" className="" />
-          <Text className="">{adminData.name}</Text>
-        </div>
-        <form className="add-ws-form">
-          <Title level={3}>Add Workspace </Title>
-          <Divider />
-          <div className="half-section-left">
-            <MainInput
-              label="Workspace Name"
-              name="workspaceName"
-              value={workspaceData.name}
-              onChange={handleChangeName}
-            />
+        <Form className="add-ws-form" onFinish={onFinish}>
+          {/* <Title level={3}>Add Workspace </Title> */}
+          {/* <Divider /> */}
+          {/* <div className="half-section-left"> */}
+          <Form.Item
+            label="Username"
+            name="workspaceUsername"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <MainInput label="Workspace Name" name="workspaceName" />
+          </Form.Item>
+          {/* </div> */}
+          {/* 
             <div className="upload-section">
               <Text className="label">Header Image</Text>
               <input type="file" {...props} />
             </div>
-          </div>
           <div className="half-section-right">
             <Image alt="Header Image" />
           </div>
@@ -96,7 +106,7 @@ const DashboardAddWorkspace = () => {
             name="Description"
             type="textArea"
             className="textarea-description"
-            // onChange={handleChangeDescription}
+            onChange={handleChangeDescription}
           />
           <div className="half-section-left">
             <Text className="label">Days of Work</Text>
@@ -160,12 +170,14 @@ const DashboardAddWorkspace = () => {
           <div className="images-section">
             <Text className="label">Additional Images</Text>
             <input type="file" {...props} />
-          </div>
-          <div className="buttons-section">
-            <MainButton buttName="Add" className="add" />
-            <MainButton buttName="Cancel" type="default" className="cancel" />
-          </div>
-        </form>
+          </div> */}
+          {/* <div className="buttons-section"> */}
+          <Form.Item>
+            <MainButton buttName="Add" className="add" htmlType="submit" />
+          </Form.Item>
+          {/* <MainButton buttName="Cancel" htmlType="default" className="cancel" /> */}
+          {/* </div> */}
+        </Form>
       </div>
     </div>
   );
