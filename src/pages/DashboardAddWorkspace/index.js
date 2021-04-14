@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
+import { addWorkspace } from '../../firebase/firestore/workspace';
 import logo from '../../assets/images/WSBooker.png';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
@@ -14,6 +15,8 @@ import './style.css';
 const { Title, Text } = Typography;
 const DashboardAddWorkspace = () => {
   const [adminData, setAdminData] = useState([]);
+  const [workspaceData, setWorkspaceData] = useState({});
+  const [workspaceName, setWorkspaceName] = useState();
 
   const props = {
     name: 'file',
@@ -30,6 +33,17 @@ const DashboardAddWorkspace = () => {
         message.error(`${info.file.name} file upload failed.`);
       }
     },
+  };
+
+  const handleChangeName = (e) => {
+    const name = e.target.value;
+    setWorkspaceName(name);
+    console.log('user', workspaceName);
+  };
+
+  const handleChangeDescription = () => {
+    // e.preventDefault();
+    console.log('user', workspaceData);
   };
 
   return (
@@ -64,9 +78,10 @@ const DashboardAddWorkspace = () => {
           <Divider />
           <div className="half-section-left">
             <MainInput
-              label="fees per"
+              label="Workspace Name"
               name="workspaceName"
-              // onChange={}
+              value={workspaceData.name}
+              onChange={handleChangeName}
             />
             <div className="upload-section">
               <Text className="label">Header Image</Text>
@@ -81,6 +96,7 @@ const DashboardAddWorkspace = () => {
             name="Description"
             type="textArea"
             className="textarea-description"
+            // onChange={handleChangeDescription}
           />
           <div className="half-section-left">
             <Text className="label">Days of Work</Text>
@@ -126,19 +142,27 @@ const DashboardAddWorkspace = () => {
             placeholder="Town / City"
             // onChange={}
           />
-          <div className="amenities">
-            <Checkbox>High Speed WiFi</Checkbox>
-            <Checkbox>Library</Checkbox>
-            <Checkbox>Scanner</Checkbox>
-            <Checkbox>Free Coffee </Checkbox>
-            <Checkbox>Lounge / Chill-out Area</Checkbox>
-            <Checkbox>Kitchen</Checkbox>
-            <Checkbox>Air Conditioning</Checkbox>
-            <Checkbox>Computers</Checkbox>
-            <Checkbox>Projector</Checkbox>
+          <div className="amentities-Contaienr">
+            <Text className="label">Amenities</Text>
+            <div className="amenities">
+              <Checkbox className="check">High Speed WiFi</Checkbox>
+              <Checkbox className="check">Library</Checkbox>
+              <Checkbox className="check">Scanner</Checkbox>
+              <Checkbox className="check">Free Coffee </Checkbox>
+              <Checkbox className="check">Lounge / Chill-out Area</Checkbox>
+              <Checkbox className="check">Kitchen</Checkbox>
+              <Checkbox className="check">Air Conditioning</Checkbox>
+              <Checkbox className="check">Computers</Checkbox>
+              <Checkbox className="check">Projector</Checkbox>
+            </div>
+          </div>
+
+          <div className="images-section">
+            <Text className="label">Additional Images</Text>
+            <input type="file" {...props} />
           </div>
           <div className="buttons-section">
-            <MainButton buttName="Add" type="primary" className="add" />
+            <MainButton buttName="Add" className="add" />
             <MainButton buttName="Cancel" type="default" className="cancel" />
           </div>
         </form>
