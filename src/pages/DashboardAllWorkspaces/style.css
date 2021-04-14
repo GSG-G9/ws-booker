@@ -1,0 +1,35 @@
+.main-contain{
+    display: flex;
+}
+.dashboard-nav{
+    background-color: #363740;
+    max-width: 15vw;
+    height: 91vh;
+    width: 100%;
+}
+.dashboard-container{
+    width: 80%;
+    position: relative;
+    left: 20%;
+    height: 100%;
+    background-color: #F7F8FC;
+    padding: 20px;
+}
+.nav-title{
+    color: #fff !important;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 40px;
+}
+.dashboard-menu{
+    background-color: #363740;
+}
+.dashboard-menu li a{
+    color: #fff !important;
+    padding-left: 20px;
+
+    font-size: 19px;
+}
+.table-title{
+    color: #00927C !important;
+}
