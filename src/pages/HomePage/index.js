@@ -14,6 +14,8 @@ import './style.css';
 
 const { Title } = Typography;
 const HomePage = () => {
+  const [topRated, setTopRated] = useState([]);
+  const [newest, setNewest] = useState([]);
   const [firstTopItems, setFirstTopItems] = useState([]);
   const [firstNewest, setFirstNewest] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +23,11 @@ const HomePage = () => {
   const fetchWorkspaceData = async () => {
     try {
       const data = await getAllWorkspaces();
-      const topRated = [...data].sort((a, b) => b.rating - a.rating);
-      setFirstTopItems(topRated.slice(0, 4));
-      const newest = [...data].sort((a, b) => {
+
+      const topRatedSorted = [...data].sort((a, b) => b.rating - a.rating);
+      setTopRated(topRatedSorted);
+      setFirstTopItems(topRatedSorted.slice(0, 4));
+      const newestSorted = [...data].sort((a, b) => {
         if (a.created_at < b.created_at) {
           return 1;
         }
@@ -32,7 +36,8 @@ const HomePage = () => {
         }
         return 0;
       });
-      setFirstNewest(newest.slice(0, 4));
+      setNewest(newestSorted);
+      setFirstNewest(newestSorted.slice(0, 4));
       setIsLoading(false);
     } catch (err) {
       message.error('Something went wrong , Please try again');
@@ -58,14 +63,20 @@ const HomePage = () => {
           <CardContainer
             title="Top Rated Workspaces"
             size="small"
-            seeMoreLink={TopRatedWorkspaces}
+            seeMoreLink={{
+              pathname: TopRatedWorkspaces,
+              param1: topRated,
+            }}
             data={firstTopItems}
           />
 
           <CardContainer
             title="Newest Workspaces"
             size="small"
-            seeMoreLink={NewestWorkspaces}
+            seeMoreLink={{
+              pathname: NewestWorkspaces,
+              param1: newest,
+            }}
             data={firstNewest}
           />
         </div>

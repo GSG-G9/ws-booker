@@ -97,7 +97,22 @@ CardContainer.propTypes = {
   title: PropTypes.string,
   searchText: PropTypes.string,
   size: PropTypes.string,
-  seeMoreLink: PropTypes.string,
+  seeMoreLink: PropTypes.shape({
+    pathname: PropTypes.string,
+    param1: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        image: PropTypes.string,
+        feesPerDay: PropTypes.number,
+        feesPerHour: PropTypes.number,
+        location: PropTypes.string,
+        rating: PropTypes.number,
+        reviewers: PropTypes.number,
+        onClick: PropTypes.func,
+      })
+    ),
+  }),
   search: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({

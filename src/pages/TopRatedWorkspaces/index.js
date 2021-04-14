@@ -1,43 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Form, message } from 'antd';
-import Loader from '../../components/CommonComponents/Loader';
+import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Form } from 'antd';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import CardContainer from '../../components/CommonComponents/CardContainer';
-import { getAllWorkspaces } from '../../firebase/firestore/workspace';
 
 const TopRatedWorkspaces = () => {
   const history = useHistory();
-
-  const [topRated, setTopRated] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const location = useLocation();
+  const topRated = location.param1;
   const onFinish = ({ wsName }) => {
     const searchUrl = `/search?q=${wsName}`;
     history.push(searchUrl);
   };
-
-  const fetchData = async () => {
-    try {
-      const data = await getAllWorkspaces();
-      data.sort((a, b) => b.rating - a.rating);
-      setTopRated(data);
-      setIsLoading(false);
-    } catch (error) {
-      message.error('Something went wrong , Please try again');
-    }
-  };
-
-  useEffect(() => {
-    let isActive = true;
-    if (isActive) {
-      fetchData();
-    }
-    return () => {
-      isActive = false;
-    };
-  }, []);
 
   return (
     <div className="container">
@@ -60,16 +35,12 @@ const TopRatedWorkspaces = () => {
         </Form>
       </div>
       <div className="card_container">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <CardContainer
-            title="Top Rated Workspaces"
-            searchText="top-new"
-            size="large"
-            data={topRated}
-          />
-        )}
+        <CardContainer
+          title="Top Rated Workspaces"
+          searchText="top-new"
+          size="large"
+          data={topRated}
+        />
       </div>
     </div>
   );
