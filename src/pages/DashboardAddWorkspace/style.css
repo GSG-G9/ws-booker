@@ -62,12 +62,12 @@
     margin-left:0px !important;
     margin-top: 30px;
 }
-.amenities{
+.amenities-section{
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
-.amenities .check{
+.amenities-section .check{
     width: 30%;
     margin-left:0px !important;
     margin-top: 30px;

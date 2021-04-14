@@ -13,8 +13,8 @@ import { NavLink } from 'react-router-dom';
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
+import firebaseConfig, { db } from '../../firebase/config';
 import { addWorkspace } from '../../firebase/firestore/workspace';
-import logo from '../../assets/images/WSBooker.png';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
@@ -22,42 +22,99 @@ import './style.css';
 
 const { Title, Text } = Typography;
 const DashboardAddWorkspace = () => {
-  const [adminData, setAdminData] = useState([]);
   const [workspaceData, setWorkspaceData] = useState({});
-  const [workspaceName, setWorkspaceName] = useState();
+  const [image, setImage] = useState(null);
+  const [gallery, setGallery] = useState(null);
+  const [fileURL, setFileURl] = useState('');
+  const [galleryFileURL, setGalleryFileURL] = useState([]);
+  const [runEffect, setRunEffect] = useState(false);
 
-  // const props = {
-  //   name: 'file',
-  //   headers: {
-  //     authorization: 'authorization-text',
-  //   },
-  //   onChange(info) {
-  //     if (info.file.status !== 'uploading') {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (info.file.status === 'done') {
-  //       message.success(`${info.file.name} file uploaded successfully`);
-  //     } else if (info.file.status === 'error') {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  // };
-
-  // const handleChangeName = (e) => {
-  //   const name = e.target.value;
-  //   setWorkspaceName(name);
-  //   console.log('lllllllllll');
-  //   console.log('name', name);
-  //   console.log('user', workspaceName);
-  // };
-  const onFinish = ({ workspaceUsername }) => {
-    console.log('name', workspaceUsername);
+  const handleChangeImage = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
   };
 
-  // const handleChangeDescription = () => {
-  //   // e.preventDefault();
-  //   console.log('user', workspaceName);
-  // };
+  const handleChangeGallery = (e) => {
+    if (e.target.files[0]) {
+      setGallery(e.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    try {
+      if (image) {
+        const storageRef = await firebaseConfig.storage().ref();
+        const fileRef = storageRef.child(image.name);
+        await fileRef.put(image);
+        const url = await fileRef.getDownloadURL();
+        setFileURl(url);
+        setRunEffect((x) => !x);
+        return url;
+      }
+    } catch (err) {
+      return err;
+    }
+  };
+  const handleUploadGallery = async () => {
+    try {
+      if (gallery) {
+        const storageRef = await firebaseConfig.storage().ref();
+        const fileRef = storageRef.child(gallery.name);
+        await fileRef.put(gallery);
+        const url = await fileRef.getDownloadURL();
+        setGalleryFileURL(url);
+        setRunEffect((x) => !x);
+        return url;
+      }
+    } catch (err) {
+      return err;
+    }
+  };
+
+  const onFinish = async ({
+    workspaceName,
+    Description,
+    hoursOperation,
+    feesPerHour,
+    feesPerDay,
+    totalCapacity,
+    DaysOFWork,
+    workspaceCity,
+    workspaceAmenities,
+    workspaceLocation,
+  }) => {
+    console.log(
+      'data',
+      workspaceName,
+      Description,
+      hoursOperation,
+      feesPerHour,
+      feesPerDay,
+      totalCapacity,
+      DaysOFWork,
+      workspaceCity,
+      workspaceAmenities,
+      workspaceLocation
+    );
+    const adding = await addWorkspace({
+      name: workspaceName,
+      description: Description,
+      days_of_work: DaysOFWork,
+      start_time: hoursOperation[0]._d,
+      end_time: hoursOperation[1]._d,
+      fees_per_hour: feesPerHour,
+      fees_per_day: feesPerDay,
+      capacity: totalCapacity,
+      location: workspaceLocation,
+      amenities: workspaceAmenities,
+      city: workspaceCity,
+      header_image: fileURL,
+      image_gallery: galleryFileURL,
+      rating: 0,
+    });
+    console.log('res adding: ', adding);
+  };
 
   return (
     <div className="main-container">
@@ -82,101 +139,175 @@ const DashboardAddWorkspace = () => {
       </div>
       <div className="dashboard-container">
         <Form className="add-ws-form" onFinish={onFinish}>
-          {/* <Title level={3}>Add Workspace </Title> */}
-          {/* <Divider /> */}
-          {/* <div className="half-section-left"> */}
-          <Form.Item
-            label="Username"
-            name="workspaceUsername"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <MainInput label="Workspace Name" name="workspaceName" />
-          </Form.Item>
-          {/* </div> */}
-          {/* 
-            <div className="upload-section">
-              <Text className="label">Header Image</Text>
-              <input type="file" {...props} />
-            </div>
-          <div className="half-section-right">
-            <Image alt="Header Image" />
+          <Title level={3}>Add Workspace </Title>
+          <Divider />
+          <div className="half-section-left">
+            <Form.Item
+              name="workspaceName"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
+            >
+              <MainInput label="Workspace Name" name="workspaceNameInput" />
+            </Form.Item>
           </div>
-          <MainInput
-            label="Description"
+
+          <div className="upload-section">
+            <Form.Item name="headerImage">
+              <Text className="label">Header Image</Text>
+              <input
+                type="file"
+                name="headerImageInput"
+                onChange={handleChangeImage}
+              />
+            </Form.Item>
+          </div>
+          <div className="half-section-right">
+            <Image alt="Header Image" preview={false} src={image} />
+          </div>
+          <Form.Item
             name="Description"
-            type="textArea"
-            className="textarea-description"
-            onChange={handleChangeDescription}
-          />
+            rules={[{ required: true, message: '!' }]}
+          >
+            <MainInput
+              type="textArea"
+              label="Description"
+              name="descriptionInput"
+              className="textarea-description"
+            />
+          </Form.Item>
+
           <div className="half-section-left">
             <Text className="label">Days of Work</Text>
             <div className="checkout-container">
-              <Checkbox>Sun</Checkbox>
-              <Checkbox>Mon</Checkbox>
-              <Checkbox>Tue</Checkbox>
-              <Checkbox>Wed</Checkbox>
-              <Checkbox>The</Checkbox>
-              <Checkbox>Fri</Checkbox>
-              <Checkbox>Sat</Checkbox>
+              <Form.Item name="DaysOFWork">
+                <Checkbox.Group>
+                  <Checkbox value="Sun">Sun</Checkbox>
+                  <Checkbox value="Mon">Mon</Checkbox>
+                  <Checkbox value="Tue">Tue</Checkbox>
+                  <Checkbox value="Wed">Wed</Checkbox>
+                  <Checkbox value="The">The</Checkbox>
+                  <Checkbox value="Fri">Fri</Checkbox>
+                  <Checkbox value="Sat">Sat</Checkbox>
+                </Checkbox.Group>
+              </Form.Item>
             </div>
-            <MainInput
-              label="Hours of Operation"
-              name="hoursOfOperation"
-              type="time"
-              // onChange={}
-            />
+            <Form.Item
+              name="hoursOperation"
+              rules={[{ required: true, message: '!' }]}
+            >
+              <MainInput
+                label="Hours of Operation"
+                name="OperationHoursInput"
+                type="time"
+              />
+            </Form.Item>
+            <Form.Item
+              name="workspaceCity"
+              rules={[{ required: true, message: '!' }]}
+            >
+              <MainInput label="Workspace City" name="workspaceCityInput" />
+            </Form.Item>
           </div>
           <div className="half-section-right">
-            <MainInput
-              label="Fees per Hour"
+            <Form.Item
               name="feesPerHour"
-              type="number"
-              // onChange={}
-            />
-            <MainInput
-              label="Fees per Day"
+              rules={[{ required: true, message: '!' }]}
+            >
+              <MainInput
+                label="Fees per Hour"
+                name="feesPerHourInput"
+                type="number"
+              />
+            </Form.Item>
+            <Form.Item
               name="feesPerDay"
-              type="number"
-              // onChange={}
-            />
-            <MainInput
-              label="Total Capacity"
+              rules={[{ required: true, message: '!' }]}
+            >
+              <MainInput
+                label="Fees per Day"
+                name="feesPerDayInput"
+                type="number"
+              />
+            </Form.Item>
+            <Form.Item
               name="totalCapacity"
-              type="number"
-              // onChange={}
-            />
+              rules={[{ required: true, message: '!' }]}
+            >
+              <MainInput
+                label="Total Capacity"
+                name="totalCapacityInput"
+                type="number"
+              />
+            </Form.Item>
           </div>
-          <MainInput
-            label="Location Details"
-            name="locationDetails"
-            placeholder="Town / City"
-            // onChange={}
-          />
+          <Form.Item
+            name="workspaceLocation"
+            rules={[{ required: true, message: '!' }]}
+          >
+            <MainInput
+              label="Location Details"
+              name="locationDetails"
+              placeholder="Town / City"
+            />
+          </Form.Item>
           <div className="amentities-Contaienr">
             <Text className="label">Amenities</Text>
-            <div className="amenities">
-              <Checkbox className="check">High Speed WiFi</Checkbox>
-              <Checkbox className="check">Library</Checkbox>
-              <Checkbox className="check">Scanner</Checkbox>
-              <Checkbox className="check">Free Coffee </Checkbox>
-              <Checkbox className="check">Lounge / Chill-out Area</Checkbox>
-              <Checkbox className="check">Kitchen</Checkbox>
-              <Checkbox className="check">Air Conditioning</Checkbox>
-              <Checkbox className="check">Computers</Checkbox>
-              <Checkbox className="check">Projector</Checkbox>
+            <div className="amenities-section">
+              <Form.Item name="workspaceAmenities">
+                <Checkbox.Group>
+                  <Checkbox className="check" value="High Speed WiFi">
+                    High Speed WiFi
+                  </Checkbox>
+                  <Checkbox className="check" value="Library">
+                    Library
+                  </Checkbox>
+                  <Checkbox className="check" value="Scanner">
+                    Scanner
+                  </Checkbox>
+                  <Checkbox className="check" value="Free Coffee">
+                    Free Coffee
+                  </Checkbox>
+                  <Checkbox className="check" value="Lounge / Chill-out Area">
+                    Lounge / Chill-out Area
+                  </Checkbox>
+                  <Checkbox className="check" value="Kitchen">
+                    Kitchen
+                  </Checkbox>
+                  <Checkbox className="check" value="Air Conditioning">
+                    Air Conditioning
+                  </Checkbox>
+                  <Checkbox className="check" value="Computers">
+                    Computers
+                  </Checkbox>
+                  <Checkbox className="check" value="Projector">
+                    Projector
+                  </Checkbox>
+                </Checkbox.Group>
+              </Form.Item>
             </div>
           </div>
 
           <div className="images-section">
-            <Text className="label">Additional Images</Text>
-            <input type="file" {...props} />
-          </div> */}
-          {/* <div className="buttons-section"> */}
-          <Form.Item>
-            <MainButton buttName="Add" className="add" htmlType="submit" />
-          </Form.Item>
-          {/* <MainButton buttName="Cancel" htmlType="default" className="cancel" /> */}
-          {/* </div> */}
+            <Form.Item name="headerImage">
+              <Text className="label">Additional Images</Text>
+              <input
+                type="file"
+                name="additionalImages"
+                onChange={handleChangeGallery}
+              />
+            </Form.Item>
+          </div>
+          <div className="buttons-section">
+            <Form.Item>
+              <MainButton buttName="Add" className="add" htmlType="submit" />
+            </Form.Item>
+            <MainButton
+              buttName="Cancel"
+              htmlType="default"
+              className="cancel"
+            />
+          </div>
         </Form>
       </div>
     </div>
