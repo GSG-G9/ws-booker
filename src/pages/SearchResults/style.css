@@ -3,17 +3,16 @@
     flex-direction: column;
     justify-content: center;
 }
-.search_div{
+.search_div_div{
     display: flex;
     align-self: center;
     margin-top: 50px;
     flex-wrap: wrap;
 }
-.search_input{
-    width:45vw;
-    font-size: 2em;
+.search_inp{
+    width: 45vw;
 }
-.search_button{
+.search_butt{
    height: 55px;
    width :144px;
    margin-top: 10px;

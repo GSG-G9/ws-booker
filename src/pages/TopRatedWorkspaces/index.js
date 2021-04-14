@@ -45,19 +45,19 @@ const TopRatedWorkspaces = () => {
 
   return (
     <div className="container">
-      <div className="search_div">
+      <div className="search_div_div">
         <Form layout="inline" name="search" onFinish={onFinish}>
           <Form.Item
             name="wsName"
             required
             rules={[{ required: true, message: 'Please enter city name' }]}
           >
-            <MainInput placeholder="Enter City name" className="search_input" />
+            <MainInput placeholder="Enter City name" className="search_inp" />
           </Form.Item>
           <Form.Item>
             <MainButton
               buttName="Search"
-              className="search_button"
+              className="search_butt"
               htmlType="submit"
             />
           </Form.Item>
