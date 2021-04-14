@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import { notification, Form } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Form, message } from 'antd';
 import Loader from '../../components/CommonComponents/Loader';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import CardContainer from '../../components/CommonComponents/CardContainer';
 import { getAllWorkspaces } from '../../firebase/firestore/workspace';
-import './style.css';
 
 const TopRatedWorkspaces = () => {
   const history = useHistory();
@@ -26,10 +25,7 @@ const TopRatedWorkspaces = () => {
       setTopRated(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
-      notification.open({
-        message: 'Something went wrong , Please try again',
-      });
+      message.error('Something went wrong , Please try again');
     }
   };
 

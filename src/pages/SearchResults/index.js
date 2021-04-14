@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { notification, Form } from 'antd';
+import { Form, message } from 'antd';
 import Loader from '../../components/CommonComponents/Loader';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
@@ -11,7 +11,6 @@ import './style.css';
 const SearchResults = () => {
   const useQuery = () => new URLSearchParams(useLocation().search);
   const history = useHistory();
-
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const query = useQuery();
@@ -29,13 +28,10 @@ const SearchResults = () => {
   const fetchData = async () => {
     try {
       const data = await getSearchResults(queryObj);
-
       setSearchResults(data);
       setIsLoading(false);
     } catch (error) {
-      notification.open({
-        message: 'Something went wrong , Please try again',
-      });
+      message.error('Something went wrong , Please try again');
     }
   };
 
