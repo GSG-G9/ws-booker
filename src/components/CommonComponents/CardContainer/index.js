@@ -38,14 +38,15 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
                 <Empty description="Sorry! There is no Workspaces." />
               )}
             </ul>
-
-            <Pagination
-              total={data.length}
-              pageSize={4}
-              onChange={(value) => {
-                setLimit([(value - 1) * numEachPage, value * numEachPage]);
-              }}
-            />
+            <div className="pagination">
+              <Pagination
+                total={data.length}
+                pageSize={4}
+                onChange={(value) => {
+                  setLimit([(value - 1) * numEachPage, value * numEachPage]);
+                }}
+              />
+            </div>
           </div>
         </>
       ) : (
