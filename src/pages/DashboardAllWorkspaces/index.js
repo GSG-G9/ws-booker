@@ -1,9 +1,38 @@
-import React from 'react';
+// import React from 'react';
+// import { Image, Typography, Menu, Divider, message, Checkbox } from 'antd';
+// import { NavLink } from 'react-router-dom';
 
-const DashboardAllWorkspaces = () => (
-  <div>
-    <h1>Hi from dashboard all workspaces</h1>
-  </div>
-);
+// import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 
-export default DashboardAllWorkspaces;
+// import logo from '../../assets/images/WSBooker.png';
+// import list from '../../assets/icons/list.svg';
+// import add from '../../assets/icons/add.svg';
+// import logout from '../../assets/icons/logout.svg';
+// import './style.css';
+
+// const { Title, Text } = Typography;
+// const DashboardAllWorkspaces = () => (
+//   <div className="main-container">
+//     <div className="dashboard-nav">
+//       <Title level={3} className="nav-title">
+//         Dashboard
+//       </Title>
+//       <Menu className="dashboard-menu">
+//         <Menu.Item key="1">
+//           <Image preview={false} src={list} alt="" />
+//           <NavLink to={AllWorkspaces}>All Workspaces</NavLink>
+//         </Menu.Item>
+//         <Menu.Item key="2">
+//           <Image preview={false} src={add} alt="" />
+//           <NavLink to={AddWorkspace}>Add Workspace</NavLink>
+//         </Menu.Item>
+//         <Menu.Item key="3">
+//           <Image preview={false} src={logout} alt="" />
+//           <NavLink to={Home}>Log out</NavLink>
+//         </Menu.Item>
+//       </Menu>
+//     </div>
+//   </div>
+// );
+
+// export default DashboardAllWorkspaces;
