@@ -15,8 +15,9 @@ import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import { AuthContext } from '../../firebase/context';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
-import { getUserById } from '../../firebase/firestore/user';
+import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
+
 import './style.css';
 
 const WorkspaceProfile = () => {
@@ -25,6 +26,9 @@ const WorkspaceProfile = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
   const [capacity, setCapacity] = useState('');
+  const [timeValue, setTimeValue] = useState(null);
+  const [dateValue, setDateValue] = useState(null);
+  const [dateRangeValue, setDateRangeValue] = useState(null);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -85,15 +89,18 @@ const WorkspaceProfile = () => {
     setCapacity(value);
   };
   const handleChangeDateRange = (e, string) => {
+    setDateRangeValue(e);
     setDateError(null);
     setStartDate(string[0]);
     setEndDate(string[1]);
   };
   const handleChangeDate = (e, string) => {
+    setDateValue(e);
     setDateError(null);
     setStartDate(string);
   };
   const handleChangeTime = (e, string) => {
+    setTimeValue(e);
     setTimeError(null);
     setStartTime(string[0]);
     setEndTime(string[1]);
@@ -101,6 +108,8 @@ const WorkspaceProfile = () => {
   const handleRepeatChange = (e) => {
     setRepeat(e.target.value);
     setStartDate(null);
+    setDateValue(null);
+    setDateRangeValue(null);
   };
 
   const fetchWorkspaceData = async (id) => {
@@ -153,6 +162,9 @@ const WorkspaceProfile = () => {
   };
 
   const onBook = async () => {
+    console.log(startTime);
+    console.log(endTime);
+    console.log(capacity);
     try {
       if (!capacity) {
         setCapacityError('Please select capacity!');
@@ -184,10 +196,15 @@ const WorkspaceProfile = () => {
             setConfirmLoading(false);
             setConfirmTitle('Something went wrong, please try again');
             setConfirmVisible(true);
-          } else {
+          } else if (!result.succeed) {
             setConfirmLoading(false);
             setConfirmVisible(true);
-            setConfirmTitle(result);
+            setConfirmTitle(result.msg);
+          } else {
+            await editUserCanBook(user.id, { can_book: false });
+            setConfirmLoading(false);
+            setConfirmVisible(true);
+            setConfirmTitle(result.msg);
           }
         }
       }
@@ -206,11 +223,14 @@ const WorkspaceProfile = () => {
             title="Booking"
             centered
             visible={visible}
-            onOk={!user ? onOk : onBook}
+            onOk={!user || !userData.can_book ? onOk : onBook}
             onCancel={() => setVisible(false)}
+            cancelButtonProps={
+              (!user || !userData.can_book) && { style: { display: 'none' } }
+            }
             confirmLoading={confirmLoading}
             width={500}
-            okText="Book"
+            okText={!user || !userData.can_book ? 'Ok' : 'Book'}
           >
             {!user ? (
               <p className="requirement-text">
@@ -259,6 +279,7 @@ const WorkspaceProfile = () => {
                   className="input-number"
                   disabledHours={disabledHours}
                   onChange={handleChangeTime}
+                  value={timeValue}
                 />
                 <div
                   style={{
@@ -295,6 +316,7 @@ const WorkspaceProfile = () => {
                     disabledDate={disabledDate}
                     format={dateFormat}
                     onChange={handleChangeDate}
+                    value={dateValue}
                   />
                 ) : (
                   <Input
@@ -306,6 +328,7 @@ const WorkspaceProfile = () => {
                     disabledDate={disabledDate}
                     onChange={handleChangeDateRange}
                     format={dateFormat}
+                    value={dateRangeValue}
                   />
                 )}
                 <div

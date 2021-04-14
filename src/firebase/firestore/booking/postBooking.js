@@ -54,7 +54,10 @@ const postBooking = async (userId, workspaceId, payload) => {
       });
     }
     if (isOverlapped) {
-      return message;
+      return {
+        succeed: false,
+        msg: message,
+      };
     }
     const bookingResult = await addBooking(
       userId,

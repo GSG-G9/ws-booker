@@ -22,7 +22,10 @@ const addBooking = async (
       book_start_time: millisecondsStartTime.toDate(),
       book_end_time: millisecondsEndTime.toDate(),
     });
-    return 'booking added successfully';
+    return {
+      succeed: true,
+      msg: 'booking added successfully',
+    };
   } catch (err) {
     return err;
   }
