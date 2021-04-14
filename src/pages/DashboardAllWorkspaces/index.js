@@ -1,5 +1,14 @@
 import React from 'react';
-import { Image, Typography, Menu, Divider, message, Checkbox } from 'antd';
+import {
+  Image,
+  Typography,
+  Menu,
+  Table,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Form,
+} from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
@@ -10,6 +19,12 @@ import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
 import './style.css';
 
+interface Item {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
 const { Title, Text } = Typography;
 const DashboardAllWorkspaces = () => (
   <div className="main-contain">
