@@ -9,8 +9,10 @@ import {
   Popconfirm,
   Form,
   Tag,
+  Icon,
   message,
 } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import Column from 'antd/lib/table/Column';
 import { getAllWorkspaces } from '../../firebase/firestore/workspace';
@@ -150,6 +152,15 @@ const DashboardAllWorkspaces = () => {
                     ))}
                   </>
                 )}
+              />
+              <Column
+                title="Action"
+                dataIndex="action"
+                key="action"
+                width="130px"
+                render={(action) => {
+                  <DeleteOutlined />;
+                }}
               />
             </Table>
           </div>
