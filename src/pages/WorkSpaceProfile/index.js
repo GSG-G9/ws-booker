@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { Row, Col, Divider, Modal, Radio } from 'antd';
+import { Row, Col, Divider, Modal, Radio, Popconfirm } from 'antd';
+import firebase from 'firebase';
+import { date } from 'yup';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
@@ -13,7 +15,10 @@ import calender from '../../assets/icons/calender.svg';
 import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
+import { AuthContext } from '../../firebase/context';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
+import { getUserById } from '../../firebase/firestore/user';
+import { postBooking } from '../../firebase/firestore/booking';
 import './style.css';
 
 const WorkspaceProfile = () => {
@@ -21,8 +26,19 @@ const WorkspaceProfile = () => {
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [capacity, setCapacity] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [fullStartDate, setFullStartDate] = useState('');
+  const [fullEndDate, setFullEndDate] = useState('');
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [confirmTitle, setConfirmTitle] = useState('');
+  const [userData, setUserData] = useState('');
   const { workspaceId } = useParams();
   const [repeat, setRepeat] = useState('once');
+  const { user, setError, isLoading } = useContext(AuthContext);
   const moment = extendMoment(Moment);
 
   const handleRepeatChange = (e) => {
@@ -55,11 +71,40 @@ const WorkspaceProfile = () => {
     (current && current < moment().endOf('day'));
 
   const disabledHours = () => {
-    const startTime = Number(workspaceData.start_time.split(':')[0]);
-    const endTime = Number(workspaceData.end_time.split(':')[0]);
-    return arrayOfHours.filter(
-      (n) => range(startTime, endTime).indexOf(n) === -1
-    );
+    const start = Number(workspaceData.start_time.split(':')[0]);
+    const end = Number(workspaceData.end_time.split(':')[0]);
+    return arrayOfHours.filter((n) => range(start, end).indexOf(n) === -1);
+  };
+  console.log(workspaceData);
+  const dateFormat = 'YYYY-MM-DD';
+  console.log('hiiiiiiii', user);
+  const handleChangeCapacity = (value) => {
+    setCapacity(value);
+  };
+  const handleChangeDateRange = (e, string) => {
+    console.log(e, string);
+    setStartDate(string[0]);
+    setEndDate(string[1]);
+  };
+  const handleChangeDate = (e, string) => {
+    console.log(string);
+    setStartDate(string);
+  };
+  const concatDate = (timePart, datePart) =>
+    moment(`${datePart} ${timePart}`, 'YYYY-MM-DD HH:mm:ss').format();
+
+  const handleChangeTime = (e, string) => {
+    setStartTime(string[0]);
+    setEndTime(string[1]);
+
+    // console.log(e, string);
+    // const datee = '2018-12-24';
+    // const timee = '10:59:59';
+    // const millisecondsEndTime = firebase.firestore.Timestamp.fromDate(
+    //   new Date(dateTime)
+    // );
+    // console.log('pleaseee', millisecondsEndTime.toDate());
+    // console.log('finalll', dateTime);
   };
 
   const fetchWorkspaceData = async (id) => {
@@ -71,18 +116,72 @@ const WorkspaceProfile = () => {
       return err;
     }
   };
+
+  const fetchUserDate = async (id) => {
+    try {
+      if (user) {
+        const getUserData = await getUserById(id);
+        setUserData(getUserData);
+      }
+    } catch (err) {
+      return err;
+    }
+  };
   useEffect(() => {
     let isActive = 'true';
     if (isActive) {
       fetchWorkspaceData(workspaceId);
+      if (user) {
+        fetchUserDate(user.id);
+      }
     }
     return () => {
       isActive = 'false';
     };
-  }, []);
+  }, [user]);
 
   const onClick = () => {
     setVisible(true);
+  };
+  const onOk = () => {
+    console.log('onOk');
+    setVisible(false);
+  };
+  const handleConfirmOk = () => {
+    setConfirmVisible(false);
+    setConfirmTitle('');
+  };
+
+  const onBook = () => {
+    console.log(startDate);
+    console.log(endDate);
+    console.log(startTime);
+    console.log('hahaha', endTime);
+    const fullStart = concatDate(startTime, startDate);
+    const fullEnd =
+      repeat === 'once'
+        ? concatDate(endTime, startDate)
+        : concatDate(endTime, endDate);
+    console.log('fulllll', fullStart, fullEnd);
+    console.log('userrrr', userData);
+
+    postBooking(user.id, workspaceId, {
+      book_capacity: capacity,
+      book_start_time: fullStart,
+      book_end_time: fullEnd,
+    })
+      .then((data) => {
+        if (data instanceof Error) {
+          console.log(data.message);
+          setConfirmTitle(data.message);
+          setConfirmVisible(true);
+        } else {
+          console.log('dataaa boooking', data);
+          setConfirmVisible(true);
+          setConfirmTitle(data);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -95,49 +194,83 @@ const WorkspaceProfile = () => {
             title="Booking"
             centered
             visible={visible}
-            onOk={() => setVisible(false)}
+            onOk={!user ? onOk : onBook}
             onCancel={() => setVisible(false)}
             width={500}
           >
-            <p className="requirement-text">
-              Please enter your Requirements below:
-            </p>
-            <Input
-              type="number"
-              label="No. of People"
-              direction="row"
-              containerClass="container"
-              className="input-number"
-              max={workspaceData.capacity}
-            />
-            <Input
-              type="time"
-              label="Time"
-              direction="row"
-              containerClass="container"
-              className="input-number"
-              disabledHours={disabledHours}
-            />
-            <div style={{ display: 'flex' }}>
-              <p className="repeat-text">Repeat</p>
-              <Radio.Group value={repeat} onChange={handleRepeatChange}>
-                <Radio.Button value="once" className="radio-button">
-                  Once
-                </Radio.Button>
-                <Radio.Button value="daily" className="radio-button">
-                  Daily
-                </Radio.Button>
-              </Radio.Group>
-            </div>
-            <Input
-              disabled={repeat === 'once'}
-              type="dateRange"
-              label="Day"
-              direction="row"
-              containerClass="container"
-              className="input-number"
-              disabledDate={disabledDate}
-            />
+            {!user ? (
+              <p className="requirement-text">
+                Please, Log in first before booking.
+              </p>
+            ) : !userData.can_book ? (
+              <p className="requirement-text">
+                Sorry, you have already booked a workspace
+              </p>
+            ) : (
+              <div>
+                <Popconfirm
+                  title={confirmTitle}
+                  visible={confirmVisible}
+                  onConfirm={handleConfirmOk}
+                />
+                <p className="requirement-text">
+                  Please enter your Requirements below:
+                </p>
+                <Input
+                  type="number"
+                  label="No. of People"
+                  direction="row"
+                  containerClass="container"
+                  className="input-number"
+                  max={workspaceData.capacity}
+                  onChange={handleChangeCapacity}
+                  value={capacity}
+                />
+                <Input
+                  type="time"
+                  label="Time"
+                  direction="row"
+                  containerClass="container"
+                  className="input-number"
+                  disabledHours={disabledHours}
+                  onChange={handleChangeTime}
+                />
+                <div style={{ display: 'flex' }}>
+                  <p className="repeat-text">Repeat</p>
+                  <Radio.Group value={repeat} onChange={handleRepeatChange}>
+                    <Radio.Button value="once" className="radio-button">
+                      Once
+                    </Radio.Button>
+                    <Radio.Button value="daily" className="radio-button">
+                      Daily
+                    </Radio.Button>
+                  </Radio.Group>
+                </div>
+                {repeat === 'once' ? (
+                  <Input
+                    type="date"
+                    label="Day"
+                    direction="row"
+                    containerClass="container"
+                    className="input-number"
+                    disabledDate={disabledDate}
+                    format={dateFormat}
+                    onChange={handleChangeDate}
+                  />
+                ) : (
+                  <Input
+                    type="dateRange"
+                    label="Day"
+                    direction="row"
+                    containerClass="container"
+                    className="input-number"
+                    disabledDate={disabledDate}
+                    onChange={handleChangeDateRange}
+                    format={dateFormat}
+                  />
+                )}
+              </div>
+            )}
           </Modal>
           <Row>
             <Col span={24}>
@@ -192,7 +325,7 @@ const WorkspaceProfile = () => {
                     {workspaceData.image_gallery ? (
                       workspaceData.image_gallery.map((item, index) => (
                         <img
-                          key={index}
+                          key={index.toString}
                           alt="small workspace"
                           className="small-img"
                           src={item}
