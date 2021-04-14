@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { Row, Col, Divider, Modal, Radio, Popconfirm } from 'antd';
-import firebase from 'firebase';
-import { date } from 'yup';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
@@ -75,19 +73,17 @@ const WorkspaceProfile = () => {
     const end = Number(workspaceData.end_time.split(':')[0]);
     return arrayOfHours.filter((n) => range(start, end).indexOf(n) === -1);
   };
-  console.log(workspaceData);
+
   const dateFormat = 'YYYY-MM-DD';
-  console.log('hiiiiiiii', user);
+
   const handleChangeCapacity = (value) => {
     setCapacity(value);
   };
   const handleChangeDateRange = (e, string) => {
-    console.log(e, string);
     setStartDate(string[0]);
     setEndDate(string[1]);
   };
   const handleChangeDate = (e, string) => {
-    console.log(string);
     setStartDate(string);
   };
   const concatDate = (timePart, datePart) =>
@@ -96,15 +92,6 @@ const WorkspaceProfile = () => {
   const handleChangeTime = (e, string) => {
     setStartTime(string[0]);
     setEndTime(string[1]);
-
-    // console.log(e, string);
-    // const datee = '2018-12-24';
-    // const timee = '10:59:59';
-    // const millisecondsEndTime = firebase.firestore.Timestamp.fromDate(
-    //   new Date(dateTime)
-    // );
-    // console.log('pleaseee', millisecondsEndTime.toDate());
-    // console.log('finalll', dateTime);
   };
 
   const fetchWorkspaceData = async (id) => {
@@ -144,7 +131,6 @@ const WorkspaceProfile = () => {
     setVisible(true);
   };
   const onOk = () => {
-    console.log('onOk');
     setVisible(false);
   };
   const handleConfirmOk = () => {
@@ -153,17 +139,11 @@ const WorkspaceProfile = () => {
   };
 
   const onBook = () => {
-    console.log(startDate);
-    console.log(endDate);
-    console.log(startTime);
-    console.log('hahaha', endTime);
     const fullStart = concatDate(startTime, startDate);
     const fullEnd =
       repeat === 'once'
         ? concatDate(endTime, startDate)
         : concatDate(endTime, endDate);
-    console.log('fulllll', fullStart, fullEnd);
-    console.log('userrrr', userData);
 
     postBooking(user.id, workspaceId, {
       book_capacity: capacity,
@@ -172,11 +152,9 @@ const WorkspaceProfile = () => {
     })
       .then((data) => {
         if (data instanceof Error) {
-          console.log(data.message);
           setConfirmTitle(data.message);
           setConfirmVisible(true);
         } else {
-          console.log('dataaa boooking', data);
           setConfirmVisible(true);
           setConfirmTitle(data);
         }
