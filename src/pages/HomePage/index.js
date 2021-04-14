@@ -8,7 +8,7 @@ import FeaturesCard from '../../components/CommonComponents/FeaturesCard';
 import validate from '../../assets/icons/validate.svg';
 import trust from '../../assets/icons/trust.svg';
 import free from '../../assets/icons/free.svg';
-import { TopRatedWorkspaces } from '../../utils';
+import { TopRatedWorkspaces, NewestWorkspaces } from '../../utils';
 
 import './style.css';
 
@@ -65,7 +65,7 @@ const HomePage = () => {
           <CardContainer
             title="Newest Workspaces"
             size="small"
-            seeMoreLink={TopRatedWorkspaces}
+            seeMoreLink={NewestWorkspaces}
             data={firstNewest}
           />
         </div>

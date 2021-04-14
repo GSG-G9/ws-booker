@@ -25,7 +25,13 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
               {data.length !== 0 ? (
                 data.slice(limit[0], limit[1]).map((item) => (
                   <li key={item.id} className="cardcontainerli">
-                    <WorkspaceCard {...item} size={size} />
+                    <WorkspaceCard
+                      image={item.header_image}
+                      feesPerDay={item.fees_per_day}
+                      feesPerHour={item.fees_per_hour}
+                      {...item}
+                      size={size}
+                    />
                   </li>
                 ))
               ) : (
@@ -46,7 +52,7 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
         <>
           <div className="title-container">
             <Title className="toprated-title">{title}</Title>
-            <Link to={`/${seeMoreLink}`} className="seemore">
+            <Link to={seeMoreLink} className="seemore">
               See more
               <Image src={arrow} className="arrow" />
             </Link>

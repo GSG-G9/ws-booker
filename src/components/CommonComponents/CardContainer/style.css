@@ -19,7 +19,10 @@
     margin: 10px 30px;
 
 }
-
+.ant-pagination{
+    background-color: greenyellow;
+    align-items: center;
+}
 .search-title-container{
     text-align: center;
 }

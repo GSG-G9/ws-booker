@@ -23,7 +23,6 @@ const SearchResults = () => {
 
   const onFinish = ({ wsName }) => {
     const searchUrl = `/search?q=${wsName}`;
-    console.log(searchUrl);
     history.push(searchUrl);
   };
 
@@ -34,7 +33,6 @@ const SearchResults = () => {
       setSearchResults(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
       notification.open({
         message: 'Something went wrong , Please try again',
       });
