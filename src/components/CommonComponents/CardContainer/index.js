@@ -9,7 +9,14 @@ import './style.css';
 
 const { Title, Text } = Typography;
 
-const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
+const CardContainer = ({
+  title,
+  searchText,
+  data,
+  seeMoreLink,
+  size,
+  search,
+}) => {
   const numEachPage = 4;
   const [limit, setLimit] = useState([0, numEachPage]);
   return (
@@ -18,7 +25,7 @@ const CardContainer = ({ title, searchText, data, seeMoreLink, size }) => {
         <>
           <div className="search-title-container">
             <Title className="search-title">{title}</Title>
-            <Text className="search-text"> {searchText}</Text>
+            {search ? <Text className="search-text"> {searchText}</Text> : null}
           </div>
           <div className="cardcontainer">
             <ul className="cardcontainerul">
@@ -83,6 +90,7 @@ CardContainer.defaultProps = {
   size: '',
   seeMoreLink: '',
   data: [],
+  search: false,
 };
 
 CardContainer.propTypes = {
@@ -90,6 +98,7 @@ CardContainer.propTypes = {
   searchText: PropTypes.string,
   size: PropTypes.string,
   seeMoreLink: PropTypes.string,
+  search: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

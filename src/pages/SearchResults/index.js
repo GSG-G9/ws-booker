@@ -78,6 +78,7 @@ const SearchResults = () => {
             searchText={
               queryObj.q || queryObj.city || queryObj.capacity || 'Workspace'
             }
+            search
             size="large"
             data={searchResults}
           />
