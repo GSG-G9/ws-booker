@@ -98,7 +98,7 @@ function WorkspaceCard({
 
 WorkspaceCard.propTypes = {
   size: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   name: PropTypes.string,
   image: PropTypes.string,
   feesPerDay: PropTypes.number,

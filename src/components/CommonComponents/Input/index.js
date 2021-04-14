@@ -134,18 +134,20 @@ MainInput.propTypes = {
   label: PropTypes.string,
   containerClass: PropTypes.string,
   type: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 
 MainInput.defaultProps = {
-  max: '1000',
+  max: 1000,
   direction: 'column',
-  rows: '3',
+  rows: 3,
   placeholder: '',
   label: '',
   containerClass: '',
   type: '',
+  value: '',
+  onChange: () => {},
 };
 
 export default MainInput;
