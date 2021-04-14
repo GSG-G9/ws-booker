@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
-import { message, Modal, Image, Button, Typography } from 'antd';
+import { message, Modal, Image, Button, Typography, Form } from 'antd';
+import { EditOutlined, EditFilled } from '@ant-design/icons';
 
-import { EditFilled } from '@ant-design/icons';
 import firebaseConfig, { db } from '../../firebase/config';
 import { EditUserData, getUserById } from '../../firebase/firestore/user';
 
@@ -21,13 +21,15 @@ const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
   const [userData, setUserData] = useState({});
-  const [fileURL, setFileURl] = useState(userData.image);
+  const [fileURL, setFileURl] = useState('');
+  const [image, setImage] = useState(null);
   const [workspaceData, setWorkspaceData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [updatedUsername, setUpdatedUsername] = useState(userData.name);
-  const [updatedPhone, setUpdatedPhone] = useState(userData.phone_number);
-  const { userId } = match.params;
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [runEffect, setRunEffect] = useState(false);
 
+  const { userId } = match.params;
+  const { name, phone_number } = userData;
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
@@ -43,66 +45,49 @@ const UserProfile = ({ match }) => {
     return () => {
       isActive = 'false';
     };
-  }, []);
+  }, [runEffect]);
 
   const showModal = () => {
     setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const handleUpload = async () => {
+    try {
+      if (image) {
+        const storageRef = await firebaseConfig.storage().ref();
+        const fileRef = storageRef.child(image.name);
+
+        await fileRef.put(image);
+        const url = await fileRef.getDownloadURL();
+        setFileURl(url);
+        const response = db.collection('users').doc(userId);
+        const aa = await response.update({
+          ...userData,
+          image: url,
+        });
+        setRunEffect((x) => !x);
+        return url;
+      }
+    } catch (err) {
+      return err;
+    }
   };
 
-  const handleChangeUsername = (e) => {
-    e.preventDefault();
-    const newUser = e.target.value;
-    setUpdatedUsername(newUser);
-  };
-
-  const handleChangePhone = (e) => {
-    e.preventDefault();
-    const newPhone = e.target.value;
-    setUpdatedPhone(newPhone);
-  };
-
-  const onFileChange = async (e) => {
-    const file = e.target.files[0];
-    const storageRef = firebaseConfig.storage().ref();
-    const fileRef = storageRef.child(file.name);
-    await fileRef.put(file);
-    console.log('img', await fileRef.getDownloadURL());
-    setFileURl(await fileRef.getDownloadURL());
-    // db.collection('users').doc(userId).set({
-    //   image: fileURL,
-    // });
-  };
-  console.log('file', fileURL);
-
-  const handleOk = (e) => {
-    e.preventDefault();
-    console.log('to', { updatedUsername, updatedPhone, fileURL });
-    setIsModalVisible(false);
-    EditUserData(userId, {
-      name: updatedUsername,
-      phoneNumber: updatedPhone,
-      image: fileURL,
+  const handleOk = async (values) => {
+    const { name: userName, phone_number: userPhone } = values;
+    const ll = await EditUserData(userId, {
+      ...userData,
+      name: userName,
+      phone_number: Number(userPhone),
     });
+    const { data } = ll;
+    setUserData(data);
+    setIsUpdate(!isUpdate);
   };
-  const props = {
-    name: 'file',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
   };
 
   return (
@@ -119,13 +104,58 @@ const UserProfile = ({ match }) => {
             <div className="username-section">
               <Title className="username">{userData.name}</Title>
               <Button
-                onClick={showModal}
+                onClick={() => setIsUpdate(!isUpdate)}
                 type="primary"
                 shape="circle"
                 icon={<EditFilled />}
                 className="edit"
               />
-              <Modal
+              {isUpdate && (
+                <Form
+                  className="profile__form"
+                  labelCol={{
+                    span: 4,
+                  }}
+                  labelAlign="left"
+                  initialValues={{
+                    name,
+                    phone_number,
+                  }}
+                  onFinish={(values) => handleOk(values)}
+                >
+                  <Form.Item
+                    name="name"
+                    label="Name"
+                    className="profile__input"
+                  >
+                    <MainInput prefix={<EditOutlined />} />
+                  </Form.Item>
+                  <Form.Item
+                    name="phone_number"
+                    label="phone_number"
+                    className="profile__input"
+                  >
+                    <MainInput prefix={<EditOutlined />} />
+                  </Form.Item>
+
+                  <Button
+                    type="primary"
+                    className="profile__button--save"
+                    onClick={() => setIsUpdate(false)}
+                  >
+                    cancel
+                  </Button>
+
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="profile__button--save"
+                  >
+                    save
+                  </Button>
+                </Form>
+              )}
+              {/* <Modal
                 title="Update profile"
                 visible={isModalVisible}
                 onOk={handleOk}
@@ -146,7 +176,7 @@ const UserProfile = ({ match }) => {
                   onChange={handleChangePhone}
                 />
                 <input type="file" {...props} onChange={onFileChange} />
-              </Modal>
+              </Modal> */}
             </div>
             <div className="email-section">
               <Image preview={false} src={emailico} alt="email" />
@@ -165,6 +195,14 @@ const UserProfile = ({ match }) => {
             alt="user image"
             className="userimage"
           />
+          {/* <input type="file" onChange={onFileChange} /> */}
+          <div>
+            <input type="file" onChange={handleChange} />
+            <button onClick={handleUpload}>Upload</button>
+            <br />
+            {fileURL}
+            <br />
+          </div>
         </div>
       </div>
       <div className="user-ws-section">
@@ -182,12 +220,5 @@ const UserProfile = ({ match }) => {
       </div>
     </div>
   );
-};
-UserProfile.propTypes = {
-  match: propTypes.shape({
-    params: propTypes.shape({
-      userId: propTypes.string,
-    }).isRequired,
-  }).isRequired,
 };
 export default UserProfile;
