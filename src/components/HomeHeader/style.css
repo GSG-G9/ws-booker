@@ -18,7 +18,7 @@
 .search_div{
   width:80%;
   height: auto;
-  padding-bottom: 30px;
+  padding-bottom: 26px;
   background-color: #ffffff;
   text-align: center;
   display: flex;
@@ -26,7 +26,7 @@
   flex-wrap: wrap;
   align-self: center;
 }
-.search_input{
+.search_div >.search_input{
   width:350px ;
 }
 .date_input, .number_input{
@@ -56,7 +56,7 @@
     .search_div{
       width:300px;
     }
-    .search_input{
+    .search_div >.search_input{
       width:70px !important;
     }
     .date_input, .number_input{
