@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import {
-  Image,
-  Typography,
-  Menu,
-  Divider,
-  message,
-  Form,
-  Checkbox,
-} from 'antd';
+import { Image, Typography, Menu, Divider, Form, Checkbox } from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
-import firebaseConfig, { db } from '../../firebase/config';
+import firebaseConfig from '../../firebase/config';
 import {
   addWorkspace,
   getAllWorkspaces,
@@ -25,15 +17,11 @@ import './style.css';
 
 const { Title, Text } = Typography;
 const DashboardAddWorkspace = () => {
-  const [workspaceData, setWorkspaceData] = useState({});
-  const [runEffect, setRunEffect] = useState(false);
-
   const [addImage, setAddImage] = useState('');
   const [headerImage, setHeaderImage] = useState('');
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
-    console.log(headerImage.target.files);
     try {
       const storageRef = await firebaseConfig.storage().ref();
       const fileRef = storageRef.child(image.name);
@@ -41,11 +29,10 @@ const DashboardAddWorkspace = () => {
       const url = await fileRef.getDownloadURL();
       return url;
     } catch (err) {
-      console.log('handleUpload', err);
-
       return err;
     }
   };
+
   const handleUploadGallery = async () => {
     const gallery = addImage.target.files[0];
     try {
@@ -55,9 +42,6 @@ const DashboardAddWorkspace = () => {
       const url = await fileRef.getDownloadURL();
       return url;
     } catch (err) {
-      console.log(err);
-      console.log('handleUploadGallery', err);
-
       return err;
     }
   };
@@ -75,12 +59,9 @@ const DashboardAddWorkspace = () => {
       workspaceAmenities,
       workspaceLocation,
     } = e;
-    console.log(e, 'e');
-
     const fileURL = await handleUpload();
     const galleryFileURL = await handleUploadGallery();
-    console.log(fileURL, galleryFileURL, 'file');
-    const adding = await addWorkspace({
+    await addWorkspace({
       name: workspaceName,
       description: Description,
       days_of_work: DaysOFWork,
@@ -96,7 +77,7 @@ const DashboardAddWorkspace = () => {
       image_gallery: galleryFileURL,
       rating: 0,
     });
-    const all = await getAllWorkspaces();
+    await getAllWorkspaces();
   };
 
   return (
@@ -128,7 +109,7 @@ const DashboardAddWorkspace = () => {
             <Form.Item
               name="workspaceName"
               rules={[
-                { required: true, message: 'Please input your username!' },
+                { required: true, message: 'Please enter workspace name!' },
               ]}
             >
               <MainInput label="Workspace Name" name="workspaceNameInput" />
@@ -145,12 +126,14 @@ const DashboardAddWorkspace = () => {
               />
             </Form.Item>
           </div>
-          {/* <div className="half-section-right">
-            <Image alt="Header Image" preview={false} src={image} />
-          </div> */}
           <Form.Item
             name="Description"
-            rules={[{ required: true, message: '!' }]}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the workspace description!',
+              },
+            ]}
           >
             <MainInput
               type="textArea"
@@ -163,7 +146,15 @@ const DashboardAddWorkspace = () => {
           <div className="half-section-left">
             <Text className="label">Days of Work</Text>
             <div className="checkout-container">
-              <Form.Item name="DaysOFWork">
+              <Form.Item
+                name="DaysOFWork"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please Select the Days of Work!',
+                  },
+                ]}
+              >
                 <Checkbox.Group>
                   <Checkbox value="Sun">Sun</Checkbox>
                   <Checkbox value="Mon">Mon</Checkbox>
@@ -177,7 +168,12 @@ const DashboardAddWorkspace = () => {
             </div>
             <Form.Item
               name="hoursOperation"
-              rules={[{ required: true, message: '!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter workspace hours operations!',
+                },
+              ]}
             >
               <MainInput
                 label="Hours of Operation"
@@ -187,7 +183,9 @@ const DashboardAddWorkspace = () => {
             </Form.Item>
             <Form.Item
               name="workspaceCity"
-              rules={[{ required: true, message: '!' }]}
+              rules={[
+                { required: true, message: 'Please enter the workspace city!' },
+              ]}
             >
               <MainInput label="Workspace City" name="workspaceCityInput" />
             </Form.Item>
@@ -195,7 +193,12 @@ const DashboardAddWorkspace = () => {
           <div className="half-section-right">
             <Form.Item
               name="feesPerHour"
-              rules={[{ required: true, message: '!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter the workspace fees per hour!',
+                },
+              ]}
             >
               <MainInput
                 label="Fees per Hour"
@@ -205,7 +208,12 @@ const DashboardAddWorkspace = () => {
             </Form.Item>
             <Form.Item
               name="feesPerDay"
-              rules={[{ required: true, message: '!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter the workspace fees per day!',
+                },
+              ]}
             >
               <MainInput
                 label="Fees per Day"
@@ -215,7 +223,12 @@ const DashboardAddWorkspace = () => {
             </Form.Item>
             <Form.Item
               name="totalCapacity"
-              rules={[{ required: true, message: '!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter the workspace total capacity!',
+                },
+              ]}
             >
               <MainInput
                 label="Total Capacity"
@@ -226,7 +239,12 @@ const DashboardAddWorkspace = () => {
           </div>
           <Form.Item
             name="workspaceLocation"
-            rules={[{ required: true, message: '!' }]}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the workspace location!',
+              },
+            ]}
           >
             <MainInput
               label="Location Details"
@@ -237,7 +255,15 @@ const DashboardAddWorkspace = () => {
           <div className="amentities-Contaienr">
             <Text className="label">Amenities</Text>
             <div className="amenities-section">
-              <Form.Item name="workspaceAmenities">
+              <Form.Item
+                name="workspaceAmenities"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please Select the workspace amenities!',
+                  },
+                ]}
+              >
                 <Checkbox.Group>
                   <Checkbox className="check" value="High Speed WiFi">
                     High Speed WiFi
