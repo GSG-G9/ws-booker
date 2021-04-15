@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -8,18 +9,15 @@ import {
   InputNumber,
   Popconfirm,
   Form,
-  Tag,
-  Icon,
   message,
-  Space,
+  notification,
 } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
-import Column from 'antd/lib/table/Column';
 import MainButton from '../../components/CommonComponents/Button';
 import {
   getAllWorkspaces,
-  addWorkspace,
+  editWorkspace,
   DeleteWorkspace,
 } from '../../firebase/firestore/workspace';
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
@@ -29,37 +27,271 @@ import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
 
 import './style.css';
-// const { Column, ColumnGroup } = Table;
+
 const { Title, Text } = Typography;
-// const payload = {
-//   name: 'Hi Gaza',
-//   description:
-//     'uMake is a CoWorking Space and Makerspace based in the center of Ramallah City in Palestine',
-//   days_of_work: ['Sun', 'Mon'],
-//   start_time: '09:00:00',
-//   end_time: '20:00:00',
-//   fees_per_hour: 10,
-//   fees_per_day: 50,
-//   capacity: 60,
-//   location: '5th Floor, Ammar Tower, Ramallah, Palestine',
-//   amenities: ['High-Speed WiFi', 'Heating', 'Air Conditioning'],
-//   city: 'Deir-Albalah',
-//   header_image:
-//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/main-1522929829.jpg?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
-//   image_gallery: [
-//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/1-1540639636.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
-//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/2-1540639637.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
-//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/3-1540639637.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
-//   ],
-//   rating: 4,
-// };
-// addWorkspace(payload)
-//   .then((res) => console.log(res))
-//   .catch((e) => console.log(e));
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}) => {
+  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
+          }}
+          rules={[
+            {
+              required: true,
+              message: `Please Input ${title}!`,
+            },
+          ]}
+        >
+          {inputNode}
+        </Form.Item>
+      ) : (
+        children
+      )}
+    </td>
+  );
+};
+
 const DashboardAllWorkspaces = () => {
+  const [form] = Form.useForm();
+  // const form = useForm();
+  // const [data1, setData1] = useState([]);
+  const [editingKey, setEditingKey] = useState('');
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [deletePerformed, setDeletePerformed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isEditing = (record) => record.id === editingKey;
+
+  const edit = (record) => {
+    form.setFieldsValue({
+      name: '',
+      city: '',
+      rating: '',
+      capacity: '',
+      start_time: '',
+      end_time: '',
+      fees_per_day: '',
+      fees_per_hour: '',
+      location: '',
+      amenities: '',
+      days_of_work: '',
+
+      ...record,
+    });
+    setEditingKey(record.id);
+    console.log('editingKey', editingKey);
+  };
+
+  const cancel = () => {
+    setEditingKey('');
+  };
+
+  const save = async (key) => {
+    try {
+      const row = await form.validateFields();
+      const newData = [...allWorkspaces];
+      const index = newData.findIndex((item) => key === item.key);
+
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row });
+        setAllWorkspaces(newData);
+        setEditingKey('');
+      } else {
+        newData.push(row);
+        setAllWorkspaces(newData);
+        setEditingKey('');
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  };
+
+  const handleDelete = async (key) => {
+    try {
+      const deleteMassage = await DeleteWorkspace(key);
+      setDeletePerformed(true);
+      message.success(deleteMassage.msg);
+    } catch (err) {
+      message.error('Something went wrong , please try again');
+    }
+  };
+
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      width: '130px',
+      editable: true,
+    },
+    {
+      title: 'City',
+      dataIndex: 'city',
+      key: 'city',
+      width: '130px',
+      editable: true,
+    },
+
+    {
+      title: 'Rate',
+      dataIndex: 'rating',
+      key: 'rating',
+      editable: true,
+      width: '130px',
+    },
+    {
+      title: 'Capacity',
+      dataIndex: 'capacity',
+      key: 'capacity',
+      editable: true,
+      width: '130px',
+    },
+
+    {
+      title: 'Start Time',
+      dataIndex: 'start_time',
+      key: 'start_time',
+      editable: true,
+      width: '130px',
+    },
+
+    {
+      title: 'End Time',
+      dataIndex: 'end_time',
+      key: 'end_time',
+      editable: true,
+      width: '130px',
+    },
+    {
+      title: 'Fees per Day',
+      dataIndex: 'fees_per_day',
+      key: 'fees_per_day',
+      editable: true,
+      width: '130px',
+    },
+
+    {
+      title: 'Fees per Hour',
+      dataIndex: 'fees_per_hour',
+      key: 'fees_per_hour',
+      editable: true,
+      width: '130px',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'location',
+      key: 'location',
+      editable: true,
+      width: '130px',
+    },
+    {
+      title: 'Amenities',
+      dataIndex: 'amenities',
+      key: 'amenities',
+      width: '130px',
+      editable: true,
+      render: (amenities) => (
+        <>
+          {amenities.map((tag) => (
+            <Text key={tag}>{tag} </Text>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: 'Days of Work',
+      dataIndex: 'days_of_work',
+      key: 'days_of_work',
+      editable: true,
+      width: '130px',
+      render: (daysOfWork) => (
+        <>
+          {daysOfWork.map((tag) => (
+            <Text key={tag}>{tag} </Text>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
+      width: '130px',
+      render: (_, record) => (
+        <span>
+          {allWorkspaces.length >= 1 ? (
+            <Popconfirm
+              title="Sure to delete?"
+              onConfirm={() => handleDelete(record.id)}
+            >
+              <MainButton
+                style={{ backgroundColor: '#DA3743', border: 'none' }}
+                icon={<DeleteOutlined style={{ color: '#FFFFFF' }} />}
+              />
+            </Popconfirm>
+          ) : null}
+          {isEditing(record) ? (
+            <>
+              <a
+                href=""
+                onClick={() => save(record.id)}
+                style={{
+                  marginRight: 8,
+                }}
+              >
+                Save
+              </a>
+              <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                <a>Cancel</a>
+              </Popconfirm>
+            </>
+          ) : (
+            <MainButton
+              onClick={() => edit(record)}
+              disabled={editingKey !== ''}
+              style={{
+                backgroundColor: '#2A9835',
+                border: 'none',
+                marginLeft: '1px',
+              }}
+              icon={<EditOutlined style={{ color: '#FFFFFF' }} />}
+            />
+          )}
+        </span>
+      ),
+    },
+  ];
+
+  const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: 'text',
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
   const fetchData = async () => {
     try {
       const data = await getAllWorkspaces();
@@ -71,15 +303,7 @@ const DashboardAllWorkspaces = () => {
       message.error('Something went wrong , Please try again');
     }
   };
-  const handleDelete = async (key) => {
-    try {
-      const deleteMassage = await DeleteWorkspace(key);
-      setDeletePerformed(true);
-      message.success(deleteMassage.msg);
-    } catch (err) {
-      message.error('Something went wrong , please try again');
-    }
-  };
+
   useEffect(() => {
     let isActive = true;
     if (isActive) {
@@ -118,127 +342,23 @@ const DashboardAllWorkspaces = () => {
           <Loader size="large" />
         ) : (
           <div className="table-sub-container">
-            <Table
-              rowKey={(record) => record.id}
-              dataSource={allWorkspaces}
-              pagination={{
-                pageSize: 4,
-              }}
-            >
-              <Column title="Name" dataIndex="name" key="name" width="130px" />
-              <Column title="City" dataIndex="city" key="city" width="130px" />
-              <Column
-                title="Rate"
-                dataIndex="rating"
-                key="rating"
-                width="130px"
+            <Form form={form} component={false}>
+              <Table
+                rowKey={(record) => record.id}
+                components={{
+                  body: {
+                    cell: EditableCell,
+                  },
+                }}
+                bordered
+                dataSource={allWorkspaces}
+                columns={mergedColumns}
+                rowClassName="editable-row"
+                pagination={{
+                  pageSize: 4,
+                }}
               />
-              <Column
-                title="Capacity"
-                dataIndex="capacity"
-                key="capacity"
-                width="130px"
-              />
-              <Column
-                title="Start Time"
-                dataIndex="start_time"
-                key="start_time"
-                width="130px"
-              />
-              <Column
-                title="End Time"
-                dataIndex="end_time"
-                key="end_time"
-                width="130px"
-              />
-              <Column
-                title="Fees per Day"
-                dataIndex="fees_per_day"
-                key="fees_per_day"
-                width="130px"
-              />
-              <Column
-                title="Fees per Hour"
-                dataIndex="fees_per_hour"
-                key="fees_per_hour"
-                width="130px"
-              />
-              <Column
-                title="Address"
-                dataIndex="location"
-                key="location"
-                width="130px"
-              />
-              <Column
-                title="Amenities"
-                dataIndex="amenities"
-                key="amenities"
-                width="130px"
-                render={(amenities) => (
-                  <>
-                    {amenities.map((tag) => (
-                      <Text key={tag}>{tag} </Text>
-                    ))}
-                  </>
-                )}
-              />
-              <Column
-                title="Days of Work"
-                dataIndex="days_of_work"
-                key="days_of_work"
-                width="130px"
-                render={(daysOfWork) => (
-                  <>
-                    {daysOfWork.map((tag) => (
-                      <Text key={tag}>{tag} </Text>
-                    ))}
-                  </>
-                )}
-              />
-              {/* <Column
-                title="Description"
-                dataIndex="description"
-                key="description"
-                width="130px"
-                render={(description) => (
-                  <div
-                    style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}
-                  >
-                    {description}
-                  </div>
-                )}
-              /> */}
-              <Column
-                title="Action"
-                dataIndex="action"
-                key="action"
-                width="130px"
-                render={(_, record) =>
-                  allWorkspaces.length >= 1 ? (
-                    <Popconfirm
-                      title="Sure to delete?"
-                      onConfirm={() => handleDelete(record.id)}
-                    >
-                      <MainButton
-                        style={{ backgroundColor: '#DA3743', border: 'none' }}
-                        icon={<DeleteOutlined style={{ color: '#FFFFFF' }} />}
-                      />
-                    </Popconfirm>
-                  ) : null
-                }
-                // render={() => (
-                //   <Space size="middle">
-                //     <>
-                //       <MainButton
-                //         style={{ backgroundColor: '#DA3743', border: 'none' }}
-                //         icon={<DeleteOutlined style={{ color: '#FFFFFF' }} />}
-                //       />
-                //     </>
-                //     <EditOutlined style={{ color: '#2A9835' }} />
-                //   </Space>
-                // )}
-              />
-            </Table>
+            </Form>
           </div>
         )}
       </div>
