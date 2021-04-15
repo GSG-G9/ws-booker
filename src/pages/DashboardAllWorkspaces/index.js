@@ -11,8 +11,9 @@ import {
   Tag,
   Icon,
   message,
+  Space,
 } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import Column from 'antd/lib/table/Column';
 import { getAllWorkspaces } from '../../firebase/firestore/workspace';
@@ -153,14 +154,30 @@ const DashboardAllWorkspaces = () => {
                   </>
                 )}
               />
+              {/* <Column
+                title="Description"
+                dataIndex="description"
+                key="description"
+                width="130px"
+                render={(description) => (
+                  <div
+                    style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}
+                  >
+                    {description}
+                  </div>
+                )}
+              /> */}
               <Column
                 title="Action"
                 dataIndex="action"
                 key="action"
                 width="130px"
-                render={(action) => {
-                  <DeleteOutlined />;
-                }}
+                render={() => (
+                  <Space size="middle">
+                    <DeleteOutlined style={{ color: 'red' }} />
+                    <EditOutlined style={{ color: 'green' }} />
+                  </Space>
+                )}
               />
             </Table>
           </div>
