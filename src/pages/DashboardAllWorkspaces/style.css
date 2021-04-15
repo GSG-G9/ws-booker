@@ -7,7 +7,6 @@
     width: 100%;
 }
 .dashboard-container{
-    width: 80%;
     position: relative;
     left: 20%;
     height: 100%;
@@ -26,7 +25,6 @@
 .dashboard-menu li a{
     color: #fff !important;
     padding-left: 20px;
-
     font-size: 19px;
 }
 .table-title{
@@ -37,9 +35,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
 }
 .table-sub-container{
     align-self: center;
     align-items: center;
+}
+
+.table_image_gallery{
+    width: 55px;
+    height: 50px;
+    margin: 1px;
 }

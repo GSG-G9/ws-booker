@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import {
@@ -10,7 +11,6 @@ import {
   Popconfirm,
   Form,
   message,
-  notification,
 } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
@@ -24,7 +24,6 @@ import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import Loader from '../../components/CommonComponents/Loader';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
-import logout from '../../assets/icons/logout.svg';
 
 import './style.css';
 
@@ -66,8 +65,6 @@ const EditableCell = ({
 
 const DashboardAllWorkspaces = () => {
   const [form] = Form.useForm();
-  // const form = useForm();
-  // const [data1, setData1] = useState([]);
   const [editingKey, setEditingKey] = useState('');
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [deletePerformed, setDeletePerformed] = useState(false);
@@ -77,18 +74,6 @@ const DashboardAllWorkspaces = () => {
 
   const edit = (record) => {
     form.setFieldsValue({
-      name: '',
-      city: '',
-      rating: '',
-      capacity: '',
-      start_time: '',
-      end_time: '',
-      fees_per_day: '',
-      fees_per_hour: '',
-      location: '',
-      amenities: '',
-      days_of_work: '',
-
       ...record,
     });
     setEditingKey(record.id);
@@ -102,21 +87,11 @@ const DashboardAllWorkspaces = () => {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
-      const newData = [...allWorkspaces];
-      const index = newData.findIndex((item) => key === item.key);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
-        setAllWorkspaces(newData);
-        setEditingKey('');
-      } else {
-        newData.push(row);
-        setAllWorkspaces(newData);
-        setEditingKey('');
-      }
+      const editMsg = await editWorkspace(key, row);
+      message.success(editMsg.msg);
+      setEditingKey('');
     } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
+      message.error('Something went wrong , Please try again');
     }
   };
 
@@ -209,7 +184,31 @@ const DashboardAllWorkspaces = () => {
           {amenities.map((tag) => (
             <Text key={tag}>{tag} </Text>
           ))}
+          ,
         </>
+      ),
+    },
+    {
+      title: 'description',
+      dataIndex: 'description',
+      key: 'description',
+      width: '130px',
+      editable: true,
+      render: (desc) => (
+        <>
+          <Text>{desc.substring(1, 40)} </Text>,
+        </>
+      ),
+    },
+
+    {
+      title: 'Header Image',
+      dataIndex: 'header_image',
+      key: 'header_image',
+      width: '130px',
+      editable: true,
+      render: (headerImage) => (
+        <Image src={headerImage} className="table_image_gallery" />
       ),
     },
     {
@@ -222,6 +221,25 @@ const DashboardAllWorkspaces = () => {
         <>
           {daysOfWork.map((tag) => (
             <Text key={tag}>{tag} </Text>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: 'Image Gallery',
+      dataIndex: 'image_gallery',
+      key: 'image_gallery',
+      editable: true,
+      width: '130px',
+      render: (gallery) => (
+        <>
+          {gallery.map((tag) => (
+            <Image
+              src={tag}
+              key={tag}
+              alt="gallery"
+              className="table_image_gallery"
+            />
           ))}
         </>
       ),
@@ -247,7 +265,7 @@ const DashboardAllWorkspaces = () => {
           {isEditing(record) ? (
             <>
               <a
-                href=""
+                href="#"
                 onClick={() => save(record.id)}
                 style={{
                   marginRight: 8,
@@ -296,7 +314,6 @@ const DashboardAllWorkspaces = () => {
     try {
       const data = await getAllWorkspaces();
       setAllWorkspaces(data);
-      console.log(data);
       setIsLoading(false);
       setDeletePerformed(false);
     } catch (err) {
@@ -327,10 +344,6 @@ const DashboardAllWorkspaces = () => {
           <Menu.Item key="2">
             <Image preview={false} src={add} alt="" />
             <NavLink to={AddWorkspace}>Add Workspace</NavLink>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Image preview={false} src={logout} alt="" />
-            <NavLink to={Home}>Log out</NavLink>
           </Menu.Item>
         </Menu>
       </div>
@@ -365,4 +378,5 @@ const DashboardAllWorkspaces = () => {
     </div>
   );
 };
+
 export default DashboardAllWorkspaces;

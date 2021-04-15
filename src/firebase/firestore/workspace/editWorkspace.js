@@ -5,8 +5,7 @@ const editWorkspace = async (id, data) => {
   try {
     const {
       name,
-      // description,
-      rate,
+      description,
       days_of_work,
       start_time,
       end_time,
@@ -16,12 +15,12 @@ const editWorkspace = async (id, data) => {
       location,
       amenities,
       city,
-      // header_image,
-      // image_gallery,
+      header_image,
+      image_gallery,
     } = await workspaceSchema.validate(data);
     await db.collection('workspaces').doc(id).update({
       name,
-      rate,
+      description,
       days_of_work,
       start_time,
       end_time,
@@ -31,8 +30,9 @@ const editWorkspace = async (id, data) => {
       location,
       amenities,
       city,
+      header_image,
+      image_gallery,
     });
-    console.log('update', id);
     return { msg: 'workspace updated successfully' };
   } catch (err) {
     return err;
