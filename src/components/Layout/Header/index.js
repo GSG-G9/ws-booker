@@ -51,8 +51,14 @@ const Header = () => {
         <>
           {user ? (
             <>
+              <Menu.Item key="3">
+                <NavLink to={`/user/${user.id}`}>
+                  <InfoCircleOutlined style={{ color: '#00C78A' }} />
+                  PROFILE
+                </NavLink>
+              </Menu.Item>
               <Menu.Item
-                key="3"
+                key="4"
                 onClick={() => {
                   app.auth().signOut();
                 }}
@@ -84,6 +90,19 @@ const Header = () => {
         <NavLink to={About} className="menu-item" activeClassName="active">
           ABOUT
         </NavLink>
+        {isLoading ? (
+          <Loader size="small" />
+        ) : (
+          user && (
+            <NavLink
+              to={`/user/${user.id}`}
+              className="menu-item"
+              activeClassName="active"
+            >
+              PROFILE
+            </NavLink>
+          )
+        )}
         <div className="collapsedDiv">
           <Dropdown.Button
             overlay={menu}
