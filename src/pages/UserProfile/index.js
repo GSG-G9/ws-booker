@@ -111,11 +111,11 @@ const UserProfile = ({ match }) => {
       setImage(e.target.files[0]);
     }
   };
-  const handleCancelBooking = async (userId) => {
+  const handleCancelBooking = async () => {
     try {
-      console.log('useId', userId);
       await deleteBooking(userId);
-      return { message: 'booking canceld successfully' };
+      setError("Sorry! You don't have any workspace booking!");
+      return { message: 'Cancel Booking successfully' };
     } catch (err) {
       return err;
     }
@@ -186,18 +186,10 @@ const UserProfile = ({ match }) => {
                     }}
                     onFinish={(values) => handleOk(values)}
                   >
-                    <Form.Item
-                      name="name"
-                      // label="Name"
-                      className="profile__input"
-                    >
+                    <Form.Item name="name" className="profile__input">
                       <MainInput prefix={<EditOutlined />} label="User Name" />
                     </Form.Item>
-                    <Form.Item
-                      name="phone_number"
-                      // label="phone_number"
-                      className="profile__input"
-                    >
+                    <Form.Item name="phone_number" className="profile__input">
                       <MainInput
                         prefix={<EditOutlined />}
                         label="Phone Number"
@@ -207,7 +199,6 @@ const UserProfile = ({ match }) => {
                       <Button
                         type="primary"
                         className="profile-button-cancel"
-                        // onClick={() => setIsUpdate(false)}
                         onClick={handleCancel}
                       >
                         cancel
