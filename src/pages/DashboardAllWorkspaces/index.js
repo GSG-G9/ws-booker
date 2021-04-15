@@ -16,30 +16,70 @@ import {
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import Column from 'antd/lib/table/Column';
-import { getAllWorkspaces } from '../../firebase/firestore/workspace';
+import MainButton from '../../components/CommonComponents/Button';
+import {
+  getAllWorkspaces,
+  addWorkspace,
+  DeleteWorkspace,
+} from '../../firebase/firestore/workspace';
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import Loader from '../../components/CommonComponents/Loader';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
+
 import './style.css';
 // const { Column, ColumnGroup } = Table;
 const { Title, Text } = Typography;
-
+// const payload = {
+//   name: 'Hi Gaza',
+//   description:
+//     'uMake is a CoWorking Space and Makerspace based in the center of Ramallah City in Palestine',
+//   days_of_work: ['Sun', 'Mon'],
+//   start_time: '09:00:00',
+//   end_time: '20:00:00',
+//   fees_per_hour: 10,
+//   fees_per_day: 50,
+//   capacity: 60,
+//   location: '5th Floor, Ammar Tower, Ramallah, Palestine',
+//   amenities: ['High-Speed WiFi', 'Heating', 'Air Conditioning'],
+//   city: 'Deir-Albalah',
+//   header_image:
+//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/main-1522929829.jpg?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
+//   image_gallery: [
+//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/1-1540639636.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
+//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/2-1540639637.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
+//     'https://coworker.imgix.net/photos/palestine/ramallah/umake/3-1540639637.JPG?w=1200&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle',
+//   ],
+//   rating: 4,
+// };
+// addWorkspace(payload)
+//   .then((res) => console.log(res))
+//   .catch((e) => console.log(e));
 const DashboardAllWorkspaces = () => {
   const [allWorkspaces, setAllWorkspaces] = useState([]);
+  const [deletePerformed, setDeletePerformed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const fetchData = async () => {
     try {
       const data = await getAllWorkspaces();
       setAllWorkspaces(data);
-      console.log(allWorkspaces);
+      console.log(data);
       setIsLoading(false);
+      setDeletePerformed(false);
     } catch (err) {
       message.error('Something went wrong , Please try again');
     }
   };
-
+  const handleDelete = async (key) => {
+    try {
+      const deleteMassage = await DeleteWorkspace(key);
+      setDeletePerformed(true);
+      message.success(deleteMassage.msg);
+    } catch (err) {
+      message.error('Something went wrong , please try again');
+    }
+  };
   useEffect(() => {
     let isActive = true;
     if (isActive) {
@@ -48,7 +88,7 @@ const DashboardAllWorkspaces = () => {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [deletePerformed]);
   return (
     <div className="main-contain">
       <div className="dashboard-nav">
@@ -79,6 +119,7 @@ const DashboardAllWorkspaces = () => {
         ) : (
           <div className="table-sub-container">
             <Table
+              rowKey={(record) => record.id}
               dataSource={allWorkspaces}
               pagination={{
                 pageSize: 4,
@@ -172,12 +213,30 @@ const DashboardAllWorkspaces = () => {
                 dataIndex="action"
                 key="action"
                 width="130px"
-                render={() => (
-                  <Space size="middle">
-                    <DeleteOutlined style={{ color: 'red' }} />
-                    <EditOutlined style={{ color: 'green' }} />
-                  </Space>
-                )}
+                render={(_, record) =>
+                  allWorkspaces.length >= 1 ? (
+                    <Popconfirm
+                      title="Sure to delete?"
+                      onConfirm={() => handleDelete(record.id)}
+                    >
+                      <MainButton
+                        style={{ backgroundColor: '#DA3743', border: 'none' }}
+                        icon={<DeleteOutlined style={{ color: '#FFFFFF' }} />}
+                      />
+                    </Popconfirm>
+                  ) : null
+                }
+                // render={() => (
+                //   <Space size="middle">
+                //     <>
+                //       <MainButton
+                //         style={{ backgroundColor: '#DA3743', border: 'none' }}
+                //         icon={<DeleteOutlined style={{ color: '#FFFFFF' }} />}
+                //       />
+                //     </>
+                //     <EditOutlined style={{ color: '#2A9835' }} />
+                //   </Space>
+                // )}
               />
             </Table>
           </div>
