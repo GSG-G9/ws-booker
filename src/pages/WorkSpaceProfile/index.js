@@ -14,7 +14,7 @@ import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import './style.css';
 
 const WorkspaceProfile = () => {
-  const [rate, setRate] = useState();
+  const [, setRate] = useState();
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const { workspaceId } = useParams();
@@ -24,6 +24,7 @@ const WorkspaceProfile = () => {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
       setIsLoaded(true);
+      return data;
     } catch (err) {
       return err;
     }
@@ -96,7 +97,7 @@ const WorkspaceProfile = () => {
                     {workspaceData.image_gallery ? (
                       workspaceData.image_gallery.map((item, index) => (
                         <img
-                          key={index}
+                          key={index.toString()}
                           alt="small workspace"
                           className="small-img"
                           src={item}
