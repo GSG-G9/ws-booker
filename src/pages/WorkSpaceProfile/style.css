@@ -68,17 +68,6 @@
   margin-left: 50px;
   margin-top: 40px;
 }
-.ant-divider{
-  width: 90%;
-  margin: auto;
-  color: rgb(226, 226, 226);
-}
-.ant-rate{
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
 .rating .ant-rate{
   font-size: 20px;
   display: flex;
@@ -88,6 +77,12 @@
 .rating{
   display: flex;
   align-items: center;
+}
+.set-rate-container .ant-rate{
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 .rating-value-text{
   margin-top: 20px;
@@ -108,6 +103,8 @@
 }
 .divider{
   border-color: rgb(226, 226, 226);
+  width: 90%;
+  margin: auto;
 }
 .description-text{
   width: 85%;
