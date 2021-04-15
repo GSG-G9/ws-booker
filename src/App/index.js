@@ -2,13 +2,12 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-
+import { ProtectedRoutes, AdminRoutes } from './Routes';
 import {
   About,
   AllWorkspaces,
   AddWorkspace,
   Home,
-  Login,
   NewestWorkspaces,
   Search,
   TopRatedWorkspaces,
@@ -17,7 +16,6 @@ import {
 } from '../utils';
 import {
   AboutPage,
-  AdminLogin,
   DashboardAddWorkspace,
   DashboardAllWorkspaces,
   HomePage,
@@ -33,17 +31,13 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
-      <Layout>
-        <Switch>
-          <Route exact path={Login}>
-            <AdminLogin />
-          </Route>
-          <Route exact path={AllWorkspaces}>
-            <DashboardAllWorkspaces />
-          </Route>
-          <Route exact path={AddWorkspace}>
-            <DashboardAddWorkspace />
-          </Route>
+      <Switch>
+        <Layout>
+          <AdminRoutes
+            path={AllWorkspaces}
+            component={DashboardAllWorkspaces}
+          />
+          <AdminRoutes path={AddWorkspace} component={DashboardAddWorkspace} />
           <Route exact path={Home}>
             <HomePage />
           </Route>
@@ -53,24 +47,23 @@ const App = () => (
           <Route exact path={NewestWorkspaces}>
             <NewestWorkspacesPage />
           </Route>
-          <Route exact path={TopRatedWorkspaces}>
-            <TopRatedPage />
-          </Route>
+          <Route
+            exact
+            path={TopRatedWorkspaces}
+            render={(props) => <TopRatedPage {...props} />}
+          />
           <Route exact path={Search}>
             <SearchResults />
           </Route>
           <Route exact path={WorkspaceProfile}>
             <WorkSpaceProfilePage />
           </Route>
-
-          <Route exact path={UserProfile}>
-            <UserProfilePage />
-          </Route>
+          <ProtectedRoutes path={UserProfile} component={UserProfilePage} />
           <Route>
             <NotFound />
           </Route>
-        </Switch>
-      </Layout>
+        </Layout>
+      </Switch>
     </Router>
   </AuthProvider>
 );

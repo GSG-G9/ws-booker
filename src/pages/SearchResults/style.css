@@ -1,0 +1,24 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.search_div_div{
+    display: flex;
+    align-self: center;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+.search_inp{
+    width: 45vw;
+}
+.search_butt{
+    height: 55px;
+    width :144px;
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 2em;
+}
+.card_container{
+    margin-top: 50px;
+}

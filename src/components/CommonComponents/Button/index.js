@@ -38,7 +38,7 @@ MainButton.defaultProps = {
 MainButton.propTypes = {
   onClick: PropTypes.func,
   type: PropTypes.string,
-  icon: PropTypes.PropTypes.shape({ icon: PropTypes.string }),
+  icon: PropTypes.node,
   buttName: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
