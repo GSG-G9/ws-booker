@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
-import { message, Modal, Image, Button, Typography, Form } from 'antd';
+import { message, Modal, Image, Button, Typography, Form, Divider } from 'antd';
 import { EditOutlined, EditFilled } from '@ant-design/icons';
 
 import firebaseConfig, { db } from '../../firebase/config';
 import { EditUserData, getUserById } from '../../firebase/firestore/user';
 
-import getBookingByUserId from '../../firebase/firestore/booking';
+import { getBookingByUserId } from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
 import MainInput from '../../components/CommonComponents/Input';
+import MainButton from '../../components/CommonComponents/Button';
 
 import coverImage from '../../assets/images/backgound_cover.png';
 import emailico from '../../assets/icons/email.svg';
@@ -30,6 +31,7 @@ const UserProfile = ({ match }) => {
 
   const { userId } = match.params;
   const { name, phone_number } = userData;
+
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
@@ -49,6 +51,10 @@ const UserProfile = ({ match }) => {
 
   const showModal = () => {
     setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const handleUpload = async () => {
@@ -74,6 +80,7 @@ const UserProfile = ({ match }) => {
   };
 
   const handleOk = async (values) => {
+    setIsModalVisible(false);
     const { name: userName, phone_number: userPhone } = values;
     const ll = await EditUserData(userId, {
       ...userData,
@@ -104,13 +111,14 @@ const UserProfile = ({ match }) => {
             <div className="username-section">
               <Title className="username">{userData.name}</Title>
               <Button
-                onClick={() => setIsUpdate(!isUpdate)}
+                // onClick={() => setIsUpdate(!isUpdate)}
+                onClick={showModal}
                 type="primary"
                 shape="circle"
                 icon={<EditFilled />}
                 className="edit"
               />
-              {isUpdate && (
+              {/* {isUpdate && (
                 <Form
                   className="profile__form"
                   labelCol={{
@@ -154,29 +162,71 @@ const UserProfile = ({ match }) => {
                     save
                   </Button>
                 </Form>
-              )}
-              {/* <Modal
+              )} */}
+
+              <Modal
                 title="Update profile"
                 visible={isModalVisible}
+                footer={null}
                 onOk={handleOk}
                 onCancel={handleCancel}
               >
-                <MainInput
-                  placeholder="User Name"
-                  defaultValue={userData.name}
-                  label="User Name"
-                  name="username"
-                  onChange={handleChangeUsername}
-                />
-                <MainInput
-                  placeholder="Phone Number"
-                  defaultValue={userData.phone_number}
-                  label="Phone Number"
-                  name="phoneNumber"
-                  onChange={handleChangePhone}
-                />
-                <input type="file" {...props} onChange={onFileChange} />
-              </Modal> */}
+                <div className="upload-image-section">
+                  <Text className="upload-label">Update Photo</Text>
+                  <input type="file" onChange={handleChange} />
+                  {/* <button onClick={handleUpload}>Upload</button> */}
+                  <MainButton
+                    buttName="Upload"
+                    htmlType="submit"
+                    onClick={handleUpload}
+                  />
+                </div>
+                <Form
+                  className="profile__form"
+                  labelCol={{
+                    span: 4,
+                  }}
+                  labelAlign="left"
+                  initialValues={{
+                    name,
+                    phone_number,
+                  }}
+                  onFinish={(values) => handleOk(values)}
+                >
+                  <Form.Item
+                    name="name"
+                    // label="Name"
+                    className="profile__input"
+                  >
+                    <MainInput prefix={<EditOutlined />} label="User Name" />
+                  </Form.Item>
+                  <Form.Item
+                    name="phone_number"
+                    // label="phone_number"
+                    className="profile__input"
+                  >
+                    <MainInput prefix={<EditOutlined />} label="Phone Number" />
+                  </Form.Item>
+                  <div className="buttons-section">
+                    <Button
+                      type="primary"
+                      className="profile__button--save"
+                      // onClick={() => setIsUpdate(false)}
+                      onClick={handleCancel}
+                    >
+                      cancel
+                    </Button>
+
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className="profile__button--save"
+                    >
+                      save
+                    </Button>
+                  </div>
+                </Form>
+              </Modal>
             </div>
             <div className="email-section">
               <Image preview={false} src={emailico} alt="email" />
@@ -196,13 +246,10 @@ const UserProfile = ({ match }) => {
             className="userimage"
           />
           {/* <input type="file" onChange={onFileChange} /> */}
-          <div>
+          {/* <div>
             <input type="file" onChange={handleChange} />
             <button onClick={handleUpload}>Upload</button>
-            <br />
-            {fileURL}
-            <br />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="user-ws-section">
