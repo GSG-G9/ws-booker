@@ -36,7 +36,7 @@ const addWorkspace = async (payload) => {
       image_gallery,
       rating,
     } = await workspaceSchema.validate(payloadObj);
-    db.collection('workspaces').add({
+    await db.collection('workspaces').add({
       name,
       description,
       days_of_work,
@@ -55,6 +55,8 @@ const addWorkspace = async (payload) => {
     });
     return { msg: 'workspace added successfully!' };
   } catch (err) {
+    console.log(err, 4);
+
     return err;
   }
 };

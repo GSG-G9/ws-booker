@@ -14,7 +14,10 @@ import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import firebaseConfig, { db } from '../../firebase/config';
-import { addWorkspace } from '../../firebase/firestore/workspace';
+import {
+  addWorkspace,
+  getAllWorkspaces,
+} from '../../firebase/firestore/workspace';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
@@ -23,69 +26,44 @@ import './style.css';
 const { Title, Text } = Typography;
 const DashboardAddWorkspace = () => {
   const [workspaceData, setWorkspaceData] = useState({});
-  const [image, setImage] = useState(null);
-  const [gallery, setGallery] = useState(null);
-  const [fileURL, setFileURl] = useState('');
-  const [galleryFileURL, setGalleryFileURL] = useState([]);
   const [runEffect, setRunEffect] = useState(false);
 
-  const handleChangeImage = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const handleChangeGallery = (e) => {
-    if (e.target.files[0]) {
-      setGallery(e.target.files[0]);
-    }
-  };
+  const [addImage, setAddImage] = useState('');
+  const [headerImage, setHeaderImage] = useState('');
 
   const handleUpload = async () => {
+    const image = headerImage.target.files[0];
+    console.log(headerImage.target.files);
     try {
-      if (image) {
-        const storageRef = await firebaseConfig.storage().ref();
-        const fileRef = storageRef.child(image.name);
-        await fileRef.put(image);
-        const url = await fileRef.getDownloadURL();
-        setFileURl(url);
-        setRunEffect((x) => !x);
-        return url;
-      }
+      const storageRef = await firebaseConfig.storage().ref();
+      const fileRef = storageRef.child(image.name);
+      await fileRef.put(image);
+      const url = await fileRef.getDownloadURL();
+      return url;
     } catch (err) {
+      console.log('handleUpload', err);
+
       return err;
     }
   };
   const handleUploadGallery = async () => {
+    const gallery = addImage.target.files[0];
     try {
-      if (gallery) {
-        const storageRef = await firebaseConfig.storage().ref();
-        const fileRef = storageRef.child(gallery.name);
-        await fileRef.put(gallery);
-        const url = await fileRef.getDownloadURL();
-        setGalleryFileURL(url);
-        setRunEffect((x) => !x);
-        return url;
-      }
+      const storageRef = await firebaseConfig.storage().ref();
+      const fileRef = storageRef.child(gallery.name);
+      await fileRef.put(gallery);
+      const url = await fileRef.getDownloadURL();
+      return url;
     } catch (err) {
+      console.log(err);
+      console.log('handleUploadGallery', err);
+
       return err;
     }
   };
 
-  const onFinish = async ({
-    workspaceName,
-    Description,
-    hoursOperation,
-    feesPerHour,
-    feesPerDay,
-    totalCapacity,
-    DaysOFWork,
-    workspaceCity,
-    workspaceAmenities,
-    workspaceLocation,
-  }) => {
-    console.log(
-      'data',
+  const onFinish = async (e) => {
+    const {
       workspaceName,
       Description,
       hoursOperation,
@@ -95,8 +73,13 @@ const DashboardAddWorkspace = () => {
       DaysOFWork,
       workspaceCity,
       workspaceAmenities,
-      workspaceLocation
-    );
+      workspaceLocation,
+    } = e;
+    console.log(e, 'e');
+
+    const fileURL = await handleUpload();
+    const galleryFileURL = await handleUploadGallery();
+    console.log(fileURL, galleryFileURL, 'file');
     const adding = await addWorkspace({
       name: workspaceName,
       description: Description,
@@ -113,7 +96,7 @@ const DashboardAddWorkspace = () => {
       image_gallery: galleryFileURL,
       rating: 0,
     });
-    console.log('res adding: ', adding);
+    const all = await getAllWorkspaces();
   };
 
   return (
@@ -153,18 +136,18 @@ const DashboardAddWorkspace = () => {
           </div>
 
           <div className="upload-section">
-            <Form.Item name="headerImage">
+            <Form.Item name="headerImageMain">
               <Text className="label">Header Image</Text>
               <input
                 type="file"
                 name="headerImageInput"
-                onChange={handleChangeImage}
+                onChange={(e) => setHeaderImage(e)}
               />
             </Form.Item>
           </div>
-          <div className="half-section-right">
+          {/* <div className="half-section-right">
             <Image alt="Header Image" preview={false} src={image} />
-          </div>
+          </div> */}
           <Form.Item
             name="Description"
             rules={[{ required: true, message: '!' }]}
@@ -289,12 +272,12 @@ const DashboardAddWorkspace = () => {
           </div>
 
           <div className="images-section">
-            <Form.Item name="headerImage">
+            <Form.Item name="headerImageAdditional">
               <Text className="label">Additional Images</Text>
               <input
                 type="file"
                 name="additionalImages"
-                onChange={handleChangeGallery}
+                onChange={(e) => setAddImage(e)}
               />
             </Form.Item>
           </div>
