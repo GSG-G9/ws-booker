@@ -152,7 +152,9 @@ const WorkspaceProfile = () => {
                 <div className="divider-container">
                   <Divider className="divider" />
                 </div>
-                <Rating setRate={setRate} />
+                <div className="set-rate-container">
+                  <Rating setRate={setRate} />
+                </div>
               </div>
             </Col>
           </Row>
