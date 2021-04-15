@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import propTypes from 'prop-types';
-import { message, Modal, Image, Button, Typography, Form, Divider } from 'antd';
+import { Modal, Image, Button, Typography, Form, Empty } from 'antd';
 import { EditOutlined, EditFilled } from '@ant-design/icons';
 
 import firebaseConfig, { db } from '../../firebase/config';
 import { EditUserData, getUserById } from '../../firebase/firestore/user';
 
-import { getBookingByUserId } from '../../firebase/firestore/booking';
+import {
+  getBookingByUserId,
+  deleteBooking,
+} from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
+import Loader from '../../components/CommonComponents/Loader';
 
 import coverImage from '../../assets/images/backgound_cover.png';
 import emailico from '../../assets/icons/email.svg';
@@ -21,6 +24,9 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
+  const [isUserLoader, setIsUsreLoader] = useState(true);
+  const [isWSLoader, setIsWSLoader] = useState(true);
+  const [isUploadLoader, setIsUploadLoader] = useState(false);
   const [userData, setUserData] = useState({});
   const [fileURL, setFileURl] = useState('');
   const [image, setImage] = useState(null);
@@ -28,6 +34,7 @@ const UserProfile = ({ match }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [runEffect, setRunEffect] = useState(false);
+  const [error, setError] = useState(null);
 
   const { userId } = match.params;
   const { name, phone_number } = userData;
@@ -36,12 +43,18 @@ const UserProfile = ({ match }) => {
     let isActive = 'true';
     if (isActive) {
       const UserData = await getUserById(userId);
+      setIsUsreLoader(false);
       if (UserData) {
         setUserData(UserData);
         const bookingbyUserId = await getBookingByUserId(userId);
-        const workspaceId = bookingbyUserId.workspace_id.id;
-        const wsData = await getWorkspaceById(workspaceId);
-        setWorkspaceData(wsData);
+        if (bookingbyUserId) {
+          const workspaceId = bookingbyUserId.workspace_id.id;
+          const wsData = await getWorkspaceById(workspaceId);
+          setIsWSLoader(false);
+          setWorkspaceData(wsData);
+        } else {
+          setError("Sorry! You don't have any workspace booking!");
+        }
       }
     }
     return () => {
@@ -59,6 +72,7 @@ const UserProfile = ({ match }) => {
 
   const handleUpload = async () => {
     try {
+      setIsUploadLoader(true);
       if (image) {
         const storageRef = await firebaseConfig.storage().ref();
         const fileRef = storageRef.child(image.name);
@@ -66,8 +80,9 @@ const UserProfile = ({ match }) => {
         await fileRef.put(image);
         const url = await fileRef.getDownloadURL();
         setFileURl(url);
+        setIsUploadLoader(false);
         const response = db.collection('users').doc(userId);
-        const aa = await response.update({
+        await response.update({
           ...userData,
           image: url,
         });
@@ -96,6 +111,15 @@ const UserProfile = ({ match }) => {
       setImage(e.target.files[0]);
     }
   };
+  const handleCancelBooking = async (userId) => {
+    try {
+      console.log('useId', userId);
+      await deleteBooking(userId);
+      return { message: 'booking canceld successfully' };
+    } catch (err) {
+      return err;
+    }
+  };
 
   return (
     <div>
@@ -107,167 +131,142 @@ const UserProfile = ({ match }) => {
             alt="profile background"
             className="background-image"
           />
-          <div className="user-data">
-            <div className="username-section">
-              <Title className="username">{userData.name}</Title>
-              <Button
-                // onClick={() => setIsUpdate(!isUpdate)}
-                onClick={showModal}
-                type="primary"
-                shape="circle"
-                icon={<EditFilled />}
-                className="edit"
-              />
-              {/* {isUpdate && (
-                <Form
-                  className="profile__form"
-                  labelCol={{
-                    span: 4,
-                  }}
-                  labelAlign="left"
-                  initialValues={{
-                    name,
-                    phone_number,
-                  }}
-                  onFinish={(values) => handleOk(values)}
+
+          {isUserLoader ? (
+            <Loader />
+          ) : (
+            <div className="user-data">
+              <div className="username-section">
+                <Title className="username">{userData.name}</Title>
+                <Button
+                  onClick={showModal}
+                  type="primary"
+                  shape="circle"
+                  icon={<EditFilled />}
+                  className="edit"
+                />
+                <Modal
+                  title="Update profile"
+                  visible={isModalVisible}
+                  footer={null}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
                 >
-                  <Form.Item
-                    name="name"
-                    label="Name"
-                    className="profile__input"
-                  >
-                    <MainInput prefix={<EditOutlined />} />
-                  </Form.Item>
-                  <Form.Item
-                    name="phone_number"
-                    label="phone_number"
-                    className="profile__input"
-                  >
-                    <MainInput prefix={<EditOutlined />} />
-                  </Form.Item>
-
-                  <Button
-                    type="primary"
-                    className="profile__button--save"
-                    onClick={() => setIsUpdate(false)}
-                  >
-                    cancel
-                  </Button>
-
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="profile__button--save"
-                  >
-                    save
-                  </Button>
-                </Form>
-              )} */}
-
-              <Modal
-                title="Update profile"
-                visible={isModalVisible}
-                footer={null}
-                onOk={handleOk}
-                onCancel={handleCancel}
-              >
-                <div className="upload-image-section">
-                  <Text className="upload-label">Update Photo</Text>
-                  <input
-                    type="file"
-                    onChange={handleChange}
-                    className="upload-input"
-                  />
-                  {/* <button onClick={handleUpload}>Upload</button> */}
-                  <MainButton
-                    buttName="Upload"
-                    htmlType="submit"
-                    onClick={handleUpload}
-                  />
-                </div>
-                <Form
-                  className="profile__form"
-                  labelCol={{
-                    span: 4,
-                  }}
-                  labelAlign="left"
-                  initialValues={{
-                    name,
-                    phone_number,
-                  }}
-                  onFinish={(values) => handleOk(values)}
-                >
-                  <Form.Item
-                    name="name"
-                    // label="Name"
-                    className="profile__input"
-                  >
-                    <MainInput prefix={<EditOutlined />} label="User Name" />
-                  </Form.Item>
-                  <Form.Item
-                    name="phone_number"
-                    // label="phone_number"
-                    className="profile__input"
-                  >
-                    <MainInput prefix={<EditOutlined />} label="Phone Number" />
-                  </Form.Item>
-                  <div className="buttons-section">
-                    <Button
-                      type="primary"
-                      className="profile-button-cancel"
-                      // onClick={() => setIsUpdate(false)}
-                      onClick={handleCancel}
-                    >
-                      cancel
-                    </Button>
-
-                    <Button
-                      type="primary"
+                  <div className="upload-image-section">
+                    <Text className="upload-label">Update Photo</Text>
+                    <input
+                      type="file"
+                      onChange={handleChange}
+                      className="upload-input"
+                    />
+                    <MainButton
+                      buttName="Upload"
                       htmlType="submit"
-                      className="profile-button-save"
-                    >
-                      save
-                    </Button>
+                      onClick={handleUpload}
+                    />
                   </div>
-                </Form>
-              </Modal>
+                  <div className="view-updated-image">
+                    {isUploadLoader ? (
+                      <Loader />
+                    ) : (
+                      fileURL && (
+                        <Image src={fileURL} alt="" className="image-view" />
+                      )
+                    )}
+                  </div>
+                  <Form
+                    className="profile__form"
+                    labelCol={{
+                      span: 4,
+                    }}
+                    labelAlign="left"
+                    initialValues={{
+                      name,
+                      phone_number,
+                    }}
+                    onFinish={(values) => handleOk(values)}
+                  >
+                    <Form.Item
+                      name="name"
+                      // label="Name"
+                      className="profile__input"
+                    >
+                      <MainInput prefix={<EditOutlined />} label="User Name" />
+                    </Form.Item>
+                    <Form.Item
+                      name="phone_number"
+                      // label="phone_number"
+                      className="profile__input"
+                    >
+                      <MainInput
+                        prefix={<EditOutlined />}
+                        label="Phone Number"
+                      />
+                    </Form.Item>
+                    <div className="buttons-section">
+                      <Button
+                        type="primary"
+                        className="profile-button-cancel"
+                        // onClick={() => setIsUpdate(false)}
+                        onClick={handleCancel}
+                      >
+                        cancel
+                      </Button>
+
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        className="profile-button-save"
+                      >
+                        save
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal>
+              </div>
+              <div className="email-section">
+                <Image preview={false} src={emailico} alt="email" />
+                <Text className="email">{userData.email}</Text>
+              </div>
+              <div className="phone-section">
+                <Image preview={false} src={phoneico} alt="phone" />
+                <Text className="phone">{userData.phone_number}</Text>
+              </div>
             </div>
-            <div className="email-section">
-              <Image preview={false} src={emailico} alt="email" />
-              <Text className="email">{userData.email}</Text>
-            </div>
-            <div className="phone-section">
-              <Image preview={false} src={phoneico} alt="phone" />
-              <Text className="phone">{userData.phone_number}</Text>
-            </div>
-          </div>
+          )}
         </div>
         <div className="front-profile-header">
-          <Image
-            preview={false}
-            src={userData.image}
-            alt="user image"
-            className="userimage"
-          />
-          {/* <input type="file" onChange={onFileChange} /> */}
-          {/* <div>
-            <input type="file" onChange={handleChange} />
-            <button onClick={handleUpload}>Upload</button>
-          </div> */}
+          {isUserLoader ? (
+            <Loader />
+          ) : (
+            <Image
+              preview={false}
+              src={userData.image}
+              alt="user image"
+              className="userimage"
+            />
+          )}
         </div>
       </div>
       <div className="user-ws-section">
         <Title className="my-ws-title">My workspace</Title>
-        <WorkspaceCard
-          name={workspaceData.name}
-          feesPerDay={workspaceData.fees_per_day}
-          feesPerHour={workspaceData.fees_per_hour}
-          rating={workspaceData.rating}
-          reviewers={workspaceData.reviewers}
-          location={workspaceData.location}
-          image={workspaceData.header_image}
-          buttonName="Cancel Book"
-        />
+        {error ? (
+          <Empty description="Sorry! You don't have any workspace booking!" />
+        ) : isWSLoader ? (
+          <Loader />
+        ) : (
+          <WorkspaceCard
+            name={workspaceData.name}
+            feesPerDay={workspaceData.fees_per_day}
+            feesPerHour={workspaceData.fees_per_hour}
+            rating={workspaceData.rating}
+            reviewers={workspaceData.reviewers}
+            location={workspaceData.location}
+            image={workspaceData.header_image}
+            buttonName="Cancel Book"
+            onClick={handleCancelBooking}
+          />
+        )}
       </div>
     </div>
   );

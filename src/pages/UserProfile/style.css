@@ -105,6 +105,16 @@
     padding: 5px 15px; 
     margin-bottom: 15px;
 }
+.view-updated-image{
+    width: 50px;
+}
+.view-updated-image .image-view{
+    height: 50px;
+}
+.view-updated-image .ant-image-img ,.view-updated-image .image-view{
+    width:100% !important;
+    /* display: none; */
+}
 @media only screen and (max-width: 450px) {
     .user-ws-section{
         padding: 46px 52px;;
@@ -118,16 +128,18 @@
         padding-left: 14px;
     }
     .front-profile-header{
-        padding:0px;
-        height: 401px;
+        padding: 0px;
+        height: 304px;
         width: 100%;
         justify-content: center;
+        align-items: flex-end;
+        margin-top: 95px;
     }
     .background-image {
         height: 228px;
     }
-    .small-card {
-        width: 300px;
+    .user-ws-section .small-card {
+        width: 350px;
     }
 }
 @media only screen and (min-width: 450px) { 
@@ -157,10 +169,12 @@
         height: 255px;
     }
     .front-profile-header{
-        height: 337px;
+        height: 327px;
         padding: 0px 0px 0px 37px;
         justify-content: left;
-        width: 50%;
+        width: 30%;
+        align-items: flex-end;
+        margin-top: 95px;
     }
     .user-data {
         height: 176px;
@@ -172,7 +186,7 @@
     .user-ws-section h1{
         align-self: start;
     }
-    .small-card {
+    .user-ws-section .small-card {
         width: 462px;
     }
 }
@@ -181,10 +195,10 @@
         height: 300px;
     }
     .front-profile-header{
-        height: 530px;
-        align-items: center;
+        height: 394px;
         padding: 0px 0px 0px 143px;
-        width: 50%;
+        width: 24%;
+        align-items: flex-end;
     }
     .user-data {
         width: 86%;
