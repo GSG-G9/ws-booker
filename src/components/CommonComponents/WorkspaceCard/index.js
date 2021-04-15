@@ -86,9 +86,10 @@ function WorkspaceCard({
         )}
         <Button
           buttName="Book Now"
-          width={size === 'small' || matchesSmall ? '100px' : '150px'}
+          // width={size === 'small' || matchesSmall ? '100px' : '150px'}
           fontWeight="bold"
           onClick={onClick}
+          className="book-btn-card"
         />
       </div>
     </Card>
