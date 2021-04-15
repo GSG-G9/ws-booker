@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Image, Typography, Menu, Divider, Form, Checkbox } from 'antd';
+import {
+  Image,
+  Typography,
+  Menu,
+  Divider,
+  Form,
+  Checkbox,
+  message,
+} from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
@@ -16,9 +24,11 @@ import logout from '../../assets/icons/logout.svg';
 import './style.css';
 
 const { Title, Text } = Typography;
+// const key = 'updatable';
 const DashboardAddWorkspace = () => {
   const [addImage, setAddImage] = useState('');
   const [headerImage, setHeaderImage] = useState('');
+  const [workspaceData, setWorkspaceData] = useState(null);
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
@@ -59,9 +69,13 @@ const DashboardAddWorkspace = () => {
       workspaceAmenities,
       workspaceLocation,
     } = e;
+    if (workspaceData === null) {
+      // message.loading({ content: 'Loading...', key });
+    }
+    // message.loading({ content: 'Loading...', key });
     const fileURL = await handleUpload();
     const galleryFileURL = await handleUploadGallery();
-    await addWorkspace({
+    const addedWS = await addWorkspace({
       name: workspaceName,
       description: Description,
       days_of_work: DaysOFWork,
@@ -77,6 +91,13 @@ const DashboardAddWorkspace = () => {
       image_gallery: galleryFileURL,
       rating: 0,
     });
+    setWorkspaceData(addedWS);
+    if (workspaceData !== null) {
+      // message.success({ content: 'Loaded!', key });
+    }
+    // if (addedWS.msg) {
+    //   message.success({ content: 'Loaded!', key });
+    // }
     await getAllWorkspaces();
   };
 
