@@ -7,7 +7,7 @@ import './style.css';
 function Layout({ children }) {
   return (
     <>
-      <div className="main-container">
+      <div className="layout-main-container">
         <Header />
         {children}
         <Footer className="footer" />

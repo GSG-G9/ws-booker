@@ -31,8 +31,8 @@ import {
 const App = () => (
   <AuthProvider>
     <Router>
-      <Switch>
-        <Layout>
+      <Layout>
+        <Switch>
           <AdminRoutes
             path={AllWorkspaces}
             component={DashboardAllWorkspaces}
@@ -62,8 +62,8 @@ const App = () => (
           <Route>
             <NotFound />
           </Route>
-        </Layout>
-      </Switch>
+        </Switch>
+      </Layout>
     </Router>
   </AuthProvider>
 );

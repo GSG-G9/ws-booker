@@ -1,7 +1,7 @@
-.main-container {
+/* .layout-main-container {
     display: 'flex';
     flex-direction: 'column';
-}
+} */
 footer{
     align-self: 'flex-end',;
 }
