@@ -24,7 +24,7 @@ import logout from '../../assets/icons/logout.svg';
 import './style.css';
 
 const { Title, Text } = Typography;
-// const key = 'updatable';
+const key = 'updatable';
 const DashboardAddWorkspace = () => {
   const [addImage, setAddImage] = useState('');
   const [headerImage, setHeaderImage] = useState('');
@@ -70,9 +70,8 @@ const DashboardAddWorkspace = () => {
       workspaceLocation,
     } = e;
     if (workspaceData === null) {
-      // message.loading({ content: 'Loading...', key });
+      message.loading({ content: 'Loading...', key });
     }
-    // message.loading({ content: 'Loading...', key });
     const fileURL = await handleUpload();
     const galleryFileURL = await handleUploadGallery();
     const addedWS = await addWorkspace({
@@ -92,12 +91,9 @@ const DashboardAddWorkspace = () => {
       rating: 0,
     });
     setWorkspaceData(addedWS);
-    if (workspaceData !== null) {
-      // message.success({ content: 'Loaded!', key });
+    if (addedWS.msg) {
+      message.success({ content: 'Loaded!', key });
     }
-    // if (addedWS.msg) {
-    //   message.success({ content: 'Loaded!', key });
-    // }
     await getAllWorkspaces();
   };
 
