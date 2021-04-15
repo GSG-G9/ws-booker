@@ -81,6 +81,29 @@
 }
 .buttons-section{
     width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.profile-button-save{
+    margin-left: 10px;
+}
+.profile-button-cancel{
+    margin-right: 10px;
+    background-color: #fff !important;
+    color: #007664 !important;
+}
+.upload-input:focus{
+    outline: none;
+}
+.upload-input::-webkit-file-upload-button:focus{
+    outline: none;
+}
+.upload-input::-webkit-file-upload-button{
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 5px 15px; 
+    margin-bottom: 15px;
 }
 @media only screen and (max-width: 450px) {
     .user-ws-section{

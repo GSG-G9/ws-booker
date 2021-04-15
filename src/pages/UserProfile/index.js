@@ -173,7 +173,11 @@ const UserProfile = ({ match }) => {
               >
                 <div className="upload-image-section">
                   <Text className="upload-label">Update Photo</Text>
-                  <input type="file" onChange={handleChange} />
+                  <input
+                    type="file"
+                    onChange={handleChange}
+                    className="upload-input"
+                  />
                   {/* <button onClick={handleUpload}>Upload</button> */}
                   <MainButton
                     buttName="Upload"
@@ -210,7 +214,7 @@ const UserProfile = ({ match }) => {
                   <div className="buttons-section">
                     <Button
                       type="primary"
-                      className="profile__button--save"
+                      className="profile-button-cancel"
                       // onClick={() => setIsUpdate(false)}
                       onClick={handleCancel}
                     >
@@ -220,7 +224,7 @@ const UserProfile = ({ match }) => {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      className="profile__button--save"
+                      className="profile-button-save"
                     >
                       save
                     </Button>
