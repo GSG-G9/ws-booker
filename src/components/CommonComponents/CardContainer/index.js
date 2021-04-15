@@ -71,7 +71,13 @@ const CardContainer = ({
               {data.length !== 0 ? (
                 data.map((item) => (
                   <li key={item.id} className="cardcontainerli">
-                    <WorkspaceCard {...item} size={size} />
+                    <WorkspaceCard
+                      image={item.header_image}
+                      feesPerDay={item.fees_per_day}
+                      feesPerHour={item.fees_per_hour}
+                      {...item}
+                      size={size}
+                    />
                   </li>
                 ))
               ) : (

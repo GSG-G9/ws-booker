@@ -3,12 +3,12 @@ import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
 import Header from '../components/Layout/Header';
+import { ProtectedRoutes, AdminRoutes } from './Routes';
 import {
   About,
   AllWorkspaces,
   AddWorkspace,
   Home,
-  Login,
   NewestWorkspaces,
   Search,
   TopRatedWorkspaces,
@@ -17,7 +17,6 @@ import {
 } from '../utils';
 import {
   AboutPage,
-  AdminLogin,
   DashboardAddWorkspace,
   DashboardAllWorkspaces,
   HomePage,
@@ -34,15 +33,8 @@ const App = () => (
     <Router>
       <Header />
       <Switch>
-        <Route exact path={Login}>
-          <AdminLogin />
-        </Route>
-        <Route exact path={AllWorkspaces}>
-          <DashboardAllWorkspaces />
-        </Route>
-        <Route exact path={AddWorkspace}>
-          <DashboardAddWorkspace />
-        </Route>
+        <AdminRoutes path={AllWorkspaces} component={DashboardAllWorkspaces} />
+        <AdminRoutes path={AddWorkspace} component={DashboardAddWorkspace} />
         <Route exact path={Home}>
           <HomePage />
         </Route>
@@ -57,20 +49,13 @@ const App = () => (
           path={TopRatedWorkspaces}
           render={(props) => <TopRatedPage {...props} />}
         />
-
         <Route exact path={Search}>
           <SearchResults />
         </Route>
         <Route exact path={WorkspaceProfile}>
           <WorkSpaceProfilePage />
         </Route>
-
-        <Route
-          exact
-          path={UserProfile}
-          render={(props) => <UserProfilePage {...props} />}
-        />
-
+        <ProtectedRoutes path={UserProfile} component={UserProfilePage} />
         <Route>
           <NotFound />
         </Route>
