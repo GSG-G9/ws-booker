@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import firebase from './config';
+import { getUserById } from './firestore/user';
 
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdminLoading, setIsAdminLoading] = useState(true);
+
+  const fetchUserData = async (userId) => {
+    try {
+      const userData = await getUserById(userId);
+      if (userData.isAdmin) {
+        setIsAdmin(true);
+        setIsAdminLoading(false);
+      }
+      setIsAdminLoading(false);
+    } catch (err) {
+      setIsAdminLoading(false);
+      return err;
+    }
+  };
 
   useEffect(() => {
     let isActive = 'true';
@@ -22,8 +39,10 @@ export const AuthProvider = ({ children }) => {
               phone: userAuth.phoneNumber,
               email: userAuth.email,
             });
+            fetchUserData(userAuth.uid);
           } else {
             setUser(userAuth);
+            setIsAdminLoading(false);
           }
           setIsLoading(false);
         });
@@ -44,6 +63,8 @@ export const AuthProvider = ({ children }) => {
         setUser,
         setError,
         isLoading,
+        isAdmin,
+        isAdminLoading,
       }}
     >
       {children}
