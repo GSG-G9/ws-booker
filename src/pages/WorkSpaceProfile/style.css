@@ -172,7 +172,7 @@
   width: 300px;
   margin-top: 10px;
 }
-.radio-button{
+.radio-button-workspace{
   height: 55px;
   line-height: 55px;
   margin-top: 10px;
@@ -184,11 +184,12 @@
   color: #5C5C5C;
   font-weight: bold;
   width: 110px;
+  margin-left: 10px;
  
 }
 .error-text{
   color: red;
-  margin-left: 130px;
+  margin-left: 140px;
   margin-top: 10px;
 }
 

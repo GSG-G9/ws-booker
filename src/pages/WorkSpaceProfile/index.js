@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { Row, Col, Divider, Modal, Radio, Popconfirm } from 'antd';
+import { Row, Col, Divider, Modal, Radio, Popconfirm, message } from 'antd';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
@@ -163,9 +163,6 @@ const WorkspaceProfile = () => {
   };
 
   const onBook = async () => {
-    console.log(startTime);
-    console.log(endTime);
-    console.log(capacity);
     try {
       if (!capacity) {
         setCapacityError('Please select capacity!');
@@ -204,8 +201,8 @@ const WorkspaceProfile = () => {
           } else {
             await editUserCanBook(user.id, { can_book: false });
             setConfirmLoading(false);
-            setConfirmVisible(true);
-            setConfirmTitle(result.msg);
+            setVisible(false);
+            message.success('Your Booking has been added successfully');
           }
         }
       }
@@ -293,10 +290,16 @@ const WorkspaceProfile = () => {
                 <div style={{ display: 'flex' }}>
                   <p className="repeat-text">Repeat</p>
                   <Radio.Group value={repeat} onChange={handleRepeatChange}>
-                    <Radio.Button value="once" className="radio-button">
+                    <Radio.Button
+                      value="once"
+                      className="radio-button-workspace"
+                    >
                       Once
                     </Radio.Button>
-                    <Radio.Button value="daily" className="radio-button">
+                    <Radio.Button
+                      value="daily"
+                      className="radio-button-workspace"
+                    >
                       Daily
                     </Radio.Button>
                   </Radio.Group>
