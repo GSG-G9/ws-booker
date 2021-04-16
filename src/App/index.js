@@ -2,7 +2,6 @@ import React from 'react';
 import './style.less';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../firebase/context';
-import Header from '../components/Layout/Header';
 import { ProtectedRoutes, AdminRoutes } from './Routes';
 import {
   About,
@@ -26,40 +25,45 @@ import {
   UserProfilePage,
   WorkSpaceProfilePage,
   NotFound,
+  Layout,
 } from '../pages';
 
 const App = () => (
   <AuthProvider>
     <Router>
-      <Header />
-      <Switch>
-        <AdminRoutes path={AllWorkspaces} component={DashboardAllWorkspaces} />
-        <AdminRoutes path={AddWorkspace} component={DashboardAddWorkspace} />
-        <Route exact path={Home}>
-          <HomePage />
-        </Route>
-        <Route exact path={About}>
-          <AboutPage />
-        </Route>
-        <Route exact path={NewestWorkspaces}>
-          <NewestWorkspacesPage />
-        </Route>
-        <Route
-          exact
-          path={TopRatedWorkspaces}
-          render={(props) => <TopRatedPage {...props} />}
-        />
-        <Route exact path={Search}>
-          <SearchResults />
-        </Route>
-        <Route exact path={WorkspaceProfile}>
-          <WorkSpaceProfilePage />
-        </Route>
-        <ProtectedRoutes path={UserProfile} component={UserProfilePage} />
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
+      <Layout>
+        <Switch>
+          <AdminRoutes
+            path={AllWorkspaces}
+            component={DashboardAllWorkspaces}
+          />
+          <AdminRoutes path={AddWorkspace} component={DashboardAddWorkspace} />
+          <Route exact path={Home}>
+            <HomePage />
+          </Route>
+          <Route exact path={About}>
+            <AboutPage />
+          </Route>
+          <Route exact path={NewestWorkspaces}>
+            <NewestWorkspacesPage />
+          </Route>
+          <Route
+            exact
+            path={TopRatedWorkspaces}
+            render={(props) => <TopRatedPage {...props} />}
+          />
+          <Route exact path={Search}>
+            <SearchResults />
+          </Route>
+          <Route exact path={WorkspaceProfile}>
+            <WorkSpaceProfilePage />
+          </Route>
+          <ProtectedRoutes path={UserProfile} component={UserProfilePage} />
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </Layout>
     </Router>
   </AuthProvider>
 );

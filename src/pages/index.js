@@ -9,6 +9,7 @@ import TopRatedPage from './TopRatedWorkspaces';
 import UserProfilePage from './UserProfile';
 import WorkSpaceProfilePage from './WorkSpaceProfile';
 import NotFound from './NotFound';
+import Layout from './Layout';
 
 export {
   AboutPage,
@@ -22,4 +23,5 @@ export {
   UserProfilePage,
   WorkSpaceProfilePage,
   NotFound,
+  Layout,
 };
