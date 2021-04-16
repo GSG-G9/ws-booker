@@ -86,10 +86,10 @@ function WorkspaceCard({
           <p className="reviewers">{reviewers} Reviewers</p>
         )}
         <Button
-          buttName={buttonName}
-          width={size === 'small' || matchesSmall ? '90px' : '100px'}
+          buttName="Book Now"
           fontWeight="bold"
           onClick={onClick}
+          className="book-btn-card"
         />
       </div>
     </Card>

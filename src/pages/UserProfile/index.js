@@ -97,12 +97,12 @@ const UserProfile = ({ match }) => {
   const handleOk = async (values) => {
     setIsModalVisible(false);
     const { name: userName, phone_number: userPhone } = values;
-    const ll = await EditUserData(userId, {
+    const editResult = await EditUserData(userId, {
       ...userData,
       name: userName,
-      phone_number: Number(userPhone),
+      phone_number: userPhone,
     });
-    const { data } = ll;
+    const { data } = editResult;
     setUserData(data);
     setIsUpdate(!isUpdate);
   };
@@ -125,13 +125,14 @@ const UserProfile = ({ match }) => {
     <div>
       <div className="profile-main-header">
         <div className="back-profile-header">
-          <Image
-            preview={false}
-            src={coverImage}
-            alt="profile background"
-            className="background-image"
-          />
-
+          <div className="user-background-img">
+            <Image
+              preview={false}
+              src={coverImage}
+              alt="profile background"
+              className="background-image"
+            />
+          </div>
           {isUserLoader ? (
             <Loader />
           ) : (
