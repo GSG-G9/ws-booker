@@ -90,7 +90,6 @@ const getSearchResults = async (queryObj) => {
     }
     return null;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };

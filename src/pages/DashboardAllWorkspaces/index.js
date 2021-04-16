@@ -20,7 +20,7 @@ import {
   editWorkspace,
   DeleteWorkspace,
 } from '../../firebase/firestore/workspace';
-import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
+import { AllWorkspaces, AddWorkspace } from '../../utils';
 import Loader from '../../components/CommonComponents/Loader';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
@@ -77,7 +77,6 @@ const DashboardAllWorkspaces = () => {
       ...record,
     });
     setEditingKey(record.id);
-    console.log('editingKey', editingKey);
   };
 
   const cancel = () => {
@@ -112,6 +111,7 @@ const DashboardAllWorkspaces = () => {
       key: 'name',
       width: '130px',
       editable: true,
+      fixed: 'left',
     },
     {
       title: 'City',
@@ -133,7 +133,7 @@ const DashboardAllWorkspaces = () => {
       dataIndex: 'capacity',
       key: 'capacity',
       editable: true,
-      width: '130px',
+      width: "'130px'",
     },
 
     {
@@ -249,6 +249,7 @@ const DashboardAllWorkspaces = () => {
       dataIndex: 'action',
       key: 'action',
       width: '130px',
+      fixed: 'right',
       render: (_, record) => (
         <span>
           {allWorkspaces.length >= 1 ? (
@@ -367,6 +368,7 @@ const DashboardAllWorkspaces = () => {
                 dataSource={allWorkspaces}
                 columns={mergedColumns}
                 rowClassName="editable-row"
+                // scroll={{ y: 1000 }}
                 pagination={{
                   pageSize: 4,
                 }}
