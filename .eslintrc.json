@@ -24,7 +24,6 @@
     ],
     "react/jsx-props-no-spreading": [0],
     "no-underscore-dangle": 0,
-    
     // configure the prettier plugin
     "prettier/prettier": [
       "error",
@@ -34,9 +33,6 @@
         "endOfLine": "auto"
       }
     ],
-    "no-nested-ternary": "off",
-    
-      "camelcase": "off"
-  
+    "no-nested-ternary": "off"
   }
 }

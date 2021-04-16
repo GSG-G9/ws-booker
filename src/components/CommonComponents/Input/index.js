@@ -135,7 +135,7 @@ MainInput.propTypes = {
   containerClass: PropTypes.string,
   type: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 MainInput.defaultProps = {

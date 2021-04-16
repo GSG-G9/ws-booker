@@ -18,6 +18,7 @@ function WorkspaceCard({
   rating,
   reviewers,
   onClick,
+  buttonName,
 }) {
   const matchesSmall = useMediaQuery({ query: '(max-width:768px)' });
   const matchesMedium = useMediaQuery({ query: '(max-width:1200px)' });
@@ -86,9 +87,9 @@ function WorkspaceCard({
         )}
         <Button
           buttName="Book Now"
-          width={size === 'small' || matchesSmall ? '100px' : '150px'}
           fontWeight="bold"
           onClick={onClick}
+          className="book-btn-card"
         />
       </div>
     </Card>
@@ -106,6 +107,7 @@ WorkspaceCard.propTypes = {
   rating: PropTypes.number,
   reviewers: PropTypes.number,
   onClick: PropTypes.func,
+  buttonName: PropTypes.string,
 };
 
 WorkspaceCard.defaultProps = {
@@ -119,6 +121,7 @@ WorkspaceCard.defaultProps = {
   rating: 0,
   reviewers: 0,
   onClick: () => {},
+  buttonName: 'Book Now',
 };
 
 export default WorkspaceCard;

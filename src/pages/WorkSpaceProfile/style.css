@@ -71,7 +71,7 @@
 .rating .ant-rate{
   font-size: 20px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   margin-left: 60px;
 }
 .rating{

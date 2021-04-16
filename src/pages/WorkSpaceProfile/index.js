@@ -21,7 +21,7 @@ import { postBooking } from '../../firebase/firestore/booking';
 import './style.css';
 
 const WorkspaceProfile = () => {
-  const [, setRate] = useState();
+  const [rate, setRate] = useState();
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -117,7 +117,6 @@ const WorkspaceProfile = () => {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
       setIsLoaded(true);
-      return data;
     } catch (err) {
       return err;
     }
@@ -399,7 +398,7 @@ const WorkspaceProfile = () => {
                     {workspaceData.image_gallery ? (
                       workspaceData.image_gallery.map((item, index) => (
                         <img
-                          key={index.toString()}
+                          key={index}
                           alt="small workspace"
                           className="small-img"
                           src={item}
