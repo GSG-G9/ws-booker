@@ -18,6 +18,7 @@ import {
   addWorkspace,
   getAllWorkspaces,
 } from '../../firebase/firestore/workspace';
+import Loader from '../../components/CommonComponents/Loader';
 import list from '../../assets/icons/list.svg';
 import add from '../../assets/icons/add.svg';
 import logout from '../../assets/icons/logout.svg';
@@ -26,20 +27,24 @@ import './style.css';
 const { Title, Text } = Typography;
 const key = 'updatable';
 const DashboardAddWorkspace = () => {
-  const [galleryImage, setGalleryImage] = useState('');
-  const [galleryImageURL, setGalleryImageURL] = useState('');
   const [headerImage, setHeaderImage] = useState('');
   const [headerImageURL, setHeaderImageURL] = useState('');
+  const [galleryImage, setGalleryImage] = useState('');
+  const [galleryImageURL, setGalleryImageURL] = useState('');
   const [workspaceData, setWorkspaceData] = useState(null);
+  const [isImageUploadLoader, setIsImageUploadLoader] = useState(false);
+  const [isGalleryUploadLoader, setIsGalleryUploadLoader] = useState(false);
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
     try {
+      setIsImageUploadLoader(true);
       const storageRef = await firebaseConfig.storage().ref();
       const fileRef = storageRef.child(image.name);
       await fileRef.put(image);
       const url = await fileRef.getDownloadURL();
       setHeaderImageURL(url);
+      setIsImageUploadLoader(false);
       return url;
     } catch (err) {
       return err;
@@ -49,11 +54,13 @@ const DashboardAddWorkspace = () => {
   const handleUploadGallery = async () => {
     const gallery = galleryImage.target.files[0];
     try {
+      setIsGalleryUploadLoader(true);
       const storageRef = await firebaseConfig.storage().ref();
       const fileRef = storageRef.child(gallery.name);
       await fileRef.put(gallery);
       const url = await fileRef.getDownloadURL();
       setGalleryImageURL(url);
+      setIsGalleryUploadLoader(false);
       return url;
     } catch (err) {
       return err;
@@ -149,7 +156,13 @@ const DashboardAddWorkspace = () => {
               </div>
             </div>
             <div className="view-updated-image">
-              <Image src={headerImageURL} alt="" className="image-view" />
+              {isImageUploadLoader ? (
+                <Loader />
+              ) : (
+                headerImageURL && (
+                  <Image src={headerImageURL} alt="" className="image-view" />
+                )
+              )}
             </div>
           </div>
           <Form.Item
@@ -342,7 +355,13 @@ const DashboardAddWorkspace = () => {
               />
             </Form.Item>
             <div className="view-updated-image">
-              <Image src={galleryImageURL} alt="" className="image-view" />
+              {isGalleryUploadLoader ? (
+                <Loader />
+              ) : (
+                galleryImageURL && (
+                  <Image src={galleryImageURL} alt="" className="image-view" />
+                )
+              )}
             </div>
           </div>
           <div className="buttons-section">
