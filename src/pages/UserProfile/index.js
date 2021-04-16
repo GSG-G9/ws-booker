@@ -125,13 +125,14 @@ const UserProfile = ({ match }) => {
     <div>
       <div className="profile-main-header">
         <div className="back-profile-header">
-          <Image
-            preview={false}
-            src={coverImage}
-            alt="profile background"
-            className="background-image"
-          />
-
+          <div className="user-background-img">
+            <Image
+              preview={false}
+              src={coverImage}
+              alt="profile background"
+              className="background-image"
+            />
+          </div>
           {isUserLoader ? (
             <Loader />
           ) : (
