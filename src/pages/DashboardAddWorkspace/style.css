@@ -46,10 +46,10 @@
     width: 40%;
     display: inline-block;
 }
-.view-updated-image {
+.view-uploaded-image {
     width: 40%;
 }
-.view-updated-image .ant-image-img ,.view-updated-image .image-view{
+.view-uploaded-image .ant-image-img ,.view-uploaded-image .image-view{
     width:100% !important;
 }
 .upload-input:focus{

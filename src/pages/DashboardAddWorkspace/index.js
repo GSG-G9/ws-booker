@@ -155,7 +155,7 @@ const DashboardAddWorkspace = () => {
                 </Form.Item>
               </div>
             </div>
-            <div className="view-updated-image">
+            <div className="view-uploaded-image">
               {isImageUploadLoader ? (
                 <Loader />
               ) : (
@@ -354,7 +354,7 @@ const DashboardAddWorkspace = () => {
                 className="upload-input"
               />
             </Form.Item>
-            <div className="view-updated-image">
+            <div className="view-uploaded-image">
               {isGalleryUploadLoader ? (
                 <Loader />
               ) : (
