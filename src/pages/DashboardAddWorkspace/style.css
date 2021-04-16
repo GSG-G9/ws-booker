@@ -33,14 +33,40 @@
     border: 1px solid #DFE0EB;
     padding:20px;
 }
+.name-img-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 .half-section-left{
+    width: 40%;
+}
+.upload-section{
     width: 40%;
     display: inline-block;
 }
+.view-updated-image {
+    width: 40%;
+}
+.view-updated-image .ant-image-img ,.view-updated-image .image-view{
+    width:100% !important;
+}
+.upload-input:focus{
+    outline: none;
+}
+.upload-input::-webkit-file-upload-button:focus{
+    outline: none;
+}
+.upload-input::-webkit-file-upload-button{
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 5px 15px; 
+    margin-bottom: 15px;
+}
 .half-section-right{
     width: 40%;   
-    display: inline-block;
-    margin-left: 10%;
 }
 .label{
     display: block;
@@ -51,6 +77,7 @@
 }
 .textarea-description{
     height: 150px !important;
+    width: 100%;
 }
 .checkout-container{
     display: flex;
@@ -61,6 +88,18 @@
     width: 20%;
     margin-left:0px !important;
     margin-top: 30px;
+}
+.flex-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.feesH-input ,.feesD-input ,.totalC-input{
+    width: 100%;
+}
+.location-input{
+    width: 100%;
 }
 .amenities-section{
     display: flex;
@@ -73,13 +112,47 @@
     margin-top: 30px;
 }
 .buttons-section{
-   width: 100%;
-   padding:30px 0px;
-   text-align:  center; 
+    width: 100%;
+    padding:30px 0px;
+    display: flex;
+    justify-content: center;
 }
 .buttons-section .add{
-  margin-right: 15px !important;
+    margin-left: 15px !important;
+    padding: 0px 27px;
 }
 .cancel{
-    margin-left: 15px !important;
+    margin-right: 15px !important;
+    color: #15826e;
+    background-color: #fff;
+}
+@media only screen and (max-width: 600px) {
+    .half-section-left{
+        width: 100%;
+    }
+    .upload-section{
+        width: 100%;
+    }
+    .half-section-right{
+        width: 100%;
+    }
+    .amenities-section .check{
+        width: 100%;
+    }
+    .amenities-section .check span{
+        padding:0px;
+    }
+}
+@media only screen and (min-width: 600px) {
+    .upload-section{
+        width: 100%;
+    }
+    .checkout-container label {
+        width: 33%;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .checkout-container label {
+        width: 25%;
+    }
 }

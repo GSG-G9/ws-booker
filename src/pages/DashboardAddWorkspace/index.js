@@ -26,8 +26,10 @@ import './style.css';
 const { Title, Text } = Typography;
 const key = 'updatable';
 const DashboardAddWorkspace = () => {
-  const [addImage, setAddImage] = useState('');
+  const [galleryImage, setGalleryImage] = useState('');
+  const [galleryImageURL, setGalleryImageURL] = useState('');
   const [headerImage, setHeaderImage] = useState('');
+  const [headerImageURL, setHeaderImageURL] = useState('');
   const [workspaceData, setWorkspaceData] = useState(null);
 
   const handleUpload = async () => {
@@ -37,6 +39,7 @@ const DashboardAddWorkspace = () => {
       const fileRef = storageRef.child(image.name);
       await fileRef.put(image);
       const url = await fileRef.getDownloadURL();
+      setHeaderImageURL(url);
       return url;
     } catch (err) {
       return err;
@@ -44,12 +47,13 @@ const DashboardAddWorkspace = () => {
   };
 
   const handleUploadGallery = async () => {
-    const gallery = addImage.target.files[0];
+    const gallery = galleryImage.target.files[0];
     try {
       const storageRef = await firebaseConfig.storage().ref();
       const fileRef = storageRef.child(gallery.name);
       await fileRef.put(gallery);
       const url = await fileRef.getDownloadURL();
+      setGalleryImageURL(url);
       return url;
     } catch (err) {
       return err;
@@ -122,26 +126,31 @@ const DashboardAddWorkspace = () => {
         <Form className="add-ws-form" onFinish={onFinish}>
           <Title level={3}>Add Workspace </Title>
           <Divider />
-          <div className="half-section-left">
-            <Form.Item
-              name="workspaceName"
-              rules={[
-                { required: true, message: 'Please enter workspace name!' },
-              ]}
-            >
-              <MainInput label="Workspace Name" name="workspaceNameInput" />
-            </Form.Item>
-          </div>
-
-          <div className="upload-section">
-            <Form.Item name="headerImageMain">
-              <Text className="label">Header Image</Text>
-              <input
-                type="file"
-                name="headerImageInput"
-                onChange={(e) => setHeaderImage(e)}
-              />
-            </Form.Item>
+          <div className="name-img-section">
+            <div className="half-section-left">
+              <Form.Item
+                name="workspaceName"
+                rules={[
+                  { required: true, message: 'Please enter workspace name!' },
+                ]}
+              >
+                <MainInput label="Workspace Name" name="workspaceNameInput" />
+              </Form.Item>
+              <div className="upload-section">
+                <Form.Item name="headerImageMain">
+                  <Text className="label">Header Image</Text>
+                  <input
+                    type="file"
+                    name="headerImageInput"
+                    onChange={(e) => setHeaderImage(e)}
+                    className="upload-input"
+                  />
+                </Form.Item>
+              </div>
+            </div>
+            <div className="view-updated-image">
+              <Image src={headerImageURL} alt="" className="image-view" />
+            </div>
           </div>
           <Form.Item
             name="Description"
@@ -159,100 +168,107 @@ const DashboardAddWorkspace = () => {
               className="textarea-description"
             />
           </Form.Item>
-
-          <div className="half-section-left">
-            <Text className="label">Days of Work</Text>
-            <div className="checkout-container">
+          <div className="flex-container">
+            <div className="half-section-left">
               <Form.Item
-                name="DaysOFWork"
+                name="hoursOperation"
                 rules={[
                   {
                     required: true,
-                    message: 'Please Select the Days of Work!',
+                    message: 'Please enter workspace hours operations!',
                   },
                 ]}
               >
-                <Checkbox.Group>
-                  <Checkbox value="Sun">Sun</Checkbox>
-                  <Checkbox value="Mon">Mon</Checkbox>
-                  <Checkbox value="Tue">Tue</Checkbox>
-                  <Checkbox value="Wed">Wed</Checkbox>
-                  <Checkbox value="The">The</Checkbox>
-                  <Checkbox value="Fri">Fri</Checkbox>
-                  <Checkbox value="Sat">Sat</Checkbox>
-                </Checkbox.Group>
+                <MainInput
+                  label="Hours of Operation"
+                  name="OperationHoursInput"
+                  type="time"
+                />
+              </Form.Item>
+              <Form.Item
+                name="workspaceCity"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter the workspace city!',
+                  },
+                ]}
+              >
+                <MainInput label="Workspace City" name="workspaceCityInput" />
+              </Form.Item>
+              <Text className="label">Days of Work</Text>
+              <div className="checkout-container">
+                <Form.Item
+                  name="DaysOFWork"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please Select the Days of Work!',
+                    },
+                  ]}
+                >
+                  <Checkbox.Group>
+                    <Checkbox value="Sun">Sun</Checkbox>
+                    <Checkbox value="Mon">Mon</Checkbox>
+                    <Checkbox value="Tue">Tue</Checkbox>
+                    <Checkbox value="Wed">Wed</Checkbox>
+                    <Checkbox value="The">The</Checkbox>
+                    <Checkbox value="Fri">Fri</Checkbox>
+                    <Checkbox value="Sat">Sat</Checkbox>
+                  </Checkbox.Group>
+                </Form.Item>
+              </div>
+            </div>
+            <div className="half-section-right">
+              <Form.Item
+                name="feesPerHour"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter the workspace fees per hour!',
+                  },
+                ]}
+              >
+                <MainInput
+                  label="Fees per Hour"
+                  name="feesPerHourInput"
+                  type="number"
+                  className="feesH-input"
+                />
+              </Form.Item>
+              <Form.Item
+                name="feesPerDay"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter the workspace fees per day!',
+                  },
+                ]}
+              >
+                <MainInput
+                  label="Fees per Day"
+                  name="feesPerDayInput"
+                  type="number"
+                  className="feesD-input"
+                />
+              </Form.Item>
+              <Form.Item
+                name="totalCapacity"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter the workspace total capacity!',
+                  },
+                ]}
+              >
+                <MainInput
+                  label="Total Capacity"
+                  name="totalCapacityInput"
+                  type="number"
+                  className="totalC-input"
+                />
               </Form.Item>
             </div>
-            <Form.Item
-              name="hoursOperation"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter workspace hours operations!',
-                },
-              ]}
-            >
-              <MainInput
-                label="Hours of Operation"
-                name="OperationHoursInput"
-                type="time"
-              />
-            </Form.Item>
-            <Form.Item
-              name="workspaceCity"
-              rules={[
-                { required: true, message: 'Please enter the workspace city!' },
-              ]}
-            >
-              <MainInput label="Workspace City" name="workspaceCityInput" />
-            </Form.Item>
-          </div>
-          <div className="half-section-right">
-            <Form.Item
-              name="feesPerHour"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter the workspace fees per hour!',
-                },
-              ]}
-            >
-              <MainInput
-                label="Fees per Hour"
-                name="feesPerHourInput"
-                type="number"
-              />
-            </Form.Item>
-            <Form.Item
-              name="feesPerDay"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter the workspace fees per day!',
-                },
-              ]}
-            >
-              <MainInput
-                label="Fees per Day"
-                name="feesPerDayInput"
-                type="number"
-              />
-            </Form.Item>
-            <Form.Item
-              name="totalCapacity"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter the workspace total capacity!',
-                },
-              ]}
-            >
-              <MainInput
-                label="Total Capacity"
-                name="totalCapacityInput"
-                type="number"
-              />
-            </Form.Item>
           </div>
           <Form.Item
             name="workspaceLocation"
@@ -267,6 +283,7 @@ const DashboardAddWorkspace = () => {
               label="Location Details"
               name="locationDetails"
               placeholder="Town / City"
+              className="location-input"
             />
           </Form.Item>
           <div className="amentities-Contaienr">
@@ -320,19 +337,25 @@ const DashboardAddWorkspace = () => {
               <input
                 type="file"
                 name="additionalImages"
-                onChange={(e) => setAddImage(e)}
+                onChange={(e) => setGalleryImage(e)}
+                className="upload-input"
               />
             </Form.Item>
+            <div className="view-updated-image">
+              <Image src={galleryImageURL} alt="" className="image-view" />
+            </div>
           </div>
           <div className="buttons-section">
             <Form.Item>
+              <MainButton
+                buttName="Cancel"
+                htmlType="default"
+                className="cancel"
+              />
+            </Form.Item>
+            <Form.Item>
               <MainButton buttName="Add" className="add" htmlType="submit" />
             </Form.Item>
-            <MainButton
-              buttName="Cancel"
-              htmlType="default"
-              className="cancel"
-            />
           </div>
         </Form>
       </div>
