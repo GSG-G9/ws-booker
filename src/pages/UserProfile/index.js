@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Image, Button, Typography, Form, Empty } from 'antd';
+import PropTypes from 'prop-types';
+import {
+  Modal,
+  Image,
+  Button,
+  Typography,
+  Form,
+  Empty,
+  Popconfirm,
+} from 'antd';
 import { EditOutlined, EditFilled } from '@ant-design/icons';
 
 import firebaseConfig, { db } from '../../firebase/config';
-import { EditUserData, getUserById } from '../../firebase/firestore/user';
+import {
+  EditUserData,
+  getUserById,
+  editUserCanBook,
+} from '../../firebase/firestore/user';
 
 import {
   getBookingByUserId,
   deleteBooking,
 } from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
+
 import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
@@ -31,10 +45,12 @@ const UserProfile = ({ match }) => {
   const [fileURL, setFileURl] = useState('');
   const [image, setImage] = useState(null);
   const [workspaceData, setWorkspaceData] = useState({});
+  const [wsId, setWsId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [runEffect, setRunEffect] = useState(false);
   const [error, setError] = useState(null);
+  const [confirmVisible, setConfirmVisible] = useState(false);
 
   const { userId } = match.params;
   const { name, phone_number } = userData;
@@ -49,6 +65,7 @@ const UserProfile = ({ match }) => {
         const bookingbyUserId = await getBookingByUserId(userId);
         if (bookingbyUserId) {
           const workspaceId = bookingbyUserId.workspace_id.id;
+          setWsId(workspaceId);
           const wsData = await getWorkspaceById(workspaceId);
           setIsWSLoader(false);
           setWorkspaceData(wsData);
@@ -72,13 +89,14 @@ const UserProfile = ({ match }) => {
 
   const handleUpload = async () => {
     try {
+      let url;
       setIsUploadLoader(true);
       if (image) {
         const storageRef = await firebaseConfig.storage().ref();
         const fileRef = storageRef.child(image.name);
 
         await fileRef.put(image);
-        const url = await fileRef.getDownloadURL();
+        url = await fileRef.getDownloadURL();
         setFileURl(url);
         setIsUploadLoader(false);
         const response = db.collection('users').doc(userId);
@@ -87,8 +105,8 @@ const UserProfile = ({ match }) => {
           image: url,
         });
         setRunEffect((x) => !x);
-        return url;
       }
+      return url;
     } catch (err) {
       return err;
     }
@@ -115,10 +133,19 @@ const UserProfile = ({ match }) => {
     try {
       await deleteBooking(userId);
       setError("Sorry! You don't have any workspace booking!");
+      await editUserCanBook(userId, { can_book: true });
       return { message: 'Cancel Booking successfully' };
     } catch (err) {
       return err;
     }
+  };
+
+  const confirm = () => {
+    handleCancelBooking();
+  };
+
+  const cancel = () => {
+    setConfirmVisible(false);
   };
 
   return (
@@ -247,20 +274,39 @@ const UserProfile = ({ match }) => {
         ) : isWSLoader ? (
           <Loader />
         ) : (
-          <WorkspaceCard
-            name={workspaceData.name}
-            feesPerDay={workspaceData.fees_per_day}
-            feesPerHour={workspaceData.fees_per_hour}
-            rating={workspaceData.rating}
-            reviewers={workspaceData.reviewers}
-            location={workspaceData.location}
-            image={workspaceData.header_image}
-            buttonName="Cancel Book"
-            onClick={handleCancelBooking}
-          />
+          <Popconfirm
+            title="Are you sure to delete the booking?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+            visible={confirmVisible}
+          >
+            <WorkspaceCard
+              id={wsId}
+              name={workspaceData.name}
+              feesPerDay={workspaceData.fees_per_day}
+              feesPerHour={workspaceData.fees_per_hour}
+              rating={workspaceData.rating}
+              reviewers={workspaceData.reviewers}
+              location={workspaceData.location}
+              image={workspaceData.header_image}
+              buttonName="Cancel Book"
+              onClick={() => setConfirmVisible(true)}
+            />
+          </Popconfirm>
         )}
       </div>
     </div>
   );
 };
+
+UserProfile.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+};
+
 export default UserProfile;

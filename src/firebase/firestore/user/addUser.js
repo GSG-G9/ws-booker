@@ -10,6 +10,7 @@ const addUser = async (user) => {
         image: user.photoURL,
         email: user.email,
         phone_number: user.phoneNumber,
+        can_book: true,
       });
       return { message: 'User added successfully' };
     }
