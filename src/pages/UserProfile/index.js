@@ -24,7 +24,7 @@ import './style.css';
 const { Title, Text } = Typography;
 
 const UserProfile = ({ match }) => {
-  const [isUserLoader, setIsUsreLoader] = useState(true);
+  const [isUserLoader, setIsUserLoader] = useState(true);
   const [isWSLoader, setIsWSLoader] = useState(true);
   const [isUploadLoader, setIsUploadLoader] = useState(false);
   const [userData, setUserData] = useState({});
@@ -43,7 +43,7 @@ const UserProfile = ({ match }) => {
     let isActive = 'true';
     if (isActive) {
       const UserData = await getUserById(userId);
-      setIsUsreLoader(false);
+      setIsUserLoader(false);
       if (UserData) {
         setUserData(UserData);
         const bookingbyUserId = await getBookingByUserId(userId);
