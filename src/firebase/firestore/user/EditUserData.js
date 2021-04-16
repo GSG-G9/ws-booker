@@ -20,7 +20,6 @@ const EditUserData = async (id, payload) => {
       msg: 'user updated successfully',
     };
   } catch (err) {
-    console.log('errr', err);
     return err;
   }
 };

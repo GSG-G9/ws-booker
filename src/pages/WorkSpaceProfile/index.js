@@ -21,7 +21,7 @@ import { postBooking } from '../../firebase/firestore/booking';
 import './style.css';
 
 const WorkspaceProfile = () => {
-  const [rate, setRate] = useState();
+  const [, setRate] = useState();
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -117,6 +117,7 @@ const WorkspaceProfile = () => {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
       setIsLoaded(true);
+      return data;
     } catch (err) {
       return err;
     }
@@ -124,10 +125,9 @@ const WorkspaceProfile = () => {
 
   const fetchUserDate = async (id) => {
     try {
-      if (user) {
-        const getUserData = await getUserById(id);
-        setUserData(getUserData);
-      }
+      const getUserData = await getUserById(id);
+      setUserData(getUserData);
+      return getUserData;
     } catch (err) {
       return err;
     }
@@ -160,9 +160,14 @@ const WorkspaceProfile = () => {
     setConfirmVisible(false);
     setConfirmTitle('');
   };
+  const cancelBooking = () => {
+    setVisible(false);
+    setConfirmVisible(false);
+  };
 
   const onBook = async () => {
     try {
+      let response;
       if (!capacity) {
         setCapacityError('Please select capacity!');
       }
@@ -188,7 +193,7 @@ const WorkspaceProfile = () => {
             book_start_time: fullStart,
             book_end_time: fullEnd,
           });
-
+          response = result;
           if (result instanceof Error) {
             setConfirmLoading(false);
             setConfirmTitle('Something went wrong, please try again');
@@ -205,6 +210,7 @@ const WorkspaceProfile = () => {
           }
         }
       }
+      return response;
     } catch (err) {
       return err;
     }
@@ -221,7 +227,7 @@ const WorkspaceProfile = () => {
             centered
             visible={visible}
             onOk={!user || !userData.can_book ? onOk : onBook}
-            onCancel={() => setVisible(false)}
+            onCancel={cancelBooking}
             cancelButtonProps={
               (!user || !userData.can_book) && { style: { display: 'none' } }
             }
@@ -398,7 +404,7 @@ const WorkspaceProfile = () => {
                     {workspaceData.image_gallery ? (
                       workspaceData.image_gallery.map((item, index) => (
                         <img
-                          key={index}
+                          key={index.toString()}
                           alt="small workspace"
                           className="small-img"
                           src={item}
