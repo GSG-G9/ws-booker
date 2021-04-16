@@ -103,7 +103,7 @@ const DashboardAddWorkspace = () => {
     });
     setWorkspaceData(addedWS);
     if (addedWS.msg) {
-      message.success({ content: 'Loaded!', key });
+      message.success({ content: 'Added successfully!', key });
     }
     await getAllWorkspaces();
   };
