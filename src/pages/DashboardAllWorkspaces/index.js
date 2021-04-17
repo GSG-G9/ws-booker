@@ -371,6 +371,7 @@ const DashboardAllWorkspaces = () => {
                 // scroll={{ y: 1000 }}
                 pagination={{
                   pageSize: 4,
+                  position: ['bottomRight'],
                 }}
               />
             </Form>
