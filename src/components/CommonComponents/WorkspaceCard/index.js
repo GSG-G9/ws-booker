@@ -86,7 +86,7 @@ function WorkspaceCard({
           <p className="reviewers">{reviewers} Reviewers</p>
         )}
         <Button
-          buttName="Book Now"
+          buttName={buttonName}
           fontWeight="bold"
           onClick={onClick}
           className="book-btn-card"

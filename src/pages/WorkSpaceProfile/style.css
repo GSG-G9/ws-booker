@@ -157,6 +157,42 @@
   margin-top: 20px;
   overflow: hidden;
 }
+
+
+.requirement-text{
+  color: #007664;
+}
+.container span.label{
+  margin-top: 25px;
+  width: 90px;
+ 
+} 
+.input-number{
+  margin-left: 10px;
+  width: 300px;
+  margin-top: 10px;
+}
+.radio-button-workspace{
+  height: 55px;
+  line-height: 55px;
+  margin-top: 10px;
+  margin-left: 20px;
+ 
+}
+.repeat-text{
+  margin-top: 25px;
+  color: #5C5C5C;
+  font-weight: bold;
+  width: 110px;
+  margin-left: 10px;
+ 
+}
+.error-text{
+  color: red;
+  margin-left: 140px;
+  margin-top: 10px;
+}
+
 @media only screen and (max-width: 1000px) {
   .amenities-frame{
     width:40%;

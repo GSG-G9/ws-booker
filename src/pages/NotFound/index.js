@@ -1,8 +1,15 @@
 import React from 'react';
+import { Image, Typography } from 'antd';
+import oops from '../../assets/images/oops.png';
+import './style.css';
 
+const { Title, Text } = Typography;
 const NotFount = () => (
-  <div>
-    <h1>404 Not Found</h1>
+  <div className="not-found-container">
+    <Image preview={false} src={oops} alt="oops" />
+    <Title>404</Title>
+    <Title level={3}>Page Not Found</Title>
+    <Text>We can't seem to find a page you are looking for!</Text>
   </div>
 );
 

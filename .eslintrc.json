@@ -33,6 +33,7 @@
         "endOfLine": "auto"
       }
     ],
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "camelcase": "off"
   }
 }
