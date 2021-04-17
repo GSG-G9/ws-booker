@@ -46,3 +46,7 @@
     height: 50px;
     margin: 1px;
 }
+.table-sub-container .ant-table-pagination-right{
+    display: flex;
+    justify-content: center !important;
+}

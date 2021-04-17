@@ -34,6 +34,7 @@
       }
     ],
     "no-nested-ternary": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "react/destructuring-assignment": "off"
   }
 }

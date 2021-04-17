@@ -69,6 +69,7 @@ const DashboardAllWorkspaces = () => {
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [deletePerformed, setDeletePerformed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [runEffect, setRunEffect] = useState(false);
 
   const isEditing = (record) => record.id === editingKey;
 
@@ -88,6 +89,7 @@ const DashboardAllWorkspaces = () => {
       const row = await form.validateFields();
       const editMsg = await editWorkspace(key, row);
       message.success(editMsg.msg);
+      setRunEffect((x) => !x);
       setEditingKey('');
     } catch (errInfo) {
       message.error('Something went wrong , Please try again');
@@ -330,7 +332,7 @@ const DashboardAllWorkspaces = () => {
     return () => {
       isActive = false;
     };
-  }, [deletePerformed]);
+  }, [deletePerformed, runEffect]);
   return (
     <div className="main-contain">
       <div className="dashboard-nav">

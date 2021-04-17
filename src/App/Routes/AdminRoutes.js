@@ -20,7 +20,7 @@ const AdminRoutes = ({ path, component }) => {
 };
 AdminRoutes.propTypes = {
   path: PropTypes.string.isRequired,
-  component: PropTypes.func.isRequired,
+  component: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default AdminRoutes;
