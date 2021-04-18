@@ -5,11 +5,9 @@
   background: url('../../assets/images/homeheader1.png') no-repeat;
   background-size: cover;
   text-align: center;
-  /* opacity: 0.7; */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  
+  justify-content: center;  
 }
 .header_title {
   font-size: 4em !important;
