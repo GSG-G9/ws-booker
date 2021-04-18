@@ -20,11 +20,11 @@ export const AuthProvider = ({ children }) => {
         setIsAdminLoading(false);
       }
       setIsAdminLoading(false);
+      return userData;
     } catch (err) {
       setIsAdminLoading(false);
       return err;
     }
-    return null;
   };
 
   useEffect(() => {

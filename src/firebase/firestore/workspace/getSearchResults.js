@@ -4,7 +4,6 @@ import { searchSchema } from '../../../utils/validation';
 const getSearchResults = async (queryObj) => {
   try {
     const { q, city, capacity } = await searchSchema.validate(queryObj);
-    // const { q, city, capacity } = queryObj;
     if (q && city && capacity) {
       const data = await db
         .collection('workspaces')

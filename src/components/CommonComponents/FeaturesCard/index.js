@@ -11,7 +11,7 @@ const FeaturesCard = ({ icon, title, description }) => (
     <Title level={3} id="title">
       {title}
     </Title>
-    <Text className="text">{description}</Text>
+    <Text className="text-feature">{description}</Text>
   </div>
 );
 
