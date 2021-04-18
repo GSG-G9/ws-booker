@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 30px;
 }
 .search_div_div{
     display: flex;
@@ -11,6 +12,9 @@
 }
 .search_inp{
     width: 45vw;
+}
+#search .ant-row , #search .ant-form-item{
+    align-self: flex-end;
 }
 .search_butt{
     height: 55px;
