@@ -115,7 +115,6 @@ CardContainer.propTypes = {
         location: PropTypes.string,
         rating: PropTypes.number,
         reviewers: PropTypes.number,
-        onClick: PropTypes.func,
       })
     ),
   }),
@@ -130,7 +129,6 @@ CardContainer.propTypes = {
       location: PropTypes.string,
       rating: PropTypes.number,
       reviewers: PropTypes.number,
-      onClick: PropTypes.func,
     })
   ),
 };
