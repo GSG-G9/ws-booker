@@ -14,7 +14,7 @@
     width: 45vw;
 }
 #search .ant-row , #search .ant-form-item{
-    align-self: flex-end;
+    align-self: flex-end !important;
 }
 .search_butt{
     height: 55px;
