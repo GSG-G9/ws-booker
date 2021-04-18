@@ -27,7 +27,7 @@
   justify-content: center;
   flex-wrap: wrap;
   align-self: center;
-  border-radius: 1.5vw;
+  border-radius: 1vw;
   opacity: 1 !important;
 }
 .search_div >.search_input{
