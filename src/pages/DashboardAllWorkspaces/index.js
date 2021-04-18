@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
+import Moment from 'moment';
 import {
   Image,
   Typography,
@@ -8,6 +9,7 @@ import {
   Table,
   Input,
   InputNumber,
+  TimePicker,
   Popconfirm,
   Form,
   message,
@@ -38,7 +40,18 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  // const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  let inputNode;
+  switch (inputType) {
+    case 'number':
+      inputNode = <InputNumber />;
+      break;
+    case 'time':
+      inputNode = <TimePicker selected={(time) => Moment(time)} />;
+      break;
+    default:
+      inputNode = <Input />;
+  }
   return (
     <td {...restProps}>
       {editing ? (
@@ -298,6 +311,20 @@ const DashboardAllWorkspaces = () => {
   ];
 
   const mergedColumns = columns.map((col) => {
+    let inputType;
+    switch (col.dataIndex) {
+      case 'capacity':
+      case 'fees_per_day':
+      case 'fees_per_hour':
+        inputType = 'number';
+        break;
+      // case 'start_time':
+      // case 'end_time':
+      //   inputType = 'time';
+      //   break;
+      default:
+        inputType = 'text';
+    }
     if (!col.editable) {
       return col;
     }
@@ -306,7 +333,7 @@ const DashboardAllWorkspaces = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType: 'text',
+        inputType,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
