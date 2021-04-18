@@ -17,6 +17,7 @@ import { AuthContext } from '../../firebase/context';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
+import loginWithGoogle from '../../Login/loginWithGoogle';
 
 import './style.css';
 
@@ -42,7 +43,7 @@ const WorkspaceProfile = () => {
   const [capacityError, setCapacityError] = useState(null);
   const [timeError, setTimeError] = useState(null);
   const [dateError, setDateError] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
 
   const arrayOfHours = Array.from(Array(24).keys());
@@ -164,6 +165,13 @@ const WorkspaceProfile = () => {
     setVisible(false);
     setConfirmVisible(false);
   };
+  const handleOnLoginClick = async () => {
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      setError(err);
+    }
+  };
 
   const onBook = async () => {
     try {
@@ -226,19 +234,25 @@ const WorkspaceProfile = () => {
             title="Booking"
             centered
             visible={visible}
-            onOk={!user || !userData.can_book ? onOk : onBook}
+            onOk={
+              !user ? handleOnLoginClick : !userData.can_book ? onOk : onBook
+            }
             onCancel={cancelBooking}
             cancelButtonProps={
-              (!user || !userData.can_book) && { style: { display: 'none' } }
+              user && !userData.can_book && { style: { display: 'none' } }
             }
             confirmLoading={confirmLoading}
             width={500}
-            okText={!user || !userData.can_book ? 'Ok' : 'Book'}
+            okText={
+              !user ? 'Log In with Google' : !userData.can_book ? 'Ok' : 'Book'
+            }
           >
             {!user ? (
-              <p className="requirement-text">
-                Please, Log in first before booking.
-              </p>
+              <>
+                <p className="requirement-text">
+                  Please, Log in first before booking.
+                </p>
+              </>
             ) : !userData.can_book ? (
               <p className="requirement-text">
                 Sorry, you have already booked a workspace
@@ -283,6 +297,9 @@ const WorkspaceProfile = () => {
                   disabledHours={disabledHours}
                   onChange={handleChangeTime}
                   value={timeValue}
+                  showTime={{
+                    hideDisabledOptions: true,
+                  }}
                 />
                 <div
                   style={{
