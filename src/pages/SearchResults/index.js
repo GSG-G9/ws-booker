@@ -56,10 +56,10 @@ const SearchResults = () => {
           >
             <MainInput placeholder="Enter City name" className="search_inp" />
           </Form.Item>
-          <Form.Item className="button-div">
+          <Form.Item>
             <MainButton
               buttName="Search"
-              className="search_button"
+              className="search_butt"
               htmlType="submit"
             />
           </Form.Item>
