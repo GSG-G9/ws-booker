@@ -26,7 +26,7 @@ const WorkspaceProfile = () => {
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [capacity, setCapacity] = useState('');
+  const [capacity, setCapacity] = useState(null);
   const [timeValue, setTimeValue] = useState(null);
   const [dateValue, setDateValue] = useState(null);
   const [dateRangeValue, setDateRangeValue] = useState(null);
@@ -43,6 +43,7 @@ const WorkspaceProfile = () => {
   const [capacityError, setCapacityError] = useState(null);
   const [timeError, setTimeError] = useState(null);
   const [dateError, setDateError] = useState(null);
+  const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
 
@@ -145,7 +146,7 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user]);
+  }, [user, runEffect]);
 
   const onClick = () => {
     setVisible(true);
@@ -162,11 +163,17 @@ const WorkspaceProfile = () => {
     setConfirmTitle('');
   };
   const cancelBooking = () => {
+    setCapacity(null);
+    setDateRangeValue(null);
+    setDateValue(null);
+    setTimeValue(null);
+    setRepeat('once');
     setVisible(false);
     setConfirmVisible(false);
   };
   const handleOnLoginClick = async () => {
     try {
+      setVisible(false);
       await loginWithGoogle();
     } catch (err) {
       setError(err);
@@ -214,7 +221,9 @@ const WorkspaceProfile = () => {
             await editUserCanBook(user.id, { can_book: false });
             setConfirmLoading(false);
             setVisible(false);
+
             message.success('Your Booking has been added successfully');
+            setRunEffect((x) => !x);
           }
         }
       }
