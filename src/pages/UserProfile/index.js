@@ -214,10 +214,28 @@ const UserProfile = ({ match }) => {
                     }}
                     onFinish={(values) => handleOk(values)}
                   >
-                    <Form.Item name="name" className="profile__input">
+                    <Form.Item
+                      name="name"
+                      className="profile__input"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your user name!',
+                        },
+                      ]}
+                    >
                       <MainInput prefix={<EditOutlined />} label="User Name" />
                     </Form.Item>
-                    <Form.Item name="phone_number" className="profile__input">
+                    <Form.Item
+                      name="phone_number"
+                      className="profile__input"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your phone number!',
+                        },
+                      ]}
+                    >
                       <MainInput
                         prefix={<EditOutlined />}
                         label="Phone Number"
@@ -249,7 +267,11 @@ const UserProfile = ({ match }) => {
               </div>
               <div className="phone-section">
                 <Image preview={false} src={phoneico} alt="phone" />
-                <Text className="phone">{userData.phone_number}</Text>
+                {userData.phone_number ? (
+                  <Text className="phone">{userData.phone_number}</Text>
+                ) : (
+                  <Text className="phone">No phone Number</Text>
+                )}
               </div>
             </div>
           )}
