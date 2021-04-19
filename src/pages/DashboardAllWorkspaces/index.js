@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
-import Moment from 'moment';
 import {
   Image,
   Typography,
@@ -9,7 +8,6 @@ import {
   Table,
   Input,
   InputNumber,
-  TimePicker,
   Popconfirm,
   Form,
   message,
@@ -40,35 +38,43 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  // const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
-  let inputNode;
-  switch (inputType) {
-    case 'number':
-      inputNode = <InputNumber />;
-      break;
-    case 'time':
-      inputNode = <TimePicker selected={(time) => Moment(time)} />;
-      break;
-    default:
-      inputNode = <Input />;
-  }
+  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+
   return (
     <td {...restProps}>
       {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
+        dataIndex === 'start_time' || dataIndex === 'end_time' ? (
+          <Form.Item
+            name={dataIndex}
+            style={{
+              margin: 0,
+            }}
+            rules={[
+              {
+                required: true,
+                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9](?::([0-5][0-9]))?$/,
+                message: 'Please, enter valid time HH:MM',
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        ) : (
+          <Form.Item
+            name={dataIndex}
+            style={{
+              margin: 0,
+            }}
+            rules={[
+              {
+                required: true,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            {inputNode}
+          </Form.Item>
+        )
       ) : (
         children
       )}
@@ -311,20 +317,6 @@ const DashboardAllWorkspaces = () => {
   ];
 
   const mergedColumns = columns.map((col) => {
-    let inputType;
-    switch (col.dataIndex) {
-      case 'capacity':
-      case 'fees_per_day':
-      case 'fees_per_hour':
-        inputType = 'number';
-        break;
-      // case 'start_time':
-      // case 'end_time':
-      //   inputType = 'time';
-      //   break;
-      default:
-        inputType = 'text';
-    }
     if (!col.editable) {
       return col;
     }
@@ -333,7 +325,12 @@ const DashboardAllWorkspaces = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType,
+        inputType:
+          col.dataIndex === 'capacity' ||
+          col.dataIndex === 'fees_per_day' ||
+          col.dataIndex === 'fees_per_hour'
+            ? 'number'
+            : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
