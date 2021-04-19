@@ -1,7 +1,10 @@
 /* .layout-main-container {
-    display: 'flex';
-    flex-direction: 'column';
+    position: relative;
+  min-height: 110vh;
 } */
 footer{
     align-self: 'flex-end',;
+}
+.content-wrap{
+    min-height: 80vh;
 }
