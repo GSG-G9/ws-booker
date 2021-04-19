@@ -1,0 +1,250 @@
+*{
+  box-sizing: border-box;
+}
+.header-img{
+  max-height: 500px;
+  width: 100%;
+  margin-top: '10px';
+}
+.main-container{
+  margin-top: 80px;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+.workspace-info-container{
+  height: auto;
+  box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}
+.booking-info-container{
+  height: 377px;
+  box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-top:  20px;
+  width: 100%;
+}
+.book-btn{
+  width: 180px;
+  font-weight: bold;
+  font-size: 20px;
+  height: 43px;
+  margin-bottom: 27px;
+}
+.rate-container{
+  height: 180px;
+  box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-top: 35px;
+  padding-top: 20px;
+  width: 100%;
+}
+.rate-text{
+  margin: auto;
+  color: #00C78A;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+}
+.name-text{
+  display: inline-block;
+  width: 100%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #00C78A;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+.amenities-text{
+  color: #00C78A;
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 50px;
+  margin-top: 40px;
+}
+.rating .ant-rate{
+  font-size: 20px;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 60px;
+}
+.rating{
+  display: flex;
+  align-items: center;
+}
+.set-rate-container .ant-rate{
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.rating-value-text{
+  margin-top: 20px;
+  margin-left: 20px;
+  color: #464D4B;
+  font-weight: 500;
+  font-size: 18px;
+}
+.divider-container{
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+}
+.small-divider-container{
+  width: 40%;
+  margin-top: 10px;
+  margin-left: 40px;
+}
+.divider{
+  border-color: rgb(226, 226, 226);
+  width: 90%;
+  margin: auto;
+}
+.description-text{
+  width: 85%;
+  margin: auto;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #464D4B;
+}
+.amenities-container{
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  margin-top: 20px;
+  width: 85%;
+}
+.amenities-frame{
+  border: solid #00C78A 1px;
+  border-radius: 5px;
+  width:25%;
+  text-align: center;
+  margin: 10px;
+  height: 40px;
+  line-height: 40px;
+}
+.basic-img{
+  width: 300px;
+  height: 300px;
+  margin-left: 10px;
+}
+.small-img{
+  width: 135px;
+  height: 140px;
+  margin: 5px;
+}
+.small-photos-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 300px;
+  height: 300px;
+  align-items: center;
+  margin-left: 5px;
+  overflow: hidden;
+}
+.photos-container{
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  width: 90%;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+
+.requirement-text{
+  color: #007664;
+}
+.container span.label{
+  margin-top: 25px;
+  width: 90px;
+ 
+} 
+.input-number{
+  margin-left: 10px;
+  width: 300px;
+  margin-top: 10px;
+}
+.radio-button-workspace{
+  height: 55px;
+  line-height: 55px;
+  margin-top: 10px;
+  margin-left: 20px;
+ 
+}
+.repeat-text{
+  margin-top: 25px;
+  color: #5C5C5C;
+  font-weight: bold;
+  width: 110px;
+  margin-left: 10px;
+ 
+}
+.error-text{
+  color: red;
+  margin-left: 140px;
+  margin-top: 10px;
+}
+.amenities-container span {
+  font-size: 18px;
+  font-weight: inherit;
+}
+@media only screen and (max-width: 1000px) {
+  .amenities-frame{
+    width:40%;
+  }
+}
+@media only screen and (max-width: 767px) and (min-width:550px) {
+  .booking-info-container{
+    margin-right: 20px;
+  }
+  .rate-container{
+    margin: 0;
+  }
+  .book-rate-container{
+    margin-bottom: 50px;
+    margin-top: 10px;
+    display: flex;
+    justify-content:center ;
+  }
+} 
+@media only screen and (max-width: 550px) {
+  .book-rate-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  .rate-container{
+    margin-top: 50px;
+  }
+  .amenities-frame{
+    width:90%;
+  }
+  .main-container{
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+}
+@media only screen and (max-width: 1250px){
+  .basic-img{
+    display: none;
+  }
+  .small-photos-container{
+    width: 100%;
+    height: auto;
+    margin:0;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}

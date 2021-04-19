@@ -3,9 +3,10 @@
     flex-direction: column;
     width:345px;
     height: 280px;
+    margin-left: 200px;
 }
 
-.text{
+.text-feature{
     font-size: 18px;
     width:341px;
     height: 84px;
@@ -28,7 +29,7 @@
     .features{
       align-items: center;
     }
-    .text{
+    .text-feature{
         text-align: center;
     }
   }
@@ -38,7 +39,7 @@
         width:250px;
     }
     
-    .text{
+    .text-feature{
         width:230px;
     }
     

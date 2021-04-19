@@ -16,6 +16,11 @@
   font-weight: bold;
   font-size: 18px;
   margin: 0;
+  height: 150px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+
 }
 .location{
   color: #707472;
@@ -23,6 +28,9 @@
   flex-grow: 2;
   margin: 0;
   height: 150px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 .cover-image{
   width: 500px;
@@ -42,7 +50,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 300px;
+  width: 250px;
   margin-top: 48px;
   margin-left: 20px;
   height: 200px;
@@ -52,13 +60,13 @@
   height: 266px;
   margin-top: 42px;
   margin-left: 30px;
-  border-radius: 5px;
+  border-radius: 5vw;
 }
 .small-info-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 130px;
+  width: 140px;
   margin-top:5px;
   margin-left: -10px;
   height: 140px;
@@ -76,6 +84,10 @@
   font-weight: bold;
   font-size: 14px;
   margin: 0;
+  width: 130px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 .small-location{
   color: #707472;
@@ -87,12 +99,12 @@
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
-.small-cover-image{
+.ant-card-cover img.small-cover-image{
   width: 180px;
   height: 150px;
   margin-top: 25px;
   margin-left: 10px;
-  border-radius: 5px;
+  border-radius: 1vw;
 }
 .small-reviewers{
   color: #707472;
@@ -121,4 +133,8 @@
   flex-direction: row;
   border-color: #e6e6e6;
   border-radius: 5px;
+}
+.book-btn-card{
+  width: 80%;
+  font-weight: 800;
 }

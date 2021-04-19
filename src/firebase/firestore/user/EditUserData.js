@@ -4,16 +4,16 @@ import { userSchema } from '../../../utils/validation';
 const EditUserData = async (id, payload) => {
   const payloadObj = {
     name: payload.name,
-    phoneNumber: payload.phoneNumber,
-    image: payload.image,
+    phone_number: payload.phone_number,
   };
+
   try {
-    const { name, phoneNumber, image } = await userSchema.validate(payloadObj);
+    const { name, phone_number } = await userSchema.validate(payloadObj);
+
     const response = db.collection('users').doc(id);
     await response.update({
-      phoneNumber,
+      phone_number,
       name,
-      image,
     });
     return {
       data: (await response.get()).data(),

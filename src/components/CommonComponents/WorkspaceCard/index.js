@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
 import './style.css';
 import { Card } from 'antd';
 import PropTypes from 'prop-types';
@@ -17,10 +18,15 @@ function WorkspaceCard({
   location,
   rating,
   reviewers,
-  onClick,
+
+  buttonName,
 }) {
   const matchesSmall = useMediaQuery({ query: '(max-width:768px)' });
   const matchesMedium = useMediaQuery({ query: '(max-width:1200px)' });
+  const history = useHistory();
+  const handleClick = () => {
+    history.push(`/workspace/${id}`);
+  };
   return (
     <Card
       hoverable
@@ -85,10 +91,10 @@ function WorkspaceCard({
           <p className="reviewers">{reviewers} Reviewers</p>
         )}
         <Button
-          buttName="Book Now"
-          width={size === 'small' || matchesSmall ? '100px' : '150px'}
+          buttName={buttonName}
           fontWeight="bold"
-          onClick={onClick}
+          onClick={handleClick}
+          className="book-btn-card"
         />
       </div>
     </Card>
@@ -97,7 +103,7 @@ function WorkspaceCard({
 
 WorkspaceCard.propTypes = {
   size: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   name: PropTypes.string,
   image: PropTypes.string,
   feesPerDay: PropTypes.number,
@@ -105,7 +111,7 @@ WorkspaceCard.propTypes = {
   location: PropTypes.string,
   rating: PropTypes.number,
   reviewers: PropTypes.number,
-  onClick: PropTypes.func,
+  buttonName: PropTypes.string,
 };
 
 WorkspaceCard.defaultProps = {
@@ -118,7 +124,7 @@ WorkspaceCard.defaultProps = {
   location: '',
   rating: 0,
   reviewers: 0,
-  onClick: () => {},
+  buttonName: 'More Details',
 };
 
 export default WorkspaceCard;

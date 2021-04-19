@@ -21,7 +21,15 @@ import './style.css';
 const { Text } = Typography;
 
 const Header = () => {
-  const { user, setError, isLoading } = useContext(AuthContext);
+  const {
+    user,
+    setError,
+    isLoading,
+    editedImage,
+    editedName,
+    isAdminLoading,
+  } = useContext(AuthContext);
+
   const handleOnClick = async () => {
     try {
       await loginWithGoogle();
@@ -29,6 +37,7 @@ const Header = () => {
       setError(err);
     }
   };
+
   const menu = (
     <Menu>
       <Menu.Item key="1">
@@ -37,7 +46,6 @@ const Header = () => {
           HOME
         </NavLink>
       </Menu.Item>
-
       <Menu.Item key="2">
         <NavLink to={About}>
           <InfoCircleOutlined style={{ color: '#00C78A' }} />
@@ -51,8 +59,14 @@ const Header = () => {
         <>
           {user ? (
             <>
+              <Menu.Item key="3">
+                <NavLink to={`/user/${user.id}`}>
+                  <InfoCircleOutlined style={{ color: '#00C78A' }} />
+                  PROFILE
+                </NavLink>
+              </Menu.Item>
               <Menu.Item
-                key="3"
+                key="4"
                 onClick={() => {
                   app.auth().signOut();
                 }}
@@ -78,10 +92,18 @@ const Header = () => {
         <NavLink to={Home}>
           <Image width={158} preview={false} src={logo} alt="WSBooker logo" />
         </NavLink>
-        <NavLink to={Home} className="menu-item" activeClassName="active">
+        <NavLink
+          to={Home}
+          className="menu-item"
+          activeClassName="active-navbar"
+        >
           HOME
         </NavLink>
-        <NavLink to={About} className="menu-item" activeClassName="active">
+        <NavLink
+          to={About}
+          className="menu-item"
+          activeClassName="active-navbar"
+        >
           ABOUT
         </NavLink>
         <div className="collapsedDiv">
@@ -89,33 +111,47 @@ const Header = () => {
             overlay={menu}
             icon={<UserOutlined style={{ color: '#00C78A' }} />}
           >
-            {isLoading ? <Loader size="small" /> : user && `  ${user.name}!`}
+            {isLoading || isAdminLoading ? (
+              <Loader size="small" />
+            ) : (
+              user && (editedName || user.name)
+            )}
           </Dropdown.Button>
-          {user && (
-            <Image
-              preview={false}
-              src={user.image}
-              alt="user"
-              className="userImage2"
-            />
+          {isLoading || isAdminLoading ? (
+            <Loader size="small" />
+          ) : (
+            user && (
+              <NavLink to={`/user/${user.id}`}>
+                <Image
+                  preview={false}
+                  src={editedImage || user.image}
+                  alt="user"
+                  className="userImage2"
+                />
+              </NavLink>
+            )
           )}
         </div>
       </div>
       <>
         <div className="user-loging">
-          {isLoading ? (
+          {isLoading || isAdminLoading ? (
             <Loader size="small" />
           ) : (
             <>
               {user ? (
                 <>
-                  <Image
-                    preview={false}
-                    src={user.image}
-                    alt="user"
-                    className="userImage"
-                  />
-                  <Text className="usernameTitle">{user.name}</Text>
+                  <NavLink to={`/user/${user.id}`}>
+                    <Image
+                      preview={false}
+                      src={editedImage || user.image}
+                      alt="user"
+                      className="userImage"
+                    />
+                  </NavLink>
+                  <Text className="usernameTitle">
+                    {editedName || user.name}
+                  </Text>
                   <MainButton
                     icon={<LogoutOutlined />}
                     buttName="logout"
