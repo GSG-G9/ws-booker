@@ -10,6 +10,7 @@ import Rating from '../../components/CommonComponents/Rating';
 import Loader from '../../components/CommonComponents/Loader';
 import check from '../../assets/icons/check.svg';
 import location from '../../assets/icons/location.svg';
+import pin from '../../assets/icons/pin.svg';
 import calender from '../../assets/icons/calender.svg';
 import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
@@ -436,6 +437,7 @@ const WorkspaceProfile = () => {
                     icon={location}
                     text={workspaceData.location}
                   />
+                  <WorkspaceInfo icon={pin} text={workspaceData.city} />
                   <WorkspaceInfo
                     icon={time}
                     text={`${workspaceData.start_time} - ${workspaceData.end_time}`}
