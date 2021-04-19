@@ -13,7 +13,7 @@ const workspaceSchema = object({
   amenities: array().of(string()).required(),
   city: string().required(),
   header_image: string().required(),
-  image_gallery: string().required(),
+  image_gallery: array().of(string()).required(),
   rating: number().required(),
 });
 
