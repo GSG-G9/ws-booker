@@ -34,6 +34,8 @@ const DashboardAddWorkspace = () => {
   const [workspaceData, setWorkspaceData] = useState(null);
   const [isImageUploadLoader, setIsImageUploadLoader] = useState(false);
   const [isGalleryUploadLoader, setIsGalleryUploadLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
+  console.log(loading, 9999);
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
@@ -68,6 +70,7 @@ const DashboardAddWorkspace = () => {
   };
 
   const onFinish = async (e) => {
+    setLoading(true);
     const {
       workspaceName,
       Description,
@@ -80,11 +83,13 @@ const DashboardAddWorkspace = () => {
       workspaceAmenities,
       workspaceLocation,
     } = e;
-    if (workspaceData === null) {
-      message.loading({ content: 'Loading...', key });
+    console.log(workspaceData, 22222);
+    if (!loading) {
+      message.loading({ content: 'Loading...', key, duration: loading });
     }
     const fileURL = await handleUpload();
     const galleryFileURL = await handleUploadGallery();
+
     const addedWS = await addWorkspace({
       name: workspaceName,
       description: Description,
@@ -101,7 +106,9 @@ const DashboardAddWorkspace = () => {
       image_gallery: galleryFileURL,
       rating: 0,
     });
+
     setWorkspaceData(addedWS);
+    setLoading(false);
     if (addedWS.msg) {
       message.success({ content: 'Added successfully!', key });
     }
