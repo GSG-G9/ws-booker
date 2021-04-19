@@ -25,6 +25,7 @@ import logout from '../../assets/icons/logout.svg';
 import './style.css';
 
 const { Title, Text } = Typography;
+
 const key = 'updatable';
 const DashboardAddWorkspace = () => {
   const [headerImage, setHeaderImage] = useState('');
@@ -35,7 +36,6 @@ const DashboardAddWorkspace = () => {
   const [isImageUploadLoader, setIsImageUploadLoader] = useState(false);
   const [isGalleryUploadLoader, setIsGalleryUploadLoader] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(loading, 9999);
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
@@ -69,6 +69,7 @@ const DashboardAddWorkspace = () => {
     }
   };
 
+  const [form] = Form.useForm();
   const onFinish = async (e) => {
     setLoading(true);
     const {
@@ -83,7 +84,6 @@ const DashboardAddWorkspace = () => {
       workspaceAmenities,
       workspaceLocation,
     } = e;
-    console.log(workspaceData, 22222);
     if (!loading) {
       message.loading({ content: 'Loading...', key, duration: loading });
     }
@@ -113,6 +113,7 @@ const DashboardAddWorkspace = () => {
       message.success({ content: 'Added successfully!', key });
     }
     await getAllWorkspaces();
+    form.resetFields();
   };
 
   return (
@@ -137,7 +138,12 @@ const DashboardAddWorkspace = () => {
         </Menu>
       </div>
       <div className="dashboard-container">
-        <Form className="add-ws-form" onFinish={onFinish}>
+        <Form
+          className="add-ws-form"
+          onFinish={onFinish}
+          name="add-ws-form"
+          form={form}
+        >
           <Title level={3}>Add Workspace </Title>
           <Divider />
           <div className="name-img-section">
@@ -373,11 +379,13 @@ const DashboardAddWorkspace = () => {
           </div>
           <div className="buttons-section">
             <Form.Item>
-              <MainButton
-                buttName="Cancel"
-                htmlType="default"
-                className="cancel"
-              />
+              <NavLink to={AllWorkspaces}>
+                <MainButton
+                  buttName="Cancel"
+                  htmlType="default"
+                  className="cancel"
+                />
+              </NavLink>
             </Form.Item>
             <Form.Item>
               <MainButton buttName="Add" className="add" htmlType="submit" />
