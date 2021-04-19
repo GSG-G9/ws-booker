@@ -8,7 +8,9 @@ import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
 import Rating from '../../components/CommonComponents/Rating';
 import Loader from '../../components/CommonComponents/Loader';
+import check from '../../assets/icons/check.svg';
 import location from '../../assets/icons/location.svg';
+import pin from '../../assets/icons/pin.svg';
 import calender from '../../assets/icons/calender.svg';
 import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
@@ -381,9 +383,7 @@ const WorkspaceProfile = () => {
                 <div className="amenities-container">
                   {workspaceData.amenities.length ? (
                     workspaceData.amenities.map((item) => (
-                      <div key={item} className="amenities-frame">
-                        <p>{item}</p>
-                      </div>
+                      <WorkspaceInfo key={item} icon={check} text={item} />
                     ))
                   ) : (
                     <p>No amenities</p>
@@ -437,6 +437,7 @@ const WorkspaceProfile = () => {
                     icon={location}
                     text={workspaceData.location}
                   />
+                  <WorkspaceInfo icon={pin} text={workspaceData.city} />
                   <WorkspaceInfo
                     icon={time}
                     text={`${workspaceData.start_time} - ${workspaceData.end_time}`}
