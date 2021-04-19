@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -23,7 +23,7 @@ import {
   deleteBooking,
 } from '../../firebase/firestore/booking';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
-
+import { AuthContext } from '../../firebase/context';
 import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
@@ -52,6 +52,7 @@ const UserProfile = ({ match }) => {
   const [error, setError] = useState(null);
   const [confirmVisible, setConfirmVisible] = useState(false);
 
+  const { setEditedImage, setEditedName } = useContext(AuthContext);
   const { userId } = match.params;
   const { name, phone_number } = userData;
 
@@ -105,6 +106,7 @@ const UserProfile = ({ match }) => {
           image: url,
         });
         setRunEffect((x) => !x);
+        setEditedImage(url);
       }
       return url;
     } catch (err) {
@@ -122,6 +124,7 @@ const UserProfile = ({ match }) => {
     });
     const { data } = editResult;
     setUserData(data);
+    setEditedName(userName);
     setIsUpdate(!isUpdate);
   };
   const handleChange = (e) => {
