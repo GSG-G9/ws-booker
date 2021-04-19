@@ -108,12 +108,14 @@ const DashboardAddWorkspace = () => {
     });
 
     setWorkspaceData(addedWS);
+    await getAllWorkspaces();
+    form.resetFields();
+    setHeaderImageURL(null);
+    setGalleryImageURL(null);
     setLoading(false);
     if (addedWS.msg) {
       message.success({ content: 'Added successfully!', key });
     }
-    await getAllWorkspaces();
-    form.resetFields();
   };
 
   return (
