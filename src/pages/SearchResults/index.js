@@ -5,7 +5,7 @@ import Loader from '../../components/CommonComponents/Loader';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import CardContainer from '../../components/CommonComponents/CardContainer';
-import { getSearchResults } from '../../firebase/firestore/workspace';
+import { fetchSearchResults } from '../../firebase/firestore/workspace';
 import './style.css';
 
 const SearchResults = () => {
@@ -27,7 +27,7 @@ const SearchResults = () => {
 
   const fetchData = async () => {
     try {
-      const data = await getSearchResults(queryObj);
+      const data = await fetchSearchResults(queryObj);
       setSearchResults(data);
       setIsLoading(false);
     } catch (error) {
@@ -52,9 +52,12 @@ const SearchResults = () => {
           <Form.Item
             name="wsName"
             required
-            rules={[{ required: true, message: 'Please enter city name' }]}
+            rules={[{ required: true, message: 'Please enter workspace name' }]}
           >
-            <MainInput placeholder="Enter City name" className="search_inp" />
+            <MainInput
+              placeholder="Enter workspace name"
+              className="search_inp"
+            />
           </Form.Item>
           <Form.Item>
             <MainButton
