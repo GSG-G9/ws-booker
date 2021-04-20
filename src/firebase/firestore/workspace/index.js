@@ -4,7 +4,7 @@ import getWorkspaceById from './getWorkspaceById';
 import getAllWorkspaces from './getAllWorkspaces';
 import DeleteWorkspace from './DeleteWorkspace';
 import editWorkspace from './editWorkspace';
-import getSearchResults from './getSearchResults';
+import fetchSearchResults from './fetchSearchResults';
 
 export {
   addWorkspace,
@@ -13,5 +13,5 @@ export {
   editWorkspace,
   editWorkspaceRating,
   getWorkspaceById,
-  getSearchResults,
+  fetchSearchResults,
 };
