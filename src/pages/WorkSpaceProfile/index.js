@@ -157,7 +157,6 @@ const WorkspaceProfile = () => {
     try {
       setRate(val);
       console.log('rate', rate);
-
       const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
       console.log(resultMsg);
       if (resultMsg.succeed) {
