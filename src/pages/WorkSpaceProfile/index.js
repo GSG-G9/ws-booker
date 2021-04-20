@@ -20,11 +20,12 @@ import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
+import addRating from '../../firebase/firestore/rating';
 
 import './style.css';
 
 const WorkspaceProfile = () => {
-  const [, setRate] = useState();
+  const [rate, setRate] = useState(0);
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -116,6 +117,19 @@ const WorkspaceProfile = () => {
     setDateRangeValue(null);
   };
 
+  const handleRating = async (val) => {
+    try {
+      setRate(val);
+      console.log('rate', rate);
+
+      const resultMsg = await addRating(user.id, workspaceId, rate);
+      console.log(resultMsg);
+      return null;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   const fetchWorkspaceData = async (id) => {
     try {
       const data = await getWorkspaceById(id);
@@ -492,7 +506,7 @@ const WorkspaceProfile = () => {
                   <Divider className="divider" />
                 </div>
                 <div className="set-rate-container">
-                  <Rating setRate={setRate} />
+                  <Rating setRate={(val) => handleRating(val)} />
                 </div>
               </div>
             </Col>
