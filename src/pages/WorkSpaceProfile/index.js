@@ -28,7 +28,6 @@ import { AuthContext } from '../../firebase/context';
 import {
   getWorkspaceById,
   editWorkspaceRating,
-  editWorkspace,
 } from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
@@ -155,7 +154,6 @@ const WorkspaceProfile = () => {
   };
   const handleRating = async (val) => {
     try {
-      setRate(val);
       console.log('rate', rate);
       const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
       console.log(resultMsg);
@@ -534,7 +532,12 @@ const WorkspaceProfile = () => {
                   </Tooltip>
                 ) : (
                   <div className="set-rate-container">
-                    <Rating setRate={(val) => handleRating(val)} />
+                    <Rating
+                      setRate={(val) => {
+                        setRate(val);
+                        handleRating(val);
+                      }}
+                    />
                   </div>
                 )}
               </div>
