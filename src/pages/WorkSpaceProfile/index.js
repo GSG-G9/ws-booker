@@ -2,7 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { Row, Col, Divider, Modal, Radio, Popconfirm, message } from 'antd';
+import {
+  Row,
+  Col,
+  Divider,
+  Modal,
+  Radio,
+  Popconfirm,
+  message,
+  Tooltip,
+} from 'antd';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
@@ -505,9 +514,18 @@ const WorkspaceProfile = () => {
                 <div className="divider-container">
                   <Divider className="divider" />
                 </div>
-                <div className="set-rate-container">
-                  <Rating setRate={(val) => handleRating(val)} />
-                </div>
+
+                {!user ? (
+                  <Tooltip title="Please Log in to add your review">
+                    <div className="set-rate-container">
+                      <Rating rateValue={0} />
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <div className="set-rate-container">
+                    <Rating setRate={(val) => handleRating(val)} />
+                  </div>
+                )}
               </div>
             </Col>
           </Row>
