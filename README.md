@@ -52,7 +52,8 @@ Create an application that helps workers and freelancers to find a workspace tha
 
 ## **DATABASE Schema** 🗄️
 
-![ws-admin](https://user-images.githubusercontent.com/44459251/115395642-c4245000-a1ec-11eb-9ace-9331896da785.png)
+![ws-admin](https://user-images.githubusercontent.com/44459251/115451601-12a21080-a226-11eb-8d59-7a87996d551c.png)
+
 
 
 
