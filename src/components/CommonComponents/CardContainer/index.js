@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Empty, Image, Pagination } from 'antd';
 import PropTypes from 'prop-types';
-
 import WorkspaceCard from '../WorkspaceCard';
 import arrow from '../../../assets/icons/arrow.svg';
 import './style.css';
@@ -94,7 +93,7 @@ CardContainer.defaultProps = {
   title: '',
   searchText: '',
   size: '',
-  seeMoreLink: '',
+  seeMoreLink: {},
   data: [],
   search: false,
 };
@@ -115,7 +114,6 @@ CardContainer.propTypes = {
         location: PropTypes.string,
         rating: PropTypes.number,
         reviewers: PropTypes.number,
-        onClick: PropTypes.func,
       })
     ),
   }),
@@ -130,7 +128,6 @@ CardContainer.propTypes = {
       location: PropTypes.string,
       rating: PropTypes.number,
       reviewers: PropTypes.number,
-      onClick: PropTypes.func,
     })
   ),
 };
