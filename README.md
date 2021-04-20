@@ -25,15 +25,16 @@ Create an application that helps workers and freelancers to find a workspace tha
 ### **As a user(Booker)**
 
 - I can sign up and login with my google account to the site.
-- I can search for a workspace depending on the workspace name, location, datetime, and number of people.
+- I can search for a workspace depending on the workspace name, location, and number of people.
 - I can see the top rated workspaces.
 - I can see the newest workspaces.
-- I can see inside each workspace card (Image, name, price, location, rate, booking button).
+- I can see inside each workspace card (Image, name, price, location, city, rate, booking button).
 - I can see the workspace details when I click on the card, such as (Cover Image, Photos, Name, Overview, Price, Location, Rate, Member Access hours, Amenities " Wifi, Desks, Kitchen, Free drinking water or coffee").
 - I can see a booking button in workspace details page.
 - I can book the workspace for a day or many days at specific time and no. of people.
 - I can rate for any workspace.
 - I can see my profile and edit my information.
+- I can see workspaces which I booked at my profile and cancel booking.
 
 ### **As an admin**
 
@@ -46,14 +47,28 @@ Create an application that helps workers and freelancers to find a workspace tha
 
 [View Prototype](https://www.figma.com/proto/jyNhE8jvGetLezizZ3XnAV/WSbooker?node-id=8%3A2&scaling=min-zoom&page-id=0%3A1)
 
-![WSbooker](https://i.imgur.com/DP7juf2.png)
+![WSbooker](https://user-images.githubusercontent.com/44459251/115393733-ace46300-a1ea-11eb-8ceb-41ba636cc663.png)
+
 
 ## **DATABASE Schema** 🗄️
 
-![ws-admin](https://user-images.githubusercontent.com/44459251/112457818-c964bb00-8d64-11eb-8d3b-2b10c57d0086.png)
+![ws-admin](https://user-images.githubusercontent.com/44459251/115395642-c4245000-a1ec-11eb-9ace-9331896da785.png)
 
 
-## Stretch Goals ☄️
+
+## **guide installation**  📥
+
+1. Clone this repo.
+2. Navigate to the cloned repo.
+3. Open it in your Editor.
+4. run ``` npm i``` to install all dependencies & dev-dependencies.
+5. create .env file and add 
+```
+SKIP_PREFLIGHT_CHECK=true
+ESLINT_NO_DEV_ERRORS=true 
+```
+6. Run the Project using ``` npm start ```
+## **Stretch Goals**  ☄️
 
 - Payment.
 - Reminder.
@@ -83,3 +98,4 @@ Create an application that helps workers and freelancers to find a workspace tha
 - [React Js](https://reactjs.org/)
 - [oauth2](https://developers.google.com/identity/protocols/oauth2)
 - [Firebase](https://firebase.google.com/docs)
+- [AntDesign](https://ant.design/)
