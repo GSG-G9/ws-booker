@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
-import {
-  Image,
-  Typography,
-  Menu,
-  Divider,
-  Form,
-  Checkbox,
-  message,
-} from 'antd';
+import { Image, Typography, Divider, Form, Checkbox, message } from 'antd';
 import { NavLink } from 'react-router-dom';
 
-import { AllWorkspaces, AddWorkspace, Home } from '../../utils';
+import { AllWorkspaces } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
+import AdminNav from '../../components/CommonComponents/AdminNav';
 import firebaseConfig from '../../firebase/config';
 import {
   addWorkspace,
   getAllWorkspaces,
 } from '../../firebase/firestore/workspace';
 import Loader from '../../components/CommonComponents/Loader';
-import list from '../../assets/icons/list.svg';
-import add from '../../assets/icons/add.svg';
-import logout from '../../assets/icons/logout.svg';
 import './style.css';
 
 const { Title, Text } = Typography;
@@ -119,34 +109,18 @@ const DashboardAddWorkspace = () => {
   };
 
   return (
-    <div className="main-container">
-      <div className="dashboard-nav">
-        <Title level={3} className="nav-title">
-          Dashboard
-        </Title>
-        <Menu className="dashboard-menu">
-          <Menu.Item key="1">
-            <Image preview={false} src={list} alt="" />
-            <NavLink to={AllWorkspaces}>All Workspaces</NavLink>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Image preview={false} src={add} alt="" />
-            <NavLink to={AddWorkspace}>Add Workspace</NavLink>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Image preview={false} src={logout} alt="" />
-            <NavLink to={Home}>Log out</NavLink>
-          </Menu.Item>
-        </Menu>
-      </div>
-      <div className="dashboard-container">
+    <div className="admin-main-container">
+      <AdminNav />
+      <div className="admin-dashboard-container">
         <Form
           className="add-ws-form"
           onFinish={onFinish}
           name="add-ws-form"
           form={form}
         >
-          <Title level={3}>Add Workspace </Title>
+          <Title level={3} className="admin-dashboard-title">
+            Add Workspace{' '}
+          </Title>
           <Divider />
           <div className="name-img-section">
             <div className="half-section-left">

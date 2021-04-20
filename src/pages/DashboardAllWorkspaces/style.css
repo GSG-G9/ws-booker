@@ -1,0 +1,25 @@
+.main-contain{
+    display: flex;
+}
+.table-title{
+    color: #00927C !important;
+    padding:30px;
+}
+.table_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.table-sub-container{
+    align-self: center;
+    align-items: center;
+}
+.table_image_gallery{
+    width: 55px;
+    height: 50px;
+    margin: 1px;
+}
+.table-sub-container .ant-table-pagination-right{
+    display: flex;
+    justify-content: center !important;
+}
