@@ -65,12 +65,6 @@ const EditableCell = ({
             style={{
               margin: 0,
             }}
-            rules={[
-              {
-                required: true,
-                message: `Please Input ${title}!`,
-              },
-            ]}
           >
             <Input disabled />
           </Form.Item>
