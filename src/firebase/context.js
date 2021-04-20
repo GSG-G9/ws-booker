@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
       setIsAdminLoading(false);
       return err;
     }
-    return null;
   };
 
   useEffect(async () => {
