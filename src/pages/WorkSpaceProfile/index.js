@@ -65,7 +65,7 @@ const WorkspaceProfile = () => {
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
-  editWorkspaceRating(workspaceId).then((res) => console.log(res));
+
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   getRatingByWorkspaceId(workspaceId).then((res) => console.log(res));
@@ -133,19 +133,6 @@ const WorkspaceProfile = () => {
     setDateRangeValue(null);
   };
 
-  const handleRating = async (val) => {
-    try {
-      setRate(val);
-      console.log('rate', rate);
-
-      const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
-      console.log(resultMsg);
-      return null;
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  };
   const fetchWorkspaceData = async (id) => {
     try {
       const data = await getWorkspaceById(id);
@@ -166,7 +153,25 @@ const WorkspaceProfile = () => {
       return err;
     }
   };
+  const handleRating = async (val) => {
+    try {
+      setRate(val);
+      console.log('rate', rate);
 
+      const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
+      console.log(resultMsg);
+      if (resultMsg.succeed) {
+        const editResult = await editWorkspaceRating(workspaceId);
+        if (editResult.msg === 'rating updated successfully') {
+          fetchWorkspaceData(workspaceId);
+        }
+      }
+      return null;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   useEffect(() => {
     let isActive = 'true';
     if (isActive) {
