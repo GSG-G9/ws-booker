@@ -25,10 +25,7 @@ import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import { AuthContext } from '../../firebase/context';
-import {
-  getWorkspaceById,
-  editWorkspaceRating,
-} from '../../firebase/firestore/workspace';
+import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
@@ -41,6 +38,7 @@ import './style.css';
 
 const WorkspaceProfile = () => {
   const [rate, setRate] = useState(0);
+  const [totalRate, setTotalRate] = useState(0);
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -64,10 +62,9 @@ const WorkspaceProfile = () => {
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
-
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  getRatingByWorkspaceId(workspaceId).then((res) => console.log(res));
+
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i += 1) {
@@ -136,6 +133,9 @@ const WorkspaceProfile = () => {
     try {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
+      const avgRate = await getRatingByWorkspaceId(workspaceId);
+      console.log({ avgRate });
+      setTotalRate(avgRate);
       setIsLoaded(true);
       return data;
     } catch (err) {
@@ -152,17 +152,13 @@ const WorkspaceProfile = () => {
       return err;
     }
   };
-  const handleRating = async (val) => {
+  const handleRating = async (e) => {
     try {
+      setRate(e);
       console.log('rate', rate);
       const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
-      console.log(resultMsg);
-      if (resultMsg.succeed) {
-        const editResult = await editWorkspaceRating(workspaceId);
-        if (editResult.msg === 'rating updated successfully') {
-          fetchWorkspaceData(workspaceId);
-        }
-      }
+      message.success(resultMsg.msg);
+      console.log({ totalRate });
       return null;
     } catch (err) {
       console.log(err);
@@ -173,6 +169,8 @@ const WorkspaceProfile = () => {
     let isActive = 'true';
     if (isActive) {
       fetchWorkspaceData(workspaceId);
+
+      // handleRating();
       if (user) {
         fetchUserDate(user.id);
       }
@@ -180,7 +178,7 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user, runEffect]);
+  }, [user, runEffect, rate, totalRate]);
 
   const onClick = () => {
     setVisible(true);
@@ -428,10 +426,8 @@ const WorkspaceProfile = () => {
                   <Divider className="divider" />
                 </div>
                 <div className="rating">
-                  <Rating rateValue={workspaceData.rating} />
-                  <span className="rating-value-text">
-                    {workspaceData.rating.toFixed(1)}
-                  </span>
+                  <Rating rateValue={totalRate} />
+                  <span className="rating-value-text">{totalRate}</span>
                 </div>
                 <p className="description-text">{workspaceData.description}</p>
                 <p className="amenities-text">Amenities</p>
@@ -533,10 +529,10 @@ const WorkspaceProfile = () => {
                 ) : (
                   <div className="set-rate-container">
                     <Rating
-                      setRate={(val) => {
-                        setRate(val);
-                        handleRating(val);
-                      }}
+                      // setRate={(val) => {
+                      //   setRate(val);
+                      // }}
+                      onChange={(val) => handleRating(val)}
                     />
                   </div>
                 )}

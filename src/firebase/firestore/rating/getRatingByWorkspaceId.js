@@ -11,8 +11,11 @@ const getRatingByWorkspaceId = async (id) => {
       throw new Error('No matching documents.');
     }
     const result = docs.docs.map((doc) => doc.data());
-    console.log('result', result);
-    return result;
+    const sum = result.reduce((a, b) => ({ rate: a.rate + b.rate }));
+    console.log('sum', sum);
+    const avg = sum.rate / result.length;
+    console.log('avg', avg);
+    return Math.round(avg);
   } catch (err) {
     return err;
   }
