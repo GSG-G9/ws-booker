@@ -16,8 +16,8 @@ const fetchSearchResults = async (queryObj) => {
     if (q && city && capacity) {
       const result = allData.filter(
         (ws) =>
-          ws.name.toLowerCase() === q.toLowerCase() &&
-          ws.city.toLowerCase() === city.toLowerCase() &&
+          ws.name.toLowerCase().includes(q.toLowerCase()) &&
+          ws.city.toLowerCase().includes(city.toLowerCase()) &&
           ws.capacity >= capacity
       );
       return result;
@@ -25,8 +25,8 @@ const fetchSearchResults = async (queryObj) => {
     if (q && city) {
       const result = allData.filter(
         (ws) =>
-          ws.name.toLowerCase() === q.toLowerCase() &&
-          ws.city.toLowerCase() === city.toLowerCase()
+          ws.name.toLowerCase().includes(q.toLowerCase()) &&
+          ws.city.toLowerCase().includes(city.toLowerCase())
       );
       return result;
     }
@@ -34,7 +34,8 @@ const fetchSearchResults = async (queryObj) => {
     if (q && capacity) {
       const result = allData.filter(
         (ws) =>
-          ws.name.toLowerCase() === q.toLowerCase() && ws.capacity >= capacity
+          ws.name.toLowerCase().includes(q.toLowerCase()) &&
+          ws.capacity >= capacity
       );
 
       return result;
@@ -42,20 +43,20 @@ const fetchSearchResults = async (queryObj) => {
     if (city && capacity) {
       const result = allData.filter(
         (ws) =>
-          ws.city.toLowerCase() === city.toLowerCase() &&
+          ws.city.toLowerCase().includes(city.toLowerCase()) &&
           ws.capacity >= capacity
       );
       return result;
     }
     if (q) {
-      const result = allData.filter(
-        (ws) => ws.name.toLowerCase() === q.toLowerCase()
+      const result = allData.filter((ws) =>
+        ws.name.toLowerCase().includes(q.toLowerCase())
       );
       return result;
     }
     if (city) {
-      const result = allData.filter(
-        (ws) => ws.city.toLowerCase() === city.toLowerCase()
+      const result = allData.filter((ws) =>
+        ws.city.toLowerCase().includes(city.toLowerCase())
       );
       return result;
     }
