@@ -1,7 +1,9 @@
 import { db } from '../../config';
+import { addRatingSchema } from '../../../utils/validation';
 
-const addRating = async (userId, workspaceId, rate) => {
+const addRating = async (data) => {
   try {
+    const { userId, workspaceId, rate } = await addRatingSchema.validate(data);
     await db.collection('rating').add({
       user_id: db.doc(`users/${userId}`),
       workspace_id: db.doc(`workspaces/${workspaceId}`),

@@ -25,11 +25,18 @@ import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import { AuthContext } from '../../firebase/context';
-import { getWorkspaceById } from '../../firebase/firestore/workspace';
+import {
+  getWorkspaceById,
+  editWorkspaceRating,
+  editWorkspace,
+} from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
-import addRating from '../../firebase/firestore/rating';
+import {
+  addRating,
+  getRatingByWorkspaceId,
+} from '../../firebase/firestore/rating';
 
 import './style.css';
 
@@ -58,10 +65,10 @@ const WorkspaceProfile = () => {
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
-
+  editWorkspaceRating(workspaceId).then((res) => console.log(res));
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
+  getRatingByWorkspaceId(workspaceId).then((res) => console.log(res));
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i += 1) {
@@ -131,7 +138,7 @@ const WorkspaceProfile = () => {
       setRate(val);
       console.log('rate', rate);
 
-      const resultMsg = await addRating(user.id, workspaceId, rate);
+      const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
       console.log(resultMsg);
       return null;
     } catch (err) {
