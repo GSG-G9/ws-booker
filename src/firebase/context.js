@@ -11,14 +11,17 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdminLoading, setIsAdminLoading] = useState(true);
+  const [editedImage, setEditedImage] = useState('');
+  const [editedName, setEditedName] = useState('');
 
   const fetchUserData = async (userId) => {
     try {
       const userData = await getUserById(userId);
       if (userData.isAdmin) {
         setIsAdmin(true);
-        setIsAdminLoading(false);
       }
+      setEditedName(userData.name);
+      setEditedImage(userData.image);
       setIsAdminLoading(false);
       return userData;
     } catch (err) {
@@ -27,11 +30,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
       try {
         firebase.auth().onAuthStateChanged((userAuth) => {
+          setIsAdminLoading(true);
           if (userAuth) {
             setUser({
               id: userAuth.uid,
@@ -66,6 +70,11 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         isAdmin,
         isAdminLoading,
+        editedImage,
+        setEditedImage,
+        editedName,
+        setEditedName,
+        setIsAdminLoading,
       }}
     >
       {children}

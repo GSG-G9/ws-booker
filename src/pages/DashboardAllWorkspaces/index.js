@@ -59,6 +59,21 @@ const EditableCell = ({
           >
             {inputNode}
           </Form.Item>
+        ) : dataIndex === 'rating' ? (
+          <Form.Item
+            name={dataIndex}
+            style={{
+              margin: 0,
+            }}
+            rules={[
+              {
+                required: true,
+                message: `Please Input ${title}!`,
+              },
+            ]}
+          >
+            <Input disabled />
+          </Form.Item>
         ) : (
           <Form.Item
             name={dataIndex}
@@ -394,7 +409,6 @@ const DashboardAllWorkspaces = () => {
                 dataSource={allWorkspaces}
                 columns={mergedColumns}
                 rowClassName="editable-row"
-                // scroll={{ y: 1000 }}
                 pagination={{
                   pageSize: 4,
                   position: ['bottomRight'],

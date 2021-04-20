@@ -8,7 +8,9 @@ import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
 import Rating from '../../components/CommonComponents/Rating';
 import Loader from '../../components/CommonComponents/Loader';
+import check from '../../assets/icons/check.svg';
 import location from '../../assets/icons/location.svg';
+import pin from '../../assets/icons/pin.svg';
 import calender from '../../assets/icons/calender.svg';
 import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
@@ -17,6 +19,7 @@ import { AuthContext } from '../../firebase/context';
 import { getWorkspaceById } from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
+import loginWithGoogle from '../../Login/loginWithGoogle';
 
 import './style.css';
 
@@ -25,7 +28,7 @@ const WorkspaceProfile = () => {
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [capacity, setCapacity] = useState('');
+  const [capacity, setCapacity] = useState(null);
   const [timeValue, setTimeValue] = useState(null);
   const [dateValue, setDateValue] = useState(null);
   const [dateRangeValue, setDateRangeValue] = useState(null);
@@ -42,7 +45,8 @@ const WorkspaceProfile = () => {
   const [capacityError, setCapacityError] = useState(null);
   const [timeError, setTimeError] = useState(null);
   const [dateError, setDateError] = useState(null);
-  const { user } = useContext(AuthContext);
+  const [runEffect, setRunEffect] = useState(false);
+  const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
 
   const arrayOfHours = Array.from(Array(24).keys());
@@ -144,7 +148,7 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user]);
+  }, [user, runEffect]);
 
   const onClick = () => {
     setVisible(true);
@@ -161,8 +165,21 @@ const WorkspaceProfile = () => {
     setConfirmTitle('');
   };
   const cancelBooking = () => {
+    setCapacity(null);
+    setDateRangeValue(null);
+    setDateValue(null);
+    setTimeValue(null);
+    setRepeat('once');
     setVisible(false);
     setConfirmVisible(false);
+  };
+  const handleOnLoginClick = async () => {
+    try {
+      setVisible(false);
+      await loginWithGoogle();
+    } catch (err) {
+      setError(err);
+    }
   };
 
   const onBook = async () => {
@@ -206,7 +223,9 @@ const WorkspaceProfile = () => {
             await editUserCanBook(user.id, { can_book: false });
             setConfirmLoading(false);
             setVisible(false);
+
             message.success('Your Booking has been added successfully');
+            setRunEffect((x) => !x);
           }
         }
       }
@@ -226,19 +245,25 @@ const WorkspaceProfile = () => {
             title="Booking"
             centered
             visible={visible}
-            onOk={!user || !userData.can_book ? onOk : onBook}
+            onOk={
+              !user ? handleOnLoginClick : !userData.can_book ? onOk : onBook
+            }
             onCancel={cancelBooking}
             cancelButtonProps={
-              (!user || !userData.can_book) && { style: { display: 'none' } }
+              user && !userData.can_book && { style: { display: 'none' } }
             }
             confirmLoading={confirmLoading}
             width={500}
-            okText={!user || !userData.can_book ? 'Ok' : 'Book'}
+            okText={
+              !user ? 'Log In with Google' : !userData.can_book ? 'Ok' : 'Book'
+            }
           >
             {!user ? (
-              <p className="requirement-text">
-                Please, Log in first before booking.
-              </p>
+              <>
+                <p className="requirement-text">
+                  Please, Log in first before booking.
+                </p>
+              </>
             ) : !userData.can_book ? (
               <p className="requirement-text">
                 Sorry, you have already booked a workspace
@@ -283,6 +308,9 @@ const WorkspaceProfile = () => {
                   disabledHours={disabledHours}
                   onChange={handleChangeTime}
                   value={timeValue}
+                  showTime={{
+                    hideDisabledOptions: true,
+                  }}
                 />
                 <div
                   style={{
@@ -381,9 +409,7 @@ const WorkspaceProfile = () => {
                 <div className="amenities-container">
                   {workspaceData.amenities.length ? (
                     workspaceData.amenities.map((item) => (
-                      <div key={item} className="amenities-frame">
-                        <p>{item}</p>
-                      </div>
+                      <WorkspaceInfo key={item} icon={check} text={item} />
                     ))
                   ) : (
                     <p>No amenities</p>
@@ -437,6 +463,7 @@ const WorkspaceProfile = () => {
                     icon={location}
                     text={workspaceData.location}
                   />
+                  <WorkspaceInfo icon={pin} text={workspaceData.city} />
                   <WorkspaceInfo
                     icon={time}
                     text={`${workspaceData.start_time} - ${workspaceData.end_time}`}
