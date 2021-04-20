@@ -36,10 +36,10 @@ import {
 //   'Apr 25 2021 16:05:00',
 //   'Apr 29 2021 17:15:00'
 // );
-// postBooking('joyJK89nRnTPwl7KztnbYFEJ1Yt2', 'tV5kAePWG9nWkxkEHoEv', {
-//   book_capacity: 1,
-//   book_start_time: 'May 2 2021 17:00:00',
-//   book_end_time: 'May 3 2021 18:10:00',
+// postBooking('joyJK89nRnTPwl7KztnbYFEJ1Yt2', 'tEyVhciJdJmy9iMzcr7M', {
+//   book_capacity: 5,
+//   book_start_time: 'May 3 2021 16:00:00',
+//   book_end_time: 'May 3 2021 17:10:00',
 // }).then(console.log);
 const App = () => (
   <AuthProvider>
