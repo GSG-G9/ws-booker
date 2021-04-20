@@ -1,3 +1,5 @@
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -8,9 +10,13 @@ import {
   Form,
   Empty,
   Popconfirm,
+  Tooltip,
 } from 'antd';
 import { EditOutlined, EditFilled } from '@ant-design/icons';
-
+import calender from '../../assets/icons/calender.svg';
+import money from '../../assets/icons/money.svg';
+import persons from '../../assets/icons/persons.svg';
+import time from '../../assets/icons/time.svg';
 import firebaseConfig, { db } from '../../firebase/config';
 import {
   EditUserData,
@@ -28,6 +34,7 @@ import WorkspaceCard from '../../components/CommonComponents/WorkspaceCard';
 import MainInput from '../../components/CommonComponents/Input';
 import MainButton from '../../components/CommonComponents/Button';
 import Loader from '../../components/CommonComponents/Loader';
+import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 
 import coverImage from '../../assets/images/backgound_cover.png';
 import emailico from '../../assets/icons/email.svg';
@@ -51,11 +58,14 @@ const UserProfile = ({ match }) => {
   const [runEffect, setRunEffect] = useState(false);
   const [error, setError] = useState(null);
   const [confirmVisible, setConfirmVisible] = useState(false);
+  const [bookingDate, setBookingDate] = useState('');
+  const [bookingTime, setBookingTime] = useState('');
+  const [bookingCapacity, setBookingCapacity] = useState('');
 
   const { setEditedImage, setEditedName } = useContext(AuthContext);
   const { userId } = match.params;
   const { name, phone_number } = userData;
-
+  const moment = extendMoment(Moment);
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
@@ -64,6 +74,18 @@ const UserProfile = ({ match }) => {
       if (UserData) {
         setUserData(UserData);
         const bookingbyUserId = await getBookingByUserId(userId);
+
+        setBookingCapacity(bookingbyUserId.book_capacity);
+        const bookStart = bookingbyUserId.book_start_time.toDate();
+        const startTime = moment(bookStart).format('HH:mm:ss');
+        const startDate = moment(bookStart).format('MMM DD YYYY');
+
+        const bookEnd = bookingbyUserId.book_end_time.toDate();
+        const endTime = moment(bookEnd).format('HH:mm:ss');
+        const endDate = moment(bookEnd).format('MMM DD YYYY');
+
+        setBookingDate(`${startDate} - ${endDate}`);
+        setBookingTime(`${startTime} - ${endTime}`);
         if (bookingbyUserId) {
           const workspaceId = bookingbyUserId.workspace_id.id;
           setWsId(workspaceId);
@@ -79,6 +101,20 @@ const UserProfile = ({ match }) => {
       isActive = 'false';
     };
   }, [runEffect]);
+
+  const info = () => {
+    Modal.info({
+      title: 'Your booking details',
+      content: (
+        <div style={{ marginTop: '30px' }}>
+          <WorkspaceInfo icon={time} text={bookingTime} />
+          <WorkspaceInfo icon={calender} text={bookingDate} />
+          <WorkspaceInfo icon={persons} text={bookingCapacity} />
+        </div>
+      ),
+      onOk() {},
+    });
+  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -293,7 +329,12 @@ const UserProfile = ({ match }) => {
         </div>
       </div>
       <div className="user-ws-section">
-        <Title className="my-ws-title">My workspace</Title>
+        <div className="my-ws-title-container">
+          <Title className="my-ws-title">My workspace</Title>
+          <Title onClick={info} className="show-details-title">
+            Show details
+          </Title>
+        </div>
         {error ? (
           <Empty description="Sorry! You don't have any workspace booking!" />
         ) : isWSLoader ? (
