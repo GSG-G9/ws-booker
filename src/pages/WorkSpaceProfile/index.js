@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
@@ -32,16 +32,12 @@ import {
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
-import {
-  addRating,
-  getRatingByWorkspaceId,
-} from '../../firebase/firestore/rating';
+import { addRating } from '../../firebase/firestore/rating';
 
 import './style.css';
 
 const WorkspaceProfile = () => {
   const [rate, setRate] = useState(0);
-  const [totalRate, setTotalRate] = useState(0);
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -64,7 +60,6 @@ const WorkspaceProfile = () => {
   const [dateError, setDateError] = useState(null);
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
-  const isInitialMount = useRef(true);
   const moment = extendMoment(Moment);
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -153,6 +148,26 @@ const WorkspaceProfile = () => {
     }
   };
 
+  useEffect(async () => {
+    let isActive = 'true';
+    if (isActive) {
+      if (user) {
+        await addRating({
+          userId: user.id,
+          workspaceId,
+          rate,
+        });
+        await editWorkspaceRating(workspaceId);
+        // const avgRate = await getRatingByWorkspaceId(workspaceId);
+        // setTotalRate(avgRate);
+        // setIsLoaded(true);
+      }
+    }
+    return () => {
+      isActive = 'false';
+    };
+  }, [rate]);
+
   useEffect(() => {
     let isActive = 'true';
     if (isActive) {
@@ -164,30 +179,7 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user, runEffect]);
-
-  useEffect(async () => {
-    let isActive = 'true';
-    if (isActive) {
-      if (user) {
-        await addRating({
-          userId: user.id,
-          workspaceId,
-          rate,
-        });
-        await editWorkspaceRating(workspaceId);
-        const avgRate = await getRatingByWorkspaceId(workspaceId);
-        setTotalRate(avgRate);
-        setIsLoaded(true);
-        if (user) {
-          fetchUserDate(user.id);
-        }
-      }
-    }
-    return () => {
-      isActive = 'false';
-    };
-  }, [rate]);
+  }, [user, runEffect, rate]);
 
   const onClick = () => {
     setVisible(true);
@@ -435,8 +427,10 @@ const WorkspaceProfile = () => {
                   <Divider className="divider" />
                 </div>
                 <div className="rating">
-                  <Rating rateValue={totalRate} />
-                  <span className="rating-value-text">{totalRate}</span>
+                  <Rating rateValue={workspaceData.rating} />
+                  <span className="rating-value-text">
+                    {workspaceData.rating}
+                  </span>
                 </div>
                 <p className="description-text">{workspaceData.description}</p>
                 <p className="amenities-text">Amenities</p>
