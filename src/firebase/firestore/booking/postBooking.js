@@ -8,21 +8,22 @@ import { getUserById } from '../user';
 import { checkOverlap } from '../../../utils';
 
 const moment = extendMoment(Moment);
-let isOverlapped = false;
-let message;
 
 const postBooking = async (userId, workspaceId, payload) => {
+  let isOverlapped = false;
+  let message;
   try {
     const isWorkspace = await getWorkspaceById(workspaceId);
     if (isWorkspace instanceof Error) {
       throw new Error('This workspace is not exist post');
     }
+    const workspaceCapacity = isWorkspace.capacity;
     const isUser = await getUserById(userId);
     if (isUser instanceof Error) {
       throw new Error('This user is not exist post');
     }
     const {
-      book_capacity: bookCapacity,
+      book_capacity: newBookCapacity,
       book_start_time: bookStartTime,
       book_end_time: bookEndTime,
     } = await bookingSchema.validate(payload);
@@ -32,26 +33,65 @@ const postBooking = async (userId, workspaceId, payload) => {
       bookStartTime,
       bookEndTime
     );
-    if (!overlappedBookings.length) {
-      isOverlapped = false;
-    } else {
-      const bookingsTimes = overlappedBookings.map(
-        ({ book_start_time: startTime, book_end_time: endTime }) => [
-          moment(startTime.toDate()).format('HH:mm:ss'),
-          moment(endTime.toDate()).format('HH:mm:ss'),
+    if (overlappedBookings.length) {
+      const bookingsDates = overlappedBookings.map(
+        ({
+          book_start_time: startTime,
+          book_end_time: endTime,
+          book_capacity: capacityBook,
+        }) => [
+          capacityBook,
+          moment(startTime.toDate()).format('ddd MMM DD YYYY HH:mm:ss'),
+          moment(endTime.toDate()).format('ddd MMM DD YYYY HH:mm:ss'),
         ]
       );
+      const dateTimeArray = [];
+      bookingsDates.forEach((item) => {
+        const start = moment(item[1]).format('HH:mm:ss');
+        const end = moment(item[2]).format('HH:mm:ss');
+        const daysRange = moment.range(item[1], item[2]);
+        const days = Array.from(daysRange.by('day'));
+        const bookingDays = days.map((m) => m.format('ddd MMM DD YYYY'));
+        const dateTimeObject = {
+          capacity: item[0],
+          time: [start, end],
+          dates: bookingDays,
+        };
+        dateTimeArray.push(dateTimeObject);
+      });
+      const daysRange = moment.range(bookStartTime, bookEndTime);
+      const days = Array.from(daysRange.by('day'));
+      const newBookingDays = days.map((m) => m.format('ddd MMM DD YYYY'));
+
       const newBookingTimeRange = [
         moment(bookStartTime).format('HH:mm:ss'),
         moment(bookEndTime).format('HH:mm:ss'),
       ];
-
-      bookingsTimes.forEach((range) => {
-        if (checkOverlap([range, newBookingTimeRange])) {
-          message = `Sorry, the time range ${range} is already booked at this date`;
-          isOverlapped = true;
+      const overlappedTimeBooking = [];
+      dateTimeArray.forEach((range) => {
+        if (checkOverlap([range.time, newBookingTimeRange])) {
+          overlappedTimeBooking.push(range);
         }
       });
+      if (overlappedTimeBooking.length) {
+        const daysCapacity = [];
+        newBookingDays.forEach((newItem) => {
+          let count = 0;
+          overlappedTimeBooking.forEach((item) => {
+            if (item.dates.includes(newItem)) {
+              count += item.capacity;
+            }
+          });
+          daysCapacity.push({ date: newItem, repeat: count });
+        });
+        const maxDayRepeat = daysCapacity.reduce((max, obj) =>
+          max.repeat > obj.repeat ? max : obj
+        );
+        if (maxDayRepeat.repeat + newBookCapacity > workspaceCapacity) {
+          message = `Sorry, the date (${maxDayRepeat.date}) is fully booked at this time`;
+          isOverlapped = true;
+        }
+      }
     }
     if (isOverlapped) {
       return {
@@ -62,7 +102,7 @@ const postBooking = async (userId, workspaceId, payload) => {
     const bookingResult = await addBooking(
       userId,
       workspaceId,
-      bookCapacity,
+      newBookCapacity,
       bookStartTime,
       bookEndTime
     );
