@@ -10,11 +10,9 @@ import {
   Form,
   Empty,
   Popconfirm,
-  Tooltip,
 } from 'antd';
 import { EditOutlined, EditFilled } from '@ant-design/icons';
 import calender from '../../assets/icons/calender.svg';
-import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import firebaseConfig, { db } from '../../firebase/config';
