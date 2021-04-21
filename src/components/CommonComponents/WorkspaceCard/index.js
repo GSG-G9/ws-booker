@@ -17,8 +17,6 @@ function WorkspaceCard({
   feesPerHour,
   location,
   rating,
-  reviewers,
-
   buttonName,
 }) {
   const matchesSmall = useMediaQuery({ query: '(max-width:768px)' });
@@ -85,11 +83,7 @@ function WorkspaceCard({
           {location}
         </p>
         <Rating rateValue={rating} />
-        {size === 'small' || matchesSmall ? (
-          <br />
-        ) : (
-          <p className="reviewers">{reviewers} Reviewers</p>
-        )}
+        <br />
         <Button
           buttName={buttonName}
           fontWeight="bold"
@@ -110,7 +104,6 @@ WorkspaceCard.propTypes = {
   feesPerHour: PropTypes.number,
   location: PropTypes.string,
   rating: PropTypes.number,
-  reviewers: PropTypes.number,
   buttonName: PropTypes.string,
 };
 
@@ -123,7 +116,6 @@ WorkspaceCard.defaultProps = {
   feesPerHour: 0,
   location: '',
   rating: 0,
-  reviewers: 0,
   buttonName: 'More Details',
 };
 
