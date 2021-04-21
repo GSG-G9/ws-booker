@@ -169,17 +169,19 @@ const WorkspaceProfile = () => {
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
-      await addRating({
-        userId: user.id,
-        workspaceId,
-        rate,
-      });
-      await editWorkspaceRating(workspaceId);
-      const avgRate = await getRatingByWorkspaceId(workspaceId);
-      setTotalRate(avgRate);
-      setIsLoaded(true);
       if (user) {
-        fetchUserDate(user.id);
+        await addRating({
+          userId: user.id,
+          workspaceId,
+          rate,
+        });
+        await editWorkspaceRating(workspaceId);
+        const avgRate = await getRatingByWorkspaceId(workspaceId);
+        setTotalRate(avgRate);
+        setIsLoaded(true);
+        if (user) {
+          fetchUserDate(user.id);
+        }
       }
     }
     return () => {
