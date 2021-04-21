@@ -83,6 +83,7 @@ ESLINT_NO_DEV_ERRORS=true
 - oauth2
 - FireStore
 - Ant Design
+- Moment js
 
 ## **Lead Mentor** 🍰
 
@@ -100,3 +101,4 @@ ESLINT_NO_DEV_ERRORS=true
 - [oauth2](https://developers.google.com/identity/protocols/oauth2)
 - [Firebase](https://firebase.google.com/docs)
 - [AntDesign](https://ant.design/)
+- [Moment js](https://momentjs.com/)
