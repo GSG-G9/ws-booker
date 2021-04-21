@@ -1,16 +1,16 @@
 import { db } from '../../config';
-import { workspaceRatingSchema } from '../../../utils/validation';
 
-const editWorkspaceRating = async (id, data) => {
+import { getRatingByWorkspaceId } from '../rating';
+
+const editWorkspaceRating = async (id) => {
   try {
-    const { rating } = await workspaceRatingSchema.validate(data);
+    const workspaceRate = await getRatingByWorkspaceId(id);
     await db.collection('workspaces').doc(id).update({
-      rating,
+      rating: workspaceRate,
     });
     return { msg: 'rating updated successfully' };
   } catch (err) {
     return err;
   }
 };
-
 export default editWorkspaceRating;

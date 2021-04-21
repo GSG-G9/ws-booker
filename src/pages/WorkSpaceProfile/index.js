@@ -2,7 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { Row, Col, Divider, Modal, Radio, Popconfirm, message } from 'antd';
+import {
+  Row,
+  Col,
+  Divider,
+  Modal,
+  Radio,
+  Popconfirm,
+  message,
+  Tooltip,
+} from 'antd';
 import WorkspaceInfo from '../../components/CommonComponents/WorkspaceInfo';
 import MainButton from '../../components/CommonComponents/Button';
 import Input from '../../components/CommonComponents/Input';
@@ -16,15 +25,19 @@ import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import { AuthContext } from '../../firebase/context';
-import { getWorkspaceById } from '../../firebase/firestore/workspace';
+import {
+  getWorkspaceById,
+  editWorkspaceRating,
+} from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
+import { addRating } from '../../firebase/firestore/rating';
 
 import './style.css';
 
 const WorkspaceProfile = () => {
-  const [, setRate] = useState();
+  const [rate, setRate] = useState(0);
   const [workspaceData, setWorkspaceData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -48,10 +61,8 @@ const WorkspaceProfile = () => {
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
   const moment = extendMoment(Moment);
-
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i += 1) {
@@ -137,6 +148,26 @@ const WorkspaceProfile = () => {
     }
   };
 
+  useEffect(async () => {
+    let isActive = 'true';
+    if (isActive) {
+      if (user) {
+        await addRating({
+          userId: user.id,
+          workspaceId,
+          rate,
+        });
+        await editWorkspaceRating(workspaceId);
+        // const avgRate = await getRatingByWorkspaceId(workspaceId);
+        // setTotalRate(avgRate);
+        // setIsLoaded(true);
+      }
+    }
+    return () => {
+      isActive = 'false';
+    };
+  }, [rate]);
+
   useEffect(() => {
     let isActive = 'true';
     if (isActive) {
@@ -148,7 +179,7 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user, runEffect]);
+  }, [user, runEffect, rate]);
 
   const onClick = () => {
     setVisible(true);
@@ -398,7 +429,7 @@ const WorkspaceProfile = () => {
                 <div className="rating">
                   <Rating rateValue={workspaceData.rating} />
                   <span className="rating-value-text">
-                    {workspaceData.rating.toFixed(1)}
+                    {workspaceData.rating}
                   </span>
                 </div>
                 <p className="description-text">{workspaceData.description}</p>
@@ -491,9 +522,23 @@ const WorkspaceProfile = () => {
                 <div className="divider-container">
                   <Divider className="divider" />
                 </div>
-                <div className="set-rate-container">
-                  <Rating setRate={setRate} />
-                </div>
+
+                {!user ? (
+                  <Tooltip title="Please Log in to add your review">
+                    <div className="set-rate-container">
+                      <Rating rateValue={0} />
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <div className="set-rate-container">
+                    <Rating
+                      setRate={(val) => {
+                        setRate(val);
+                      }}
+                      onChange={(val) => setRate(val)}
+                    />
+                  </div>
+                )}
               </div>
             </Col>
           </Row>

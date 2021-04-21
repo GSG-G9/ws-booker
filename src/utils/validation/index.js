@@ -4,6 +4,7 @@ import workspaceSchema from './workspaceSchema';
 import canBookSchema from './canBookSchema';
 import workspaceRatingSchema from './workspaceRatingSchema';
 import searchSchema from './searchSchema';
+import addRatingSchema from './addRatingSchema';
 
 export {
   workspaceSchema,
@@ -12,4 +13,5 @@ export {
   bookingSchema,
   canBookSchema,
   searchSchema,
+  addRatingSchema,
 };
