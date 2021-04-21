@@ -283,7 +283,7 @@ const WorkspaceProfile = () => {
                   type="number"
                   label="No. of People"
                   direction="row"
-                  containerClass="container"
+                  containerClass="span-container"
                   className="input-number"
                   max={workspaceData.capacity}
                   onChange={handleChangeCapacity}
@@ -298,27 +298,6 @@ const WorkspaceProfile = () => {
                   {capacityError && (
                     <span className="error-text">{capacityError}</span>
                   )}
-                </div>
-                <Input
-                  type="time"
-                  label="Time"
-                  direction="row"
-                  containerClass="container"
-                  className="input-number"
-                  disabledHours={disabledHours}
-                  onChange={handleChangeTime}
-                  value={timeValue}
-                  showTime={{
-                    hideDisabledOptions: true,
-                  }}
-                />
-                <div
-                  style={{
-                    height: '20px',
-                    marginTop: '10px',
-                  }}
-                >
-                  {timeError && <span className="error-text">{timeError}</span>}
                 </div>
                 <div style={{ display: 'flex' }}>
                   <p className="repeat-text">Repeat</p>
@@ -348,7 +327,7 @@ const WorkspaceProfile = () => {
                     type="date"
                     label="Day"
                     direction="row"
-                    containerClass="container"
+                    containerClass="span-container"
                     className="input-number"
                     disabledDate={disabledDate}
                     format={dateFormat}
@@ -360,7 +339,7 @@ const WorkspaceProfile = () => {
                     type="dateRange"
                     label="Day"
                     direction="row"
-                    containerClass="container"
+                    containerClass="span-container"
                     className="input-number"
                     disabledDate={disabledDate}
                     onChange={handleChangeDateRange}
@@ -375,6 +354,27 @@ const WorkspaceProfile = () => {
                   }}
                 >
                   {dateError && <span className="error-text">{dateError}</span>}
+                </div>
+                <Input
+                  type="time"
+                  label="Time"
+                  direction="row"
+                  containerClass="span-container"
+                  className="input-number"
+                  disabledHours={disabledHours}
+                  onChange={handleChangeTime}
+                  value={timeValue}
+                  showTime={{
+                    hideDisabledOptions: true,
+                  }}
+                />
+                <div
+                  style={{
+                    height: '20px',
+                    marginTop: '10px',
+                  }}
+                >
+                  {timeError && <span className="error-text">{timeError}</span>}
                 </div>
               </div>
             )}

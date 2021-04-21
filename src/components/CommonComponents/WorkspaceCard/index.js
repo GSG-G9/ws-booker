@@ -17,7 +17,6 @@ function WorkspaceCard({
   feesPerHour,
   location,
   rating,
-  reviewers,
   cancel,
   buttonName,
   onClick,
@@ -86,11 +85,7 @@ function WorkspaceCard({
           {location}
         </p>
         <Rating rateValue={rating} />
-        {size === 'small' || matchesSmall ? (
-          <br />
-        ) : (
-          <p className="reviewers">{reviewers} Reviewers</p>
-        )}
+        <br />
         {cancel ? (
           <Button
             buttName={buttonName}
@@ -120,7 +115,6 @@ WorkspaceCard.propTypes = {
   feesPerHour: PropTypes.number,
   location: PropTypes.string,
   rating: PropTypes.number,
-  reviewers: PropTypes.number,
   cancel: PropTypes.bool,
   buttonName: PropTypes.string,
   onClick: PropTypes.func,
@@ -135,7 +129,6 @@ WorkspaceCard.defaultProps = {
   feesPerHour: 0,
   location: '',
   rating: 0,
-  reviewers: 0,
   cancel: false,
   buttonName: 'More Details',
   onClick: () => {},

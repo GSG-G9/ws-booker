@@ -74,7 +74,7 @@ const UserProfile = ({ match }) => {
         const bookingbyUserId = await getBookingByUserId(userId);
 
         if (bookingbyUserId) {
-          setBookingCapacity(bookingbyUserId.book_capacity);
+          setBookingCapacity(bookingbyUserId.book_capacity.toString());
           const bookStart = bookingbyUserId.book_start_time.toDate();
           const startTime = moment(bookStart).format('HH:mm:ss');
           const startDate = moment(bookStart).format('MMM DD YYYY');
