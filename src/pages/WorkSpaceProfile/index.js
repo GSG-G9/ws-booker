@@ -132,9 +132,6 @@ const WorkspaceProfile = () => {
     try {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
-      // const avgRate = await getRatingByWorkspaceId(workspaceId);
-
-      // setTotalRate(avgRate);
       setIsLoaded(true);
       return data;
     } catch (err) {
@@ -156,13 +153,6 @@ const WorkspaceProfile = () => {
     let isActive = 'true';
     if (isActive) {
       fetchWorkspaceData(workspaceId);
-      // const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
-      // message.success(resultMsg.msg);
-      // const avgRate = await getRatingByWorkspaceId(workspaceId);
-      // console.log({ avgRate });
-
-      // setTotalRate(avgRate);
-      // handleRating();
       if (user) {
         fetchUserDate(user.id);
       }
@@ -174,15 +164,12 @@ const WorkspaceProfile = () => {
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
-      const resultMsg = await addRating({
+      await addRating({
         userId: user.id,
         workspaceId,
         rate,
       });
-
       const avgRate = await getRatingByWorkspaceId(workspaceId);
-      console.log({ avgRate });
-
       setTotalRate(avgRate);
       setIsLoaded(true);
       if (user) {
