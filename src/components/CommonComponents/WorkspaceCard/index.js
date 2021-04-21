@@ -17,7 +17,9 @@ function WorkspaceCard({
   feesPerHour,
   location,
   rating,
+  cancel,
   buttonName,
+  onClick,
 }) {
   const matchesSmall = useMediaQuery({ query: '(max-width:768px)' });
   const matchesMedium = useMediaQuery({ query: '(max-width:1200px)' });
@@ -84,12 +86,21 @@ function WorkspaceCard({
         </p>
         <Rating rateValue={rating} />
         <br />
-        <Button
-          buttName={buttonName}
-          fontWeight="bold"
-          onClick={handleClick}
-          className="book-btn-card"
-        />
+        {cancel ? (
+          <Button
+            buttName={buttonName}
+            fontWeight="bold"
+            onClick={onClick}
+            className="book-btn-card"
+          />
+        ) : (
+          <Button
+            buttName={buttonName}
+            fontWeight="bold"
+            onClick={handleClick}
+            className="book-btn-card"
+          />
+        )}
       </div>
     </Card>
   );
@@ -104,7 +115,9 @@ WorkspaceCard.propTypes = {
   feesPerHour: PropTypes.number,
   location: PropTypes.string,
   rating: PropTypes.number,
+  cancel: PropTypes.bool,
   buttonName: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 WorkspaceCard.defaultProps = {
@@ -116,7 +129,9 @@ WorkspaceCard.defaultProps = {
   feesPerHour: 0,
   location: '',
   rating: 0,
+  cancel: false,
   buttonName: 'More Details',
+  onClick: () => {},
 };
 
 export default WorkspaceCard;
