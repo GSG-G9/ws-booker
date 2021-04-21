@@ -75,18 +75,18 @@ const UserProfile = ({ match }) => {
         setUserData(UserData);
         const bookingbyUserId = await getBookingByUserId(userId);
 
-        setBookingCapacity(bookingbyUserId.book_capacity);
-        const bookStart = bookingbyUserId.book_start_time.toDate();
-        const startTime = moment(bookStart).format('HH:mm:ss');
-        const startDate = moment(bookStart).format('MMM DD YYYY');
-
-        const bookEnd = bookingbyUserId.book_end_time.toDate();
-        const endTime = moment(bookEnd).format('HH:mm:ss');
-        const endDate = moment(bookEnd).format('MMM DD YYYY');
-
-        setBookingDate(`${startDate} - ${endDate}`);
-        setBookingTime(`${startTime} - ${endTime}`);
         if (bookingbyUserId) {
+          setBookingCapacity(bookingbyUserId.book_capacity);
+          const bookStart = bookingbyUserId.book_start_time.toDate();
+          const startTime = moment(bookStart).format('HH:mm:ss');
+          const startDate = moment(bookStart).format('MMM DD YYYY');
+
+          const bookEnd = bookingbyUserId.book_end_time.toDate();
+          const endTime = moment(bookEnd).format('HH:mm:ss');
+          const endDate = moment(bookEnd).format('MMM DD YYYY');
+
+          setBookingDate(`${startDate} - ${endDate}`);
+          setBookingTime(`${startTime} - ${endTime}`);
           const workspaceId = bookingbyUserId.workspace_id.id;
           setWsId(workspaceId);
           const wsData = await getWorkspaceById(workspaceId);
@@ -101,20 +101,6 @@ const UserProfile = ({ match }) => {
       isActive = 'false';
     };
   }, [runEffect]);
-
-  const info = () => {
-    Modal.info({
-      title: 'Your booking details',
-      content: (
-        <div style={{ marginTop: '30px' }}>
-          <WorkspaceInfo icon={time} text={bookingTime} />
-          <WorkspaceInfo icon={calender} text={bookingDate} />
-          <WorkspaceInfo icon={persons} text={bookingCapacity} />
-        </div>
-      ),
-      onOk() {},
-    });
-  };
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -331,9 +317,6 @@ const UserProfile = ({ match }) => {
       <div className="user-ws-section">
         <div className="my-ws-title-container">
           <Title className="my-ws-title">My workspace</Title>
-          {/* <Title onClick={info} className="show-details-title">
-            Show details
-          </Title> */}
         </div>
         <div className="user-info-card-container">
           {error ? (
