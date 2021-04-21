@@ -14,6 +14,7 @@
     height: 530px;
     align-items: center;
     padding: 0px 0px 0px 149px;
+    margin-top: 50px;
 }
 .userimage{
     border: 6px solid #fff;
@@ -28,12 +29,42 @@
     align-items: center;
     padding: 70px 148px;
 }
-.my-ws-title{
+.my-ws-title-container{
+    display: flex;
+    width: 500px;
     align-self: flex-start;
-    margin-bottom: 55px !important;
+    margin-bottom: 55px !important;   
+}
+.my-ws-title{
     font-weight: bold !important;
     font-size: 30px !important;
     color: #4D5352 !important;
+    padding-top: 5px;
+}
+.user-details-card-container{
+    margin-top: 50px;
+    height: 80px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 1055px;
+   
+}
+
+.show-details-title{
+    font-weight: bold !important;
+    font-size: 15px !important;
+    color: #00C78A !important;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 30px;
+}
+.user-info-card-container{
+    display: flex;
+    
 }
 .user-data{
     width: 78%;
@@ -120,13 +151,13 @@
 }
 .view-updated-image .ant-image-img ,.view-updated-image .image-view{
     width:100% !important;
-    /* display: none; */
 }
+ 
 @media only screen and (max-width: 450px) {
     .user-ws-section{
         padding: 46px 52px;;
     }
-    .user-ws-section h1{
+    .user-ws-section .my-ws-title{
         align-self: center;
     }
     .user-data{
@@ -158,7 +189,7 @@
     .user-ws-section{
         padding: 46px 52px;;
     }
-    .user-ws-section h1{
+    .user-ws-section .my-ws-title{
         align-self: center;
     }    
     .front-profile-header{
@@ -190,7 +221,7 @@
         padding-left: 237px;
         justify-content: flex-start;
     }
-    .user-ws-section h1{
+    .user-ws-section .my-ws-title{
         align-self: start;
     }
     .user-ws-section .small-card {
@@ -214,8 +245,31 @@
         padding-left: 33%;
         justify-content: flex-start;
     }
-    .user-ws-section h1{
+    .user-ws-section .my-ws-title{
         align-self: flex-start;
         padding-left: 95px;
     }
 }
+@media only screen and (max-width:769px) { 
+    .user-details-card-container{
+        width: 350px;
+        flex-wrap: wrap;
+        height: 170px;
+    }
+}
+@media only screen and (width:768px){ 
+    .user-details-card-container{
+        width: 462px;
+        flex-wrap: wrap;
+        height: 170px;
+    }
+}
+@media only screen and (min-width:769px)and (max-width:1200px) { 
+    .user-details-card-container{
+        width: 700px;
+        flex-wrap: nowrap;
+        height: 80px;
+    }
+}
+
+

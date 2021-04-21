@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Image,
   Typography,
-  Menu,
   Table,
   Input,
   InputNumber,
@@ -13,17 +12,14 @@ import {
   message,
 } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
 import MainButton from '../../components/CommonComponents/Button';
+import AdminNav from '../../components/CommonComponents/AdminNav';
 import {
   getAllWorkspaces,
   editWorkspace,
   DeleteWorkspace,
 } from '../../firebase/firestore/workspace';
-import { AllWorkspaces, AddWorkspace } from '../../utils';
 import Loader from '../../components/CommonComponents/Loader';
-import list from '../../assets/icons/list.svg';
-import add from '../../assets/icons/add.svg';
 
 import './style.css';
 
@@ -368,21 +364,7 @@ const DashboardAllWorkspaces = () => {
   }, [deletePerformed, runEffect]);
   return (
     <div className="main-contain">
-      <div className="dashboard-nav">
-        <Title level={3} className="nav-title">
-          Dashboard
-        </Title>
-        <Menu className="dashboard-menu">
-          <Menu.Item key="1">
-            <Image preview={false} src={list} alt="" />
-            <NavLink to={AllWorkspaces}>All Workspaces</NavLink>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Image preview={false} src={add} alt="" />
-            <NavLink to={AddWorkspace}>Add Workspace</NavLink>
-          </Menu.Item>
-        </Menu>
-      </div>
+      <AdminNav />
       <div className="table_container">
         <Title level={2} className="table-title">
           All Workspaces

@@ -9,7 +9,7 @@ const NotFount = () => (
     <Image preview={false} src={oops} alt="oops" />
     <Title>404</Title>
     <Title level={3}>Page Not Found</Title>
-    <Text>We can't seem to find a page you are looking for!</Text>
+    <Text>We can not seem to find the page you are looking for!</Text>
   </div>
 );
 

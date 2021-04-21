@@ -1,4 +1,4 @@
-.footer{
+.footer-container{
     width: 100%;
     position: relative;
     bottom: 0;
@@ -32,7 +32,7 @@
         width: 100%;
         justify-content: center;
     }
-    .footer{
+    .footer-container{
         height: 100px;
     }
 }
