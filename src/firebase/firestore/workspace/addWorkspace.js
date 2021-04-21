@@ -3,6 +3,8 @@ import { db } from '../../config';
 import { workspaceSchema } from '../../../utils/validation';
 
 const addWorkspace = async (payload) => {
+  let imageArr = [];
+  imageArr = [...imageArr, payload.image_gallery];
   const payloadObj = {
     name: payload.name,
     description: payload.description,
@@ -16,7 +18,7 @@ const addWorkspace = async (payload) => {
     amenities: payload.amenities,
     city: payload.city,
     header_image: payload.header_image,
-    image_gallery: payload.image_gallery,
+    image_gallery: imageArr,
     rating: payload.rating,
   };
   try {
@@ -33,11 +35,12 @@ const addWorkspace = async (payload) => {
       amenities,
       city,
       header_image,
-      image_gallery,
       rating,
     } = await workspaceSchema.validate(payloadObj);
-    db.collection('workspaces').add({
+
+    await db.collection('workspaces').add({
       name,
+      name_lower: name.toLowerCase(),
       description,
       days_of_work,
       start_time,
@@ -48,8 +51,9 @@ const addWorkspace = async (payload) => {
       location,
       amenities,
       city,
+      city_lower: city.toLowerCase(),
       header_image,
-      image_gallery,
+      image_gallery: imageArr,
       rating,
       created_at: firebase.firestore.Timestamp.now(),
     });
