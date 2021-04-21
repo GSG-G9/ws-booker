@@ -9,7 +9,7 @@ import twitter from '../../../assets/icons/twitter.svg';
 import './style.css';
 
 const Footer = () => (
-  <footer className="footer">
+  <footer className="footer-container">
     <div className="icons-container">
       <Link to={{ pathname: 'https://www.instagram.com/' }} target="_blank">
         <Image
