@@ -24,7 +24,6 @@ const DashboardAddWorkspace = () => {
   const [headerImageURL, setHeaderImageURL] = useState('');
   const [galleryImage, setGalleryImage] = useState('');
   const [galleryImageURL, setGalleryImageURL] = useState('');
-  const [workspaceData, setWorkspaceData] = useState(null);
   const [isImageUploadLoader, setIsImageUploadLoader] = useState(false);
   const [isGalleryUploadLoader, setIsGalleryUploadLoader] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -106,7 +105,6 @@ const DashboardAddWorkspace = () => {
       rating: 0,
     });
 
-    setWorkspaceData(addedWS);
     await getAllWorkspaces();
     form.resetFields();
     setHeaderImageURL(null);
