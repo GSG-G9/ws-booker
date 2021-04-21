@@ -331,37 +331,46 @@ const UserProfile = ({ match }) => {
       <div className="user-ws-section">
         <div className="my-ws-title-container">
           <Title className="my-ws-title">My workspace</Title>
-          <Title onClick={info} className="show-details-title">
+          {/* <Title onClick={info} className="show-details-title">
             Show details
-          </Title>
+          </Title> */}
         </div>
-        {error ? (
-          <Empty description="Sorry! You don't have any workspace booking!" />
-        ) : isWSLoader ? (
-          <Loader />
-        ) : (
-          <Popconfirm
-            title="Are you sure to delete the booking?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-            visible={confirmVisible}
-          >
-            <WorkspaceCard
-              id={wsId}
-              name={workspaceData.name}
-              feesPerDay={workspaceData.fees_per_day}
-              feesPerHour={workspaceData.fees_per_hour}
-              rating={workspaceData.rating}
-              reviewers={workspaceData.reviewers}
-              location={workspaceData.location}
-              image={workspaceData.header_image}
-              buttonName="Cancel Book"
-              onClick={() => setConfirmVisible(true)}
-            />
-          </Popconfirm>
-        )}
+        <div className="user-info-card-container">
+          {error ? (
+            <Empty description="Sorry! You don't have any workspace booking!" />
+          ) : isWSLoader ? (
+            <Loader />
+          ) : (
+            <div>
+              <div className="user-details-card-container">
+                <WorkspaceInfo icon={time} text={bookingTime} />
+                <WorkspaceInfo icon={calender} text={bookingDate} />
+                <WorkspaceInfo icon={persons} text={bookingCapacity} />
+              </div>
+              <Popconfirm
+                title="Are you sure to delete the booking?"
+                onConfirm={confirm}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+                visible={confirmVisible}
+              >
+                <WorkspaceCard
+                  id={wsId}
+                  name={workspaceData.name}
+                  feesPerDay={workspaceData.fees_per_day}
+                  feesPerHour={workspaceData.fees_per_hour}
+                  rating={workspaceData.rating}
+                  reviewers={workspaceData.reviewers}
+                  location={workspaceData.location}
+                  image={workspaceData.header_image}
+                  buttonName="Cancel Book"
+                  onClick={() => setConfirmVisible(true)}
+                />
+              </Popconfirm>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

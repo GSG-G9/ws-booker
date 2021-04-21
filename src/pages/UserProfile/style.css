@@ -14,6 +14,7 @@
     height: 530px;
     align-items: center;
     padding: 0px 0px 0px 149px;
+    margin-top: 50px;
 }
 .userimage{
     border: 6px solid #fff;
@@ -40,6 +41,18 @@
     color: #4D5352 !important;
     padding-top: 5px;
 }
+.user-details-card-container{
+    margin-top: 50px;
+    height: 80px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 1055px;
+   
+}
 
 .show-details-title{
     font-weight: bold !important;
@@ -48,6 +61,10 @@
     cursor: pointer;
     text-decoration: underline;
     margin-left: 30px;
+}
+.user-info-card-container{
+    display: flex;
+    
 }
 .user-data{
     width: 78%;
@@ -163,6 +180,9 @@
     .user-ws-section .small-card {
         width: 350px;
     }
+    .user-details-card-container{
+        width: 350px;
+    }
 }
 @media only screen and (min-width: 450px) { 
     .user-data {
@@ -211,6 +231,9 @@
     .user-ws-section .small-card {
         width: 462px;
     }
+    .user-details-card-container{
+        width: 462px;
+    }
 }
 @media only screen and (min-width: 992px) {
     .background-image{
@@ -233,4 +256,8 @@
         align-self: flex-start;
         padding-left: 95px;
     }
+    /* .user-ws-section .user-details-card-container{
+        align-self: flex-start;
+        padding-left: 95px;
+    } */
 }
