@@ -35,7 +35,6 @@ const addWorkspace = async (payload) => {
       amenities,
       city,
       header_image,
-      image_gallery,
       rating,
     } = await workspaceSchema.validate(payloadObj);
 
