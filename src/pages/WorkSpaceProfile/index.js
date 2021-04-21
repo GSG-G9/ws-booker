@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
@@ -25,7 +25,10 @@ import money from '../../assets/icons/money.svg';
 import persons from '../../assets/icons/persons.svg';
 import time from '../../assets/icons/time.svg';
 import { AuthContext } from '../../firebase/context';
-import { getWorkspaceById } from '../../firebase/firestore/workspace';
+import {
+  getWorkspaceById,
+  editWorkspaceRating,
+} from '../../firebase/firestore/workspace';
 import { getUserById, editUserCanBook } from '../../firebase/firestore/user';
 import { postBooking } from '../../firebase/firestore/booking';
 import loginWithGoogle from '../../Login/loginWithGoogle';
@@ -61,6 +64,7 @@ const WorkspaceProfile = () => {
   const [dateError, setDateError] = useState(null);
   const [runEffect, setRunEffect] = useState(false);
   const { user, setError } = useContext(AuthContext);
+  const isInitialMount = useRef(true);
   const moment = extendMoment(Moment);
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -149,7 +153,7 @@ const WorkspaceProfile = () => {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     let isActive = 'true';
     if (isActive) {
       fetchWorkspaceData(workspaceId);
@@ -161,6 +165,7 @@ const WorkspaceProfile = () => {
       isActive = 'false';
     };
   }, [user, runEffect]);
+
   useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
@@ -169,6 +174,7 @@ const WorkspaceProfile = () => {
         workspaceId,
         rate,
       });
+      await editWorkspaceRating(workspaceId);
       const avgRate = await getRatingByWorkspaceId(workspaceId);
       setTotalRate(avgRate);
       setIsLoaded(true);

@@ -7,7 +7,6 @@ const Rating = ({ rateValue, setRate, onChange }) => {
 
   const handleChange = (val) => {
     setValue(val);
-    console.log({ val });
     setRate(val);
   };
 
