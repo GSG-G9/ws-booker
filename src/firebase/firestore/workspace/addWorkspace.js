@@ -38,6 +38,7 @@ const addWorkspace = async (payload) => {
     } = await workspaceSchema.validate(payloadObj);
     db.collection('workspaces').add({
       name,
+      name_lower: name.toLowerCase(),
       description,
       days_of_work,
       start_time,
@@ -48,6 +49,7 @@ const addWorkspace = async (payload) => {
       location,
       amenities,
       city,
+      city_lower: city.toLowerCase(),
       header_image,
       image_gallery,
       rating,
