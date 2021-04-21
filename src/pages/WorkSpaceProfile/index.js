@@ -64,7 +64,6 @@ const WorkspaceProfile = () => {
   const moment = extendMoment(Moment);
   const arrayOfHours = Array.from(Array(24).keys());
   const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
   const range = (start, end) => {
     const result = [];
     for (let i = start; i < end; i += 1) {
@@ -133,9 +132,9 @@ const WorkspaceProfile = () => {
     try {
       const data = await getWorkspaceById(id);
       setWorkspaceData(data);
-      const avgRate = await getRatingByWorkspaceId(workspaceId);
-      console.log({ avgRate });
-      setTotalRate(avgRate);
+      // const avgRate = await getRatingByWorkspaceId(workspaceId);
+
+      // setTotalRate(avgRate);
       setIsLoaded(true);
       return data;
     } catch (err) {
@@ -152,24 +151,17 @@ const WorkspaceProfile = () => {
       return err;
     }
   };
-  const handleRating = async (e) => {
-    try {
-      setRate(e);
-      console.log('rate', rate);
-      const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
-      message.success(resultMsg.msg);
-      console.log({ totalRate });
-      return null;
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  };
-  useEffect(() => {
+
+  useEffect(async () => {
     let isActive = 'true';
     if (isActive) {
       fetchWorkspaceData(workspaceId);
+      // const resultMsg = await addRating({ userId: user.id, workspaceId, rate });
+      // message.success(resultMsg.msg);
+      // const avgRate = await getRatingByWorkspaceId(workspaceId);
+      // console.log({ avgRate });
 
+      // setTotalRate(avgRate);
       // handleRating();
       if (user) {
         fetchUserDate(user.id);
@@ -178,7 +170,29 @@ const WorkspaceProfile = () => {
     return () => {
       isActive = 'false';
     };
-  }, [user, runEffect, rate, totalRate]);
+  }, [user, runEffect]);
+  useEffect(async () => {
+    let isActive = 'true';
+    if (isActive) {
+      const resultMsg = await addRating({
+        userId: user.id,
+        workspaceId,
+        rate,
+      });
+
+      const avgRate = await getRatingByWorkspaceId(workspaceId);
+      console.log({ avgRate });
+
+      setTotalRate(avgRate);
+      setIsLoaded(true);
+      if (user) {
+        fetchUserDate(user.id);
+      }
+    }
+    return () => {
+      isActive = 'false';
+    };
+  }, [rate]);
 
   const onClick = () => {
     setVisible(true);
@@ -529,10 +543,10 @@ const WorkspaceProfile = () => {
                 ) : (
                   <div className="set-rate-container">
                     <Rating
-                      // setRate={(val) => {
-                      //   setRate(val);
-                      // }}
-                      onChange={(val) => handleRating(val)}
+                      setRate={(val) => {
+                        setRate(val);
+                      }}
+                      onChange={(val) => setRate(val)}
                     />
                   </div>
                 )}
