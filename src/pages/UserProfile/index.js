@@ -347,6 +347,7 @@ const UserProfile = ({ match }) => {
                   image={workspaceData.header_image}
                   buttonName="Cancel Book"
                   onClick={() => setConfirmVisible(true)}
+                  cancel
                 />
               </Popconfirm>
             </div>
