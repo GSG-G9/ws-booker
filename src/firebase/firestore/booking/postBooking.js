@@ -18,7 +18,6 @@ const postBooking = async (userId, workspaceId, payload) => {
       throw new Error('This workspace is not exist post');
     }
     const workspaceCapacity = isWorkspace.capacity;
-    console.log('capacityyy', workspaceCapacity);
     const isUser = await getUserById(userId);
     if (isUser instanceof Error) {
       throw new Error('This user is not exist post');
@@ -34,11 +33,7 @@ const postBooking = async (userId, workspaceId, payload) => {
       bookStartTime,
       bookEndTime
     );
-    console.log(overlappedBookings);
-    if (!overlappedBookings.length) {
-      isOverlapped = false;
-      message = '';
-    } else {
+    if (overlappedBookings.length) {
       const bookingsDates = overlappedBookings.map(
         ({
           book_start_time: startTime,
@@ -50,7 +45,6 @@ const postBooking = async (userId, workspaceId, payload) => {
           moment(endTime.toDate()).format('ddd MMM DD YYYY HH:mm:ss'),
         ]
       );
-      console.log('datesss', bookingsDates);
       const dateTimeArray = [];
       bookingsDates.forEach((item) => {
         const start = moment(item[1]).format('HH:mm:ss');
@@ -65,8 +59,6 @@ const postBooking = async (userId, workspaceId, payload) => {
         };
         dateTimeArray.push(dateTimeObject);
       });
-      console.log(dateTimeArray);
-
       const daysRange = moment.range(bookStartTime, bookEndTime);
       const days = Array.from(daysRange.by('day'));
       const newBookingDays = days.map((m) => m.format('ddd MMM DD YYYY'));
@@ -81,11 +73,7 @@ const postBooking = async (userId, workspaceId, payload) => {
           overlappedTimeBooking.push(range);
         }
       });
-      console.log('filterrred', overlappedTimeBooking);
-      if (!overlappedTimeBooking.length) {
-        isOverlapped = false;
-        message = '';
-      } else {
+      if (overlappedTimeBooking.length) {
         const daysCapacity = [];
         newBookingDays.forEach((newItem) => {
           let count = 0;
@@ -96,16 +84,12 @@ const postBooking = async (userId, workspaceId, payload) => {
           });
           daysCapacity.push({ date: newItem, repeat: count });
         });
-        console.log(daysCapacity);
         const maxDayRepeat = daysCapacity.reduce((max, obj) =>
           max.repeat > obj.repeat ? max : obj
         );
-        console.log(maxDayRepeat);
-        console.log(maxDayRepeat.repeat, newBookCapacity, workspaceCapacity);
         if (maxDayRepeat.repeat + newBookCapacity > workspaceCapacity) {
           message = `Sorry, the date (${maxDayRepeat.date}) is fully booked at this time`;
           isOverlapped = true;
-          console.log('trueeeeee');
         }
       }
     }
