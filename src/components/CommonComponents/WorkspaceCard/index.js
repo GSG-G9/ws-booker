@@ -92,7 +92,6 @@ function WorkspaceCard({
           <p className="reviewers">{reviewers} Reviewers</p>
         )}
         {cancel ? (
-          // hi
           <Button
             buttName={buttonName}
             fontWeight="bold"
