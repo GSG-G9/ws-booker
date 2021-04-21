@@ -51,14 +51,12 @@ const addWorkspace = async (payload) => {
       amenities,
       city,
       header_image,
-      imageArr,
+      image_gallery: imageArr,
       rating,
       created_at: firebase.firestore.Timestamp.now(),
     });
     return { msg: 'workspace added successfully!' };
   } catch (err) {
-    console.log(err, 4);
-
     return err;
   }
 };

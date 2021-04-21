@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Image, Typography, Divider, Form, Checkbox, message } from 'antd';
 import { NavLink } from 'react-router-dom';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 
 import { AllWorkspaces } from '../../utils';
 import MainInput from '../../components/CommonComponents/Input';
@@ -26,6 +28,7 @@ const DashboardAddWorkspace = () => {
   const [isImageUploadLoader, setIsImageUploadLoader] = useState(false);
   const [isGalleryUploadLoader, setIsGalleryUploadLoader] = useState(false);
   const [loading, setLoading] = useState(false);
+  const moment = extendMoment(Moment);
 
   const handleUpload = async () => {
     const image = headerImage.target.files[0];
@@ -74,6 +77,12 @@ const DashboardAddWorkspace = () => {
       workspaceAmenities,
       workspaceLocation,
     } = e;
+    const converteStart = moment(hoursOperation[0]._d)
+      .format('HH:mm:ss')
+      .toString();
+    const converteEnd = moment(hoursOperation[1]._d)
+      .format('HH:mm:ss')
+      .toString();
     if (!loading) {
       message.loading({ content: 'Loading...', key, duration: loading });
     }
@@ -84,8 +93,8 @@ const DashboardAddWorkspace = () => {
       name: workspaceName,
       description: Description,
       days_of_work: DaysOFWork,
-      start_time: hoursOperation[0]._d,
-      end_time: hoursOperation[1]._d,
+      start_time: converteStart,
+      end_time: converteEnd,
       fees_per_hour: feesPerHour,
       fees_per_day: feesPerDay,
       capacity: totalCapacity,
